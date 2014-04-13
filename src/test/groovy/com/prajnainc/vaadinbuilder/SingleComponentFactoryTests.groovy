@@ -10,7 +10,7 @@ import static org.hamcrest.CoreMatchers.*
 /**
  * Created by paul on 4/6/14.
  */
-class VaadinBuilderTests extends GroovyTestCase {
+class SingleComponentFactoryTests extends GroovyTestCase {
 
     @Test
     public void testSingleComponents() {

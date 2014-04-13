@@ -1,15 +1,21 @@
 package com.prajnainc.vaadinbuilder
 
+import com.prajnainc.vaadinbuilder.factories.LayoutFactory
+import com.prajnainc.vaadinbuilder.factories.OrderedLayoutFactory
 import com.prajnainc.vaadinbuilder.factories.SingleComponentContainerFactory
-import com.prajnainc.vaadinbuilder.factories.VaadinComponentFactory
+import com.prajnainc.vaadinbuilder.factories.ComponentFactory
 import com.vaadin.ui.Button
 import com.vaadin.ui.Calendar
 import com.vaadin.ui.Component
 import com.vaadin.ui.Embedded
+import com.vaadin.ui.FormLayout
+import com.vaadin.ui.GridLayout
+import com.vaadin.ui.HorizontalLayout
 import com.vaadin.ui.Label
 import com.vaadin.ui.Link
 import com.vaadin.ui.Panel
 import com.vaadin.ui.Upload
+import com.vaadin.ui.VerticalLayout
 import com.vaadin.ui.Window
 
 /**
@@ -53,19 +59,50 @@ class VaadinBuilder extends FactoryBuilderSupport {
     }
 
     def registerComponentFactories() {
-        registerFactory('button',new VaadinComponentFactory(Button))
-        registerFactory('link',new VaadinComponentFactory(Link))
-        registerFactory('upload',new VaadinComponentFactory(Upload))
-        registerFactory('embedded',new VaadinComponentFactory(Embedded))
-        registerFactory('calendar',new VaadinComponentFactory(Calendar))
-        registerFactory('label',new VaadinComponentFactory(Label))
+        registerFactory('label',new ComponentFactory(Label))
+        // AbstractMedia
+        registerFactory('embedded',new ComponentFactory(Embedded))
+        // ColorPickerGrid
+        registerFactory('link',new ComponentFactory(Link))
+        // PopupView
+        // MenuBar && MenuItem
+        // CustomComponent
+        // ColorPickerGradient
+        // AbstractJavaScriptComponent
+        // AbstractEmbedded
+        // AbstractColorPicker
+        registerFactory('upload',new ComponentFactory(Upload))
+        registerFactory('button',new ComponentFactory(Button))
+        registerFactory('calendar',new ComponentFactory(Calendar))
     }
 
     def registerLayoutFactories() {
-
+        registerFactory('gridLayout',new LayoutFactory(GridLayout))
+        registerFactory('verticalLayout',new OrderedLayoutFactory(VerticalLayout))
+        registerFactory('horizontalLayout',new OrderedLayoutFactory(HorizontalLayout))
+        registerFactory('formLayout',new OrderedLayoutFactory(FormLayout))
+        // TabLayout & Accordion
+        // SplitLayouts
     }
 
-    def registerFormFactories() {
+    def registerFieldFactories() {
+        // Slider
+        // TextField
+        // TextArea
+        // PasswordField
+        // ProgressBar ?
+        // CheckBox
+        // RichTextArea
+        // CustomField
+        // Table (AbstractSelect)
+        // TwinColSelect
+        // Tree
+        // OptionGroup
+        // NativeSelect
+        // ListSelect
+        // ComboBox
+        // InlineDateField
+        // PopupDateField
 
     }
 }
