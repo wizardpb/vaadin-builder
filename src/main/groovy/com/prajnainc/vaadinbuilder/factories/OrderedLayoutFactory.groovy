@@ -20,9 +20,9 @@ class OrderedLayoutFactory extends LayoutFactory {
         Double ratio
         Object ratioValue = savedAttributes['expandRatio']
         try {
-            ratio = ratioValue as Double
+            ratio = ratioValue as Float
         } catch (GroovyCastException e) {
-            throw new VaadinBuilderException("The ${ratioValue.getClass().simpleName} value '$ratioValue' cannot be converted to anexpand ration. It must be a number",e)
+            throw new VaadinBuilderException("The ${ratioValue.getClass().simpleName} value '$ratioValue' cannot be converted to an expand ration. It must be a number",e)
         }
         if(savedAttributes.containsKey('expandRatio')) parent.setExpandRatio(child,ratio)
     }
