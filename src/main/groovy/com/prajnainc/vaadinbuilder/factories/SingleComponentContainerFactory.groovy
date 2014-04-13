@@ -5,6 +5,10 @@ package com.prajnainc.vaadinbuilder.factories
  */
 class SingleComponentContainerFactory extends VaadinComponentFactory {
 
+    SingleComponentContainerFactory(Class componentClass) {
+        super(componentClass)
+    }
+
     @Override
     void setParent(FactoryBuilderSupport builder, Object parent, Object child) {
         parent.setContent(child)

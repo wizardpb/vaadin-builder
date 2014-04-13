@@ -11,11 +11,11 @@ import com.vaadin.ui.Component
  */
 class VaadinComponentFactory extends AbstractFactory {
 
-    private Class componentClass
+    Class componentClass
 
-//    VaadinComponentFactory(Class componentClass) {
-//        this.componentClass = componentClass
-//    }
+    VaadinComponentFactory(Class componentClass) {
+        this.componentClass = componentClass
+    }
 
     @Override
     Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
