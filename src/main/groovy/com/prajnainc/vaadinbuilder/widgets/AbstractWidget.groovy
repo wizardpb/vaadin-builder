@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014 Prajna Inc
+ * Copyright (c) 2014 Prajna Inc.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -14,18 +14,24 @@
  *    limitations under the License.
  */
 
-package com.prajnainc.vaadinbuilder
+package com.prajnainc.vaadinbuilder.widgets
+
+import com.prajnainc.vaadinbuilder.VaadinBuilder
+import com.vaadin.ui.Component
 
 /**
  * Created by paul on 4/13/14.
  */
-class VaadinBuilderException extends Exception {
 
-    VaadinBuilderException(String message) {
-        super(message)
+abstract class AbstractWidget implements Widget {
+
+    String id
+    private Component view
+
+    @Override
+    Component getView(VaadinBuilder builder) {
+        return view ?: (view = builder.build(viewSpec))
     }
 
-    VaadinBuilderException(String message, Throwable cause) {
-        super(message, cause)
-    }
+
 }

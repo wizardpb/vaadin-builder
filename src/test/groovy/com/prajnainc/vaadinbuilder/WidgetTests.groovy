@@ -16,16 +16,18 @@
 
 package com.prajnainc.vaadinbuilder
 
+import com.prajnainc.vaadinbuilder.widgets.Widget
+import org.junit.Test
+import static org.junit.Assert.*
+import static org.hamcrest.CoreMatchers.*
+
 /**
  * Created by paul on 4/13/14.
  */
-class VaadinBuilderException extends Exception {
+class WidgetTests {
 
-    VaadinBuilderException(String message) {
-        super(message)
-    }
+    @Test
+    void testWidgetViewOwner() {
 
-    VaadinBuilderException(String message, Throwable cause) {
-        super(message, cause)
     }
 }

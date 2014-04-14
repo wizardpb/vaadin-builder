@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014 Prajna Inc
+ * Copyright (c) 2014 Prajna Inc.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -19,13 +19,6 @@ package com.prajnainc.vaadinbuilder
 /**
  * Created by paul on 4/13/14.
  */
-class VaadinBuilderException extends Exception {
 
-    VaadinBuilderException(String message) {
-        super(message)
-    }
-
-    VaadinBuilderException(String message, Throwable cause) {
-        super(message, cause)
-    }
+class ComponentContainerFactoryTests {
 }
