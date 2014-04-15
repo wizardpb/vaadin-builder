@@ -121,7 +121,6 @@ class VaadinBuilder extends FactoryBuilderSupport {
         // ComboBox
         // InlineDateField
         // PopupDateField
-
     }
 
     def registerUtilityFactories() {

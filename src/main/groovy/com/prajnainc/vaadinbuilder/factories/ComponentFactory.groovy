@@ -53,7 +53,13 @@ class ComponentFactory extends AbstractFactory {
 
         // Do the attribute saved, then return a new instance of the component class. The builder will set all bean (Component) properties set in the remaining attributes
         extractSavedAttributes(attributes)
-        return componentClass.newInstance()
+        Component component
+        if(componentClass.isAssignableFrom(value.getClass())) {
+            component = value
+        } else {
+            component = value ? componentClass.newInstance(value) : componentClass.newInstance()
+        }
+        return component
     }
 
     /**

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014 Prajna Inc
+ * Copyright (c) 2014 Prajna Inc.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -16,18 +16,34 @@
 
 package com.prajnainc.vaadinbuilder
 
-import com.prajnainc.vaadinbuilder.widgets.Widget
-import org.junit.Test
-import static org.junit.Assert.*
+import com.vaadin.ui.Label;/**
+ * Created by Paul Bennett on 4/14/14.
+ *
+ * SingleComponentContainerSpecification
+ *
+ */
+
+import spock.lang.*
 import static org.hamcrest.CoreMatchers.*
 
-/**
- * Created by paul on 4/13/14.
- */
-class WidgetTests {
+public class SingleComponentContainerSpecification extends Specification {
 
-    @Test
-    void testWidgetViewOwner() {
+    def "it sets the content"() {
 
+        expect:
+        def c = new VaadinBuilder().build {
+            "$node"() {
+                label('contained')
+            }
+        }
+        def content = c.content
+        content instanceOf(Label)
+        content.value == 'contained'
+
+        where:
+
+        node        | caption
+        'panel'     | ''
+        'window'    | ''
     }
 }
