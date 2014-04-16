@@ -26,12 +26,12 @@ import com.vaadin.ui.Label;/**
 import spock.lang.*
 import static org.hamcrest.CoreMatchers.*
 
-public class SingleComponentContainerSpecification extends Specification {
+public class SingleComponentContainerSpecification extends BuilderSpecification {
 
     def "it sets the content"() {
 
         expect:
-        def c = new VaadinBuilder().build {
+        def c = builder.build {
             "$node"() {
                 label('contained')
             }

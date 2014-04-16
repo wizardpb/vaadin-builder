@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2014 Prajna Inc
+ * Copyright (c) 2014 Prajna Inc.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -14,21 +14,25 @@
  *    limitations under the License.
  */
 
-package com.prajnainc.vaadinbuilder.factories
 
-import com.vaadin.ui.Component
+package com.prajnainc.vaadinbuilder.menuSupport
+
+import com.vaadin.ui.MenuBar
 
 /**
- * Created by paul on 4/6/14.
+ * Created by Paul Bennett on 4/15/14.
+ *
+ * MenuItemCommand
+ *
  */
-class SingleComponentContainerFactory extends ComponentFactory {
 
-    SingleComponentContainerFactory(Class componentClass) {
-        super(componentClass)
+class MenuItemCommand implements MenuBar.Command {
+
+     Closure action
+
+    @Override
+    void menuSelected(MenuBar.MenuItem selectedItem) {
+        // Fire the action Closure
+        action(selectedItem)
     }
-
-    public void doAddChild(Component child) {
-        component.setContent(child)
-    }
-
 }

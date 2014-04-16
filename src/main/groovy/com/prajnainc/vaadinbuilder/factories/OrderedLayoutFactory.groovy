@@ -31,15 +31,17 @@ class OrderedLayoutFactory extends LayoutFactory {
     }
 
     @Override
-    void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
-        super.setChild(builder, parent, child)
-        Double ratio
-        Object ratioValue = savedAttributes['expandRatio']
-        try {
-            ratio = ratioValue as Float
-        } catch (GroovyCastException e) {
-            throw new VaadinBuilderException("The ${ratioValue.getClass().simpleName} value '$ratioValue' cannot be converted to an expand ration. It must be a number",e)
+    protected void setExpandRatioFrom(ComponentFactory childFactory) {
+        if (savedAttributes.containsKey('expandRatio')) {
+            Float ratio
+            Object ratioValue = savedAttributes['expandRatio']
+            try {
+                ratio = ratioValue as Float
+            } catch (GroovyCastException e) {
+                throw new VaadinBuilderException("The ${ratioValue.getClass().simpleName} value '$ratioValue' cannot be converted to an expand ration. It must be a number", e)
+            }
+            assert component instanceof AbstractOrderedLayout
+            component.setExpandRatio(childFactory.component, ratio)
         }
-        if(savedAttributes.containsKey('expandRatio')) parent.setExpandRatio(child,ratio)
     }
 }

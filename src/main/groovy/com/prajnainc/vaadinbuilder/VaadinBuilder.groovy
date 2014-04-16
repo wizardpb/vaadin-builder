@@ -16,7 +16,9 @@
 
 package com.prajnainc.vaadinbuilder
 
+import com.prajnainc.vaadinbuilder.factories.ComponentContainerFactory
 import com.prajnainc.vaadinbuilder.factories.LayoutFactory
+import com.prajnainc.vaadinbuilder.factories.MenuItemFactory
 import com.prajnainc.vaadinbuilder.factories.OrderedLayoutFactory
 import com.prajnainc.vaadinbuilder.factories.SingleComponentContainerFactory
 import com.prajnainc.vaadinbuilder.factories.ComponentFactory
@@ -27,11 +29,15 @@ import com.vaadin.ui.Embedded
 import com.vaadin.ui.FormLayout
 import com.vaadin.ui.GridLayout
 import com.vaadin.ui.HorizontalLayout
+import com.vaadin.ui.HorizontalSplitPanel
 import com.vaadin.ui.Label
 import com.vaadin.ui.Link
+import com.vaadin.ui.MenuBar
 import com.vaadin.ui.Panel
+import com.vaadin.ui.TabSheet
 import com.vaadin.ui.Upload
 import com.vaadin.ui.VerticalLayout
+import com.vaadin.ui.VerticalSplitPanel
 import com.vaadin.ui.Window
 
 /**
@@ -83,7 +89,8 @@ class VaadinBuilder extends FactoryBuilderSupport {
         // ColorPickerGrid
         registerFactory('link',new ComponentFactory(Link))
         // PopupView
-        // MenuBar && MenuItem
+        registerFactory('menuBar',new ComponentFactory(MenuBar))
+        registerFactory('menuItem',new MenuItemFactory())
         // CustomComponent
         // ColorPickerGradient
         // AbstractJavaScriptComponent
@@ -95,12 +102,16 @@ class VaadinBuilder extends FactoryBuilderSupport {
     }
 
     def registerLayoutFactories() {
-        registerFactory('gridLayout',new LayoutFactory(GridLayout))
-        registerFactory('verticalLayout',new OrderedLayoutFactory(VerticalLayout))
-        registerFactory('horizontalLayout',new OrderedLayoutFactory(HorizontalLayout))
-        registerFactory('formLayout',new OrderedLayoutFactory(FormLayout))
-        // TabLayout & Accordion
-        // SplitLayouts
+        registerFactory('gridLayout', new LayoutFactory(GridLayout))
+        registerFactory('verticalLayout', new OrderedLayoutFactory(VerticalLayout))
+        registerFactory('horizontalLayout', new OrderedLayoutFactory(HorizontalLayout))
+        registerFactory('formLayout', new OrderedLayoutFactory(FormLayout))
+    }
+
+    def registerContainerFactories() {
+        registerFactory('tabSheet', new ComponentContainerFactory(TabSheet))
+        registerFactory('verticalSplitPanel', new ComponentContainerFactory(VerticalSplitPanel))
+        registerFactory('horizontalSplitPanel', new ComponentContainerFactory(HorizontalSplitPanel))
     }
 
     def registerFieldFactories() {

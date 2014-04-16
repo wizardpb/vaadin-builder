@@ -32,6 +32,7 @@ class ComponentFactory extends AbstractFactory {
     Class componentClass
     Map savedAttributes
     String nodeName
+    Component component
 
     ComponentFactory(Class<? extends Component> componentClass) {
         this.componentClass = componentClass
@@ -42,7 +43,9 @@ class ComponentFactory extends AbstractFactory {
      */
     protected void extractSavedAttributes(Map attributes) {
         savedAttributes = [:]
-        ATTRIBUTES_TO_SAVE.each { savedAttributes[it] = attributes.remove(it) }
+        ATTRIBUTES_TO_SAVE.each {
+            if(attributes.containsKey(it)) savedAttributes[it] = attributes.remove(it)
+        }
     }
 
     @Override
@@ -53,13 +56,24 @@ class ComponentFactory extends AbstractFactory {
 
         // Do the attribute saved, then return a new instance of the component class. The builder will set all bean (Component) properties set in the remaining attributes
         extractSavedAttributes(attributes)
-        Component component
+
         if(componentClass.isAssignableFrom(value.getClass())) {
             component = value
         } else {
             component = value ? componentClass.newInstance(value) : componentClass.newInstance()
         }
         return component
+    }
+
+    @Override
+    void setParent(FactoryBuilderSupport builder, Object parent, Object child) {
+        def parentFactory = builder.parentFactory
+        assert parentFactory instanceof ComponentFactory
+        parentFactory.doAddChild(child)
+    }
+
+    public void doAddChild(Component child) {
+        throw new UnsupportedOperationException("Components do not add children")
     }
 
     /**
@@ -70,4 +84,5 @@ class ComponentFactory extends AbstractFactory {
     public String namedNodeString(Component node) {
         return "$nodeName($node)" as String
     }
+
 }

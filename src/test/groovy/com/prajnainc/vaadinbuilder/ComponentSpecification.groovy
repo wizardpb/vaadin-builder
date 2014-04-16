@@ -14,28 +14,32 @@
  *    limitations under the License.
  */
 
-package com.prajnainc.vaadinbuilder
-
-import com.vaadin.ui.Button
-import com.vaadin.ui.Embedded
-import com.vaadin.ui.Label
-import com.vaadin.ui.Link
-import com.vaadin.ui.Upload;/**
+/**
  * Created by Paul Bennett on 4/14/14.
  *
  * ComponentSpecification
  *
  */
 
+package com.prajnainc.vaadinbuilder
+
+import com.vaadin.ui.Button
+import com.vaadin.ui.Embedded
+import com.vaadin.ui.Label
+import com.vaadin.ui.Link
+import com.vaadin.ui.Upload;
+
+
 import spock.lang.*
 import static org.hamcrest.CoreMatchers.*
+import static spock.util.matcher.HamcrestSupport.*
 
-public class ComponentSpecification extends Specification {
+public class ComponentSpecification extends BuilderSpecification {
 
     def "it creates the correct instance"() {
 
         expect:
-        def c = new VaadinBuilder().build {
+        def c = builder.build {
             "$node"()
         }
         c instanceOf(klass)
@@ -53,10 +57,10 @@ public class ComponentSpecification extends Specification {
     def "it sets property values"() {
 
         expect:
-        def c = new VaadinBuilder().build {
+        def c = builder.build {
             "$node"(caption: node)
         }
-        c.caption == node
+        that c.caption, equalTo(node)
 
         where:
         node        | klass
@@ -72,7 +76,7 @@ public class ComponentSpecification extends Specification {
 
         expect:
         def inst = klass.newInstance()
-        def c = new VaadinBuilder().build {
+        def c = builder.build {
             "$node"(inst)
         }
         c sameInstance(inst)
@@ -91,7 +95,7 @@ public class ComponentSpecification extends Specification {
 
         expect:
 
-        def c = new VaadinBuilder().build {
+        def c = builder.build {
             "$node"('caption')
         }
         c.caption == 'caption'

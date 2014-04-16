@@ -18,6 +18,7 @@ package com.prajnainc.vaadinbuilder.factories
 
 import com.prajnainc.vaadinbuilder.VaadinBuilderException
 import com.vaadin.ui.AbstractLayout
+import com.vaadin.ui.AbstractOrderedLayout
 import com.vaadin.ui.Alignment
 import com.vaadin.ui.Component
 import com.vaadin.ui.Layout
@@ -32,15 +33,11 @@ class LayoutFactory extends ComponentContainerFactory {
     }
 
     @Override
-    void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
-        super.setChild(builder, parent, child)
-        // Process appropriate saved attributes
-        if(savedAttributes.containsKey('alignment')) {
-            if(parent instanceof Layout.AlignmentHandler) {
-                parent.setComponentAlignment((Component)child,createAlignment(savedAttributes['alignment']))
-            } else {
-                throw new VaadinBuilderException("Cannot set alignment of ${builder.getCurrentFactory().namedNodeString(child)}: ${namedNodeString((Component)parent)} is not an aligning container}")
-            }
+    protected void setAlignmentFrom(ComponentFactory childFactory) {
+        // Apply child alignment via my component
+        if(childFactory.savedAttributes.containsKey('alignment')) {
+            assert component instanceof AbstractLayout
+            component.setComponentAlignment(childFactory.component,createAlignment(savedAttributes['alignment']))
         }
     }
 
