@@ -20,7 +20,6 @@ package com.prajnainc.vaadinbuilder.menuSupport
 import com.vaadin.ui.MenuBar
 
 /**
- * Created by Paul Bennett on 4/15/14.
  *
  * MenuItemCommand
  *

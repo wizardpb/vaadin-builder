@@ -17,8 +17,11 @@
 package com.prajnainc.vaadinbuilder
 
 /**
- * Created by paul on 4/13/14.
+ * VaadinBuilderException
+ *
+ * Reports builder exceptions and errors
  */
+
 class VaadinBuilderException extends Exception {
 
     VaadinBuilderException(String message) {

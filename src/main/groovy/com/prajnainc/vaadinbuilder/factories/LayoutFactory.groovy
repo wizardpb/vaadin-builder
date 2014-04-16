@@ -18,14 +18,13 @@ package com.prajnainc.vaadinbuilder.factories
 
 import com.prajnainc.vaadinbuilder.VaadinBuilderException
 import com.vaadin.ui.AbstractLayout
-import com.vaadin.ui.AbstractOrderedLayout
 import com.vaadin.ui.Alignment
-import com.vaadin.ui.Component
-import com.vaadin.ui.Layout
 
 /**
- * Created by paul on 4/13/14.
+ * LayoutFactory
+ *
  */
+
 class LayoutFactory extends ComponentContainerFactory {
 
     LayoutFactory(Class <? extends AbstractLayout> componentClass) {

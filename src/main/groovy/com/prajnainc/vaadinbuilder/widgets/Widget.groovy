@@ -20,7 +20,7 @@ import com.prajnainc.vaadinbuilder.VaadinBuilder
 import com.vaadin.ui.Component
 
 /**
- * Created by paul on 4/13/14.
+ * Widget
  *
  * A {@link Widget} is a composable Vaadin UI component. It implements a Model-View-Presenter artifact, with the widget
  * itself playing the role of presenter. It contains a definition of the view, implemented as a {@link Closure} that can

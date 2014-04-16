@@ -14,25 +14,14 @@
  *    limitations under the License.
  */
 
-/**
- * Created by Paul Bennett on 4/14/14.
- *
- * ComponentSpecification
- *
- */
-
 package com.prajnainc.vaadinbuilder
 
-import com.vaadin.ui.Button
-import com.vaadin.ui.Embedded
-import com.vaadin.ui.Label
-import com.vaadin.ui.Link
-import com.vaadin.ui.Upload;
+import com.vaadin.ui.*
 
+import java.util.Calendar
 
-import spock.lang.*
 import static org.hamcrest.CoreMatchers.*
-import static spock.util.matcher.HamcrestSupport.*
+import static spock.util.matcher.HamcrestSupport.that
 
 public class ComponentSpecification extends BuilderSpecification {
 

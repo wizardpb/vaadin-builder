@@ -14,15 +14,9 @@
  *    limitations under the License.
  */
 
-package com.prajnainc.vaadinbuilder;
-/**
- * Created by Paul Bennett on 4/15/14.
- *
- * BuilderSpecification
- *
- */
+package com.prajnainc.vaadinbuilder
 
-import spock.lang.*
+import spock.lang.Specification
 
 abstract public class BuilderSpecification extends Specification {
 

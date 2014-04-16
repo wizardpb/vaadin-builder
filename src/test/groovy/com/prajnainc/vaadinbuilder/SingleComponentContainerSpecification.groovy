@@ -16,15 +16,9 @@
 
 package com.prajnainc.vaadinbuilder
 
-import com.vaadin.ui.Label;/**
- * Created by Paul Bennett on 4/14/14.
- *
- * SingleComponentContainerSpecification
- *
- */
+import com.vaadin.ui.Label
 
-import spock.lang.*
-import static org.hamcrest.CoreMatchers.*
+import static org.hamcrest.CoreMatchers.instanceOf
 
 public class SingleComponentContainerSpecification extends BuilderSpecification {
 

@@ -17,19 +17,12 @@
 package com.prajnainc.vaadinbuilder
 
 import com.vaadin.ui.FormLayout
-import com.vaadin.ui.GridLayout
 import com.vaadin.ui.HorizontalLayout
 import com.vaadin.ui.Label
-import com.vaadin.ui.VerticalLayout;/**
- * Created by Paul Bennett on 4/15/14.
- *
- * LayoutSpecification
- *
- */
+import com.vaadin.ui.VerticalLayout
 
-import spock.lang.*
-import static org.hamcrest.CoreMatchers.*
-import static spock.util.matcher.HamcrestSupport.*
+import static org.hamcrest.CoreMatchers.instanceOf
+import static spock.util.matcher.HamcrestSupport.that
 
 public class OrderedLayoutSpecification extends BuilderSpecification {
 

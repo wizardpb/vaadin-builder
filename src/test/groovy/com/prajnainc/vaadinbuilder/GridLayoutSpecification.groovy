@@ -16,16 +16,11 @@
 
 package com.prajnainc.vaadinbuilder
 
-import com.vaadin.ui.GridLayout;/**
- * Created by Paul Bennett on 4/15/14.
- *
- * GridLayoutSpecification
- *
- */
+import com.vaadin.ui.GridLayout
 
-import spock.lang.*
-import static org.hamcrest.CoreMatchers.*
-import static spock.util.matcher.HamcrestSupport.*
+import static org.hamcrest.CoreMatchers.equalTo
+import static org.hamcrest.CoreMatchers.instanceOf
+import static spock.util.matcher.HamcrestSupport.that
 
 public class GridLayoutSpecification extends BuilderSpecification {
 

@@ -23,7 +23,6 @@ import com.vaadin.ui.MenuBar
 import com.vaadin.ui.MenuBar.MenuItem
 
 /**
- * Created by Paul Bennett on 4/15/14.
  *
  * MenuItemFactory
  *

@@ -16,16 +16,17 @@
 
 package com.prajnainc.vaadinbuilder.factories
 
-import com.prajnainc.vaadinbuilder.VaadinBuilderException
 import com.vaadin.ui.AbstractComponentContainer
-import com.vaadin.ui.AbstractOrderedLayout
 import com.vaadin.ui.Component
 import com.vaadin.ui.ComponentContainer
-import com.vaadin.ui.Layout
 
 /**
- * Created by paul on 4/13/14.
+ * ComponentContainerFactory
+ *
+ * A {@link Factory} for building Vaadin components that contain other {@link Component}s
+ *
  */
+
 class ComponentContainerFactory extends ComponentFactory {
 
     ComponentContainerFactory(Class<?extends ComponentContainer> componentClass) {

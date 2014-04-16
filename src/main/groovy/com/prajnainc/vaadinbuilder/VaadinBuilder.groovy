@@ -16,35 +16,15 @@
 
 package com.prajnainc.vaadinbuilder
 
-import com.prajnainc.vaadinbuilder.factories.ComponentContainerFactory
-import com.prajnainc.vaadinbuilder.factories.LayoutFactory
-import com.prajnainc.vaadinbuilder.factories.MenuItemFactory
-import com.prajnainc.vaadinbuilder.factories.OrderedLayoutFactory
-import com.prajnainc.vaadinbuilder.factories.SingleComponentContainerFactory
-import com.prajnainc.vaadinbuilder.factories.ComponentFactory
-import com.vaadin.ui.Button
-import com.vaadin.ui.Calendar
-import com.vaadin.ui.Component
-import com.vaadin.ui.Embedded
-import com.vaadin.ui.FormLayout
-import com.vaadin.ui.GridLayout
-import com.vaadin.ui.HorizontalLayout
-import com.vaadin.ui.HorizontalSplitPanel
-import com.vaadin.ui.Label
-import com.vaadin.ui.Link
-import com.vaadin.ui.MenuBar
-import com.vaadin.ui.Panel
-import com.vaadin.ui.TabSheet
-import com.vaadin.ui.Upload
-import com.vaadin.ui.VerticalLayout
-import com.vaadin.ui.VerticalSplitPanel
-import com.vaadin.ui.Window
+import com.prajnainc.vaadinbuilder.factories.*
+import com.vaadin.ui.*
 
 /**
- * Created by paul on 4/6/14.
+ * VaadinBuilder
  *
- *
+ * The central builder class
  */
+
 class VaadinBuilder extends FactoryBuilderSupport {
 
     public static final String DELEGATE_PROPERTY_OBJECT_ID = "_delegateProperty:id";

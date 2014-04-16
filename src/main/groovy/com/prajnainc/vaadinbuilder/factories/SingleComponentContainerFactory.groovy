@@ -19,8 +19,10 @@ package com.prajnainc.vaadinbuilder.factories
 import com.vaadin.ui.Component
 
 /**
- * Created by paul on 4/6/14.
+ * SingleComponentContainerFactory
+ *
  */
+
 class SingleComponentContainerFactory extends ComponentFactory {
 
     SingleComponentContainerFactory(Class componentClass) {

@@ -19,12 +19,12 @@ package com.prajnainc.vaadinbuilder.factories
 import com.vaadin.ui.Component
 
 /**
- * Created by paul on 4/6/14.
  *
  * ComponentFactory
  *
- * A basic {@link Factory} that creates instances of a Vaadin {@link Component}
+ * A {@link Factory} that creates instances of a Vaadin {@link Component}s
  */
+
 class ComponentFactory extends AbstractFactory {
 
     private static final ATTRIBUTES_TO_SAVE = ['expandRatio','alignment']

@@ -13,18 +13,16 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  *
- * Created by Paul Bennett on 4/15/14.
- *
- * MenuSpecification
- *
  */
+
 package com.prajnainc.vaadinbuilder
 
 import com.prajnainc.vaadinbuilder.menuSupport.MenuItemCommand
-import com.vaadin.ui.MenuBar;
+import com.vaadin.ui.MenuBar
 
-import static org.hamcrest.CoreMatchers.*
-import static spock.util.matcher.HamcrestSupport.*
+import static org.hamcrest.CoreMatchers.equalTo
+import static org.hamcrest.CoreMatchers.instanceOf
+import static spock.util.matcher.HamcrestSupport.that
 
 public class MenuSpecification extends BuilderSpecification {
 

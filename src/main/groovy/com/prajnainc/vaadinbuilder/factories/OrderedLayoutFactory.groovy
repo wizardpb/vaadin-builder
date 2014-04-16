@@ -21,8 +21,10 @@ import com.vaadin.ui.AbstractOrderedLayout
 import org.codehaus.groovy.runtime.typehandling.GroovyCastException
 
 /**
- * Created by paul on 4/13/14.
+ * OrderedLayoutFactory
+ *
  */
+
 class OrderedLayoutFactory extends LayoutFactory {
 
 
