@@ -90,4 +90,14 @@ public class GroovyBeanItemSpecification extends Specification {
         item.getItemProperty('readOnly').readOnly
 
     }
+
+    def "it can specify the properties to bind" () {
+
+        given:
+        def item = new GroovyBeanItem(new GroovyBean(),['objectProp','stringProp'])
+
+        expect:
+        item.getItemPropertyIds() as List == ['objectProp','stringProp']
+
+    }
 }

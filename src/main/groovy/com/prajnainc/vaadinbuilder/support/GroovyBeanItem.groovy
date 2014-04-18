@@ -26,23 +26,18 @@ import com.vaadin.data.util.PropertysetItem
  * {@link GroovyObject}.
  *
  */
-class GroovyBeanItem extends BeanItem {
+class GroovyBeanItem extends PropertysetItem {
 
-    /**
-     * Build a list of {@link com.vaadin.data.util.VaadinPropertyDescriptor}s for the given bean. We make
-     * sure that extraneous properties (currently the metaClass property) are removed
-     *
-     * @param groovyBean
-     * @return a List of descriptors for this object
-     */
-    private static List<String> getPropertyDescriptors(Object groovyBean) {
-        def descriptors = groovyBean.metaClass.properties*.name
-        descriptors.remove('metaClass')
-        return descriptors
-    }
+    private static List HIDDEN_PROPERTIES = ['class']
 
     GroovyBeanItem(Object groovyBean) {
-        super(groovyBean,getPropertyDescriptors(groovyBean))
+        this(groovyBean,groovyBean.metaClass.getProperties()*.name - HIDDEN_PROPERTIES)
+    }
+
+    GroovyBeanItem(Object groovyBean,List properties) {
+        properties.each {
+            addItemProperty(it,new GroovyObjectProperty(groovyBean,it))
+        }
     }
 
 }
