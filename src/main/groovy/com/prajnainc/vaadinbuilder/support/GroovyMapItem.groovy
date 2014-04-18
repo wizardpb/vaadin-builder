@@ -14,30 +14,17 @@
  *    limitations under the License.
  */
 
-package com.prajnainc.vaadinbuilder
+package com.prajnainc.vaadinbuilder.support
 
-import com.vaadin.ui.Label
+import com.vaadin.data.util.PropertysetItem
 
-import static org.hamcrest.CoreMatchers.instanceOf
+/**
+ * GroovyMapItem
+ *
+ */
+class GroovyMapItem extends PropertysetItem {
 
-public class SingleComponentContainerSpecification extends BuilderSpecification {
-
-    def "it sets the content"() {
-
-        expect:
-        def c = builder.build {
-            "$node"() {
-                label('contained')
-            }
-        }
-        def content = c.content
-        content instanceOf(Label)
-        content.value == 'contained'
-
-        where:
-
-        node        | caption
-        'panel'     | ''
-        'window'    | ''
+    GroovyMapItem(Map source) {
+        source
     }
 }

@@ -115,7 +115,8 @@ class VaadinBuilder extends FactoryBuilderSupport {
     }
 
     def registerUtilityFactories() {
-        // Converter
+        // fieldGroup
+        // Converter ?
         // Widget ?
     }
 }

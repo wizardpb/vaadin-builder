@@ -14,46 +14,31 @@
  *    limitations under the License.
  */
 
-package com.prajnainc.vaadinbuilder
+package com.prajnainc.vaadinbuilder.factories
 
-import com.vaadin.ui.FormLayout
-import com.vaadin.ui.HorizontalLayout
+import com.prajnainc.vaadinbuilder.BuilderSpecification
 import com.vaadin.ui.Label
-import com.vaadin.ui.VerticalLayout
 
 import static org.hamcrest.CoreMatchers.instanceOf
-import static spock.util.matcher.HamcrestSupport.that
 
-public class OrderedLayoutSpecification extends BuilderSpecification {
+public class SingleComponentContainerSpecification extends BuilderSpecification {
 
-    def "it builds all layouts"() {
+    def "it sets the content"() {
 
         expect:
         def c = builder.build {
-            "${node}Layout" {}
-        }
-        that c, instanceOf(klass)
-
-        where:
-        node            | klass
-        'vertical'      | VerticalLayout
-        'horizontal'    | HorizontalLayout
-        'form'          | FormLayout
-    }
-
-    def "it can add components"() {
-
-        given:
-        def c = builder.build {
-            verticalLayout {
+            "$node"() {
                 label('contained')
             }
         }
+        def content = c.content
+        content instanceOf(Label)
+        content.value == 'contained'
 
-        expect:
-        c.componentCount == 1
-        that c.getComponent(0),instanceOf(Label)
-        c.getComponent(0).value == 'contained'
+        where:
 
+        node        | caption
+        'panel'     | ''
+        'window'    | ''
     }
 }

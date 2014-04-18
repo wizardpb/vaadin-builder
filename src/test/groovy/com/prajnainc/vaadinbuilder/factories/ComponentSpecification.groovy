@@ -14,8 +14,9 @@
  *    limitations under the License.
  */
 
-package com.prajnainc.vaadinbuilder
+package com.prajnainc.vaadinbuilder.factories
 
+import com.prajnainc.vaadinbuilder.BuilderSpecification
 import com.vaadin.ui.*
 
 import java.util.Calendar

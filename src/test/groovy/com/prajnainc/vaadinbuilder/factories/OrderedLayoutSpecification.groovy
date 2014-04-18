@@ -14,49 +14,47 @@
  *    limitations under the License.
  */
 
-package com.prajnainc.vaadinbuilder
+package com.prajnainc.vaadinbuilder.factories
 
-import com.vaadin.ui.GridLayout
+import com.prajnainc.vaadinbuilder.BuilderSpecification
+import com.vaadin.ui.FormLayout
+import com.vaadin.ui.HorizontalLayout
+import com.vaadin.ui.Label
+import com.vaadin.ui.VerticalLayout
 
-import static org.hamcrest.CoreMatchers.equalTo
 import static org.hamcrest.CoreMatchers.instanceOf
 import static spock.util.matcher.HamcrestSupport.that
 
-public class GridLayoutSpecification extends BuilderSpecification {
+public class OrderedLayoutSpecification extends BuilderSpecification {
 
-    def "it builds a grid layout"() {
-        given:
-        def c = builder.build {
-            gridLayout {}
-        }
+    def "it builds all layouts"() {
 
         expect:
-        that c, instanceOf(GridLayout)
-    }
-
-    def "it builds a grid layout of specific dimensions"() {
-        given:
         def c = builder.build {
-            gridLayout(columns: 3, rows: 2) {}
+            "${node}Layout" {}
         }
+        that c, instanceOf(klass)
 
-        expect:
-        that c.columns, equalTo(3)
-        that c.rows, equalTo(2)
+        where:
+        node            | klass
+        'vertical'      | VerticalLayout
+        'horizontal'    | HorizontalLayout
+        'form'          | FormLayout
     }
 
-    def "it adds components consecutively"() {
+    def "it can add components"() {
+
         given:
         def c = builder.build {
-            gridLayout(columns: 2, rows: 2) {
-                label('1-1')
-                label('2-1')
-                label('1-2')
-                label('2-2')
+            verticalLayout {
+                label('contained')
             }
         }
 
         expect:
-        that c.getComponent(0,0).value, equalTo('1-1')
+        c.componentCount == 1
+        that c.getComponent(0),instanceOf(Label)
+        c.getComponent(0).value == 'contained'
+
     }
 }

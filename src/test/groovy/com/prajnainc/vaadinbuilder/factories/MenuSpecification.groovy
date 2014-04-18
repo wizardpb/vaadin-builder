@@ -15,9 +15,10 @@
  *
  */
 
-package com.prajnainc.vaadinbuilder
+package com.prajnainc.vaadinbuilder.factories
 
-import com.prajnainc.vaadinbuilder.menuSupport.MenuItemCommand
+import com.prajnainc.vaadinbuilder.BuilderSpecification
+import com.prajnainc.vaadinbuilder.support.MenuItemCommand
 import com.vaadin.ui.MenuBar
 
 import static org.hamcrest.CoreMatchers.equalTo

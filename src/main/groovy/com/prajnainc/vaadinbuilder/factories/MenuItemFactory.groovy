@@ -18,7 +18,7 @@
 package com.prajnainc.vaadinbuilder.factories
 
 import com.prajnainc.vaadinbuilder.VaadinBuilderException
-import com.prajnainc.vaadinbuilder.menuSupport.MenuItemCommand
+import com.prajnainc.vaadinbuilder.support.MenuItemCommand
 import com.vaadin.ui.MenuBar
 import com.vaadin.ui.MenuBar.MenuItem
 

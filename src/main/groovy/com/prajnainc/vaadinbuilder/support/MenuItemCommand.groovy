@@ -15,7 +15,7 @@
  */
 
 
-package com.prajnainc.vaadinbuilder.menuSupport
+package com.prajnainc.vaadinbuilder.support
 
 import com.vaadin.ui.MenuBar
 
