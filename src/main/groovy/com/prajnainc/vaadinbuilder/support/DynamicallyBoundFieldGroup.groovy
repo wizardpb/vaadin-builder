@@ -46,6 +46,14 @@ class DynamicallyBoundFieldGroup extends FieldGroup {
         }
     }
 
+    private static Item buildItem(GroovyObject dataSource) {
+        return new GroovyBeanItem(dataSource)
+    }
+
+    private static Item buildItem(Map dataSource) {
+        return new GroovyMapItem(dataSource)
+    }
+
     DynamicallyBoundFieldGroup(GroovyObject bean) {
         super(new GroovyBeanItem(bean))
         descriptors = buildDescriptorsFor(bean.getClass())
@@ -72,5 +80,9 @@ class DynamicallyBoundFieldGroup extends FieldGroup {
             if(!descriptor) throw new BindException("Property type for '$propertyId' could not be determined. No property with that id was found.")
             return descriptor.type
         }
+    }
+
+    public setDataSource(Object dataSource) {
+        setItemDataSource(buildItem(dataSource))
     }
 }
