@@ -30,6 +30,8 @@ class VaadinBuilder extends FactoryBuilderSupport {
     public static final String DELEGATE_PROPERTY_OBJECT_ID = "_delegateProperty:id";
     public static final String DEFAULT_DELEGATE_PROPERTY_OBJECT_ID = "id";
 
+    def currentNodeName
+
     VaadinBuilder(boolean init=true) {
         super(init)
         this[DELEGATE_PROPERTY_OBJECT_ID] = DEFAULT_DELEGATE_PROPERTY_OBJECT_ID
@@ -115,8 +117,25 @@ class VaadinBuilder extends FactoryBuilderSupport {
     }
 
     def registerUtilityFactories() {
-        // fieldGroup
+        registerFactory('fieldGroup',new FieldGroupFactory())
         // Converter ?
         // Widget ?
+    }
+
+    @Override
+    protected Object dispatchNodeCall(Object name, Object args) {
+        currentNodeName = name
+        return super.dispatchNodeCall(name, args)
+    }
+
+    public Object checkForOneOf(attrList,attributes) {
+        Collection containedAttrs = (attrList as Set).intersect(attributes.keySet())
+        if(containedAttrs.size() > 1) {
+            throw new VaadinBuilderException("${currentNodeName}(): only one of the attributes '${attrList}' may be passed")
+        }
+        if(containedAttrs.size() < 1) {
+            throw new VaadinBuilderException("${currentNodeName}(): one of the attributes '${attrList}' must be preset")
+        }
+        return containedAttrs.first()
     }
 }

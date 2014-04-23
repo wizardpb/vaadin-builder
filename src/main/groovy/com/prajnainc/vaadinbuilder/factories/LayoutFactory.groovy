@@ -32,7 +32,7 @@ class LayoutFactory extends ComponentContainerFactory {
     }
 
     @Override
-    protected void setAlignmentFrom(ComponentFactory childFactory) {
+    protected void setAlignmentFrom(VaadinFactory childFactory) {
         // Apply child alignment via my component
         if(childFactory.savedAttributes.containsKey('alignment')) {
             assert component instanceof AbstractLayout

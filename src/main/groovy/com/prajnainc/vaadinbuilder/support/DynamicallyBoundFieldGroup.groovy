@@ -37,10 +37,14 @@ import com.vaadin.ui.Field
  */
 class DynamicallyBoundFieldGroup extends FieldGroup {
 
+    final static Set EXCLUDED_PROPERTIES = ['class'] as Set
+
     Map<String,PropertyDescriptor>descriptors = null
 
     private static Map buildDescriptorsFor(Class klass) {
-        return klass.metaClass.getProperties().collectEntries {
+        return klass.metaClass.getProperties()
+                .grep { !EXCLUDED_PROPERTIES.contains(it.name) }
+                .collectEntries {
             assert it instanceof MetaBeanProperty
             [it.name, new PropertyDescriptor(name: it.name, type: it.type, readOnly: it.setter == null)]
         }
@@ -54,19 +58,55 @@ class DynamicallyBoundFieldGroup extends FieldGroup {
         return new GroovyMapItem(dataSource)
     }
 
+    /**
+     * Create a {@link DynamicallyBoundFieldGroup} for a given bean. The field descriptors are build from
+     * properties on the objects class. Data bound to the form is wrapped in an Item with those property ids
+     *
+     * @param bean - a {@link GroovyObject} that will be bound to the {@link FieldGroup}
+     */
     DynamicallyBoundFieldGroup(GroovyObject bean) {
         super(new GroovyBeanItem(bean))
         descriptors = buildDescriptorsFor(bean.getClass())
     }
 
+    /**
+     * Create a {@link DynamicallyBoundFieldGroup} for a given bean class. The field descriptors are build from
+     * properties defined by the class. Data bound to the form is wrapped in an Item with those property ids
+     * *
+     * @param itemType - a {@link Class} giving the type that will be bound to the {@link FieldGroup}
+     */
     DynamicallyBoundFieldGroup(Class itemType) {
         this(buildDescriptorsFor(itemType))
     }
 
+    /**
+     * Create a {@link DynamicallyBoundFieldGroup} with a literal property set description. The description is
+     * a {@link List} of [@link Map}s of the form:
+     * <code>
+     *     [
+     *          [name: <propName>, type: <propClass>, readOnly: <boolean>]
+     *     ]
+     * </code>
+     * e.g.:
+     * <code>
+     *     [
+     *          [name: 'someProp', type: Object, readOnly: false]
+     *     ]
+     * </code>     *
+     *
+     * @param descriptors - a {@link List} of in the form above
+     */
     DynamicallyBoundFieldGroup(List descriptors) {
-        this(descriptors.collectEntries { [it.name, new PropertyDescriptor(it)] })
+        this(descriptors.collectEntries {
+            [it.name, new PropertyDescriptor(it)]
+        })
     }
 
+    /**
+     * Create a {@link DynamicallyBoundFieldGroup} from an explicit {@link List} of {@link PropertyDescriptor}s
+     *
+     * @param descriptors - the descriptors
+     */
     DynamicallyBoundFieldGroup(Map descriptors) {
         this.descriptors = descriptors
     }

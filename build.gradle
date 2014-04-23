@@ -18,6 +18,7 @@ dependencies {
             'com.vaadin:vaadin-themes:7.1.13'
 
     testCompile 'junit:junit:4.11',
+                'cglib:cglib-nodep:2.2',
                 'org.spockframework:spock-core:0.7-groovy-2.0'
 
 }

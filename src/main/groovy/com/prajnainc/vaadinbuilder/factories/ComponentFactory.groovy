@@ -25,7 +25,7 @@ import com.vaadin.ui.Component
  * A {@link Factory} that creates instances of a Vaadin {@link Component}s
  */
 
-class ComponentFactory extends AbstractFactory {
+class ComponentFactory extends AbstractFactory implements VaadinFactory {
 
     private static final ATTRIBUTES_TO_SAVE = ['expandRatio','alignment']
 
@@ -50,7 +50,6 @@ class ComponentFactory extends AbstractFactory {
 
     @Override
     Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
-
         // Save our node name for exception reporting
         nodeName = name
 

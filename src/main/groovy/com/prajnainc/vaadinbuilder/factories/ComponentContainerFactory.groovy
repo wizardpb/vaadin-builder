@@ -16,6 +16,8 @@
 
 package com.prajnainc.vaadinbuilder.factories
 
+import com.prajnainc.vaadinbuilder.support.DynamicallyBoundFieldGroup
+import com.vaadin.ui.AbstractComponent
 import com.vaadin.ui.AbstractComponentContainer
 import com.vaadin.ui.Component
 import com.vaadin.ui.ComponentContainer
@@ -39,7 +41,7 @@ class ComponentContainerFactory extends ComponentFactory {
          * The child factory has already added the child to my component (the parent). Now, just set
          * any alignment or expansion settings
          */
-        ComponentFactory childFactory = builder.currentFactory
+        VaadinFactory childFactory = builder.currentFactory
         setAlignmentFrom(childFactory)
         setExpandRatioFrom(childFactory)
 
@@ -50,11 +52,11 @@ class ComponentContainerFactory extends ComponentFactory {
         component.addComponent(child)
     }
 
-    protected void setAlignmentFrom(ComponentFactory childFactory) {
+    protected void setAlignmentFrom(VaadinFactory childFactory) {
         // Do nothing by default
     }
 
-    protected void setExpandRatioFrom(ComponentFactory childFactory) {
+    protected void setExpandRatioFrom(VaadinFactory childFactory) {
         // Do nothing by default
     }
 }

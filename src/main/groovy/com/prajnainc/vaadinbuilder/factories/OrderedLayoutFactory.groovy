@@ -33,7 +33,7 @@ class OrderedLayoutFactory extends LayoutFactory {
     }
 
     @Override
-    protected void setExpandRatioFrom(ComponentFactory childFactory) {
+    protected void setExpandRatioFrom(VaadinFactory childFactory) {
         if (savedAttributes.containsKey('expandRatio')) {
             Float ratio
             Object ratioValue = savedAttributes['expandRatio']
