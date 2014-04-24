@@ -24,7 +24,7 @@ import java.util.Calendar
 import static org.hamcrest.CoreMatchers.*
 import static spock.util.matcher.HamcrestSupport.that
 
-public class ComponentSpecification extends BuilderSpecification {
+public class ComponentFactorySpecification extends BuilderSpecification {
 
     def "it creates the correct instance"() {
 
@@ -81,19 +81,4 @@ public class ComponentSpecification extends BuilderSpecification {
         'calendar'  | com.vaadin.ui.Calendar
     }
 
-    def "it calls a single-value constructor"() {
-
-        expect:
-
-        def c = builder.build {
-            "$node"('caption')
-        }
-        c.caption == 'caption'
-
-        where:
-        node        | klass
-        'embedded'  | Embedded
-        'button'    | Button
-        'calendar'  | Calendar
-    }
 }

@@ -47,6 +47,7 @@ public class DynamicallyBoundFieldGroupSpecification extends Specification {
         fieldGroup.buildAndBind('boolProp')
 
         expect:
+        fieldGroup.descriptors.keySet() == ['stringProp','intProp','boolProp'] as Set
         fieldGroup.getBoundPropertyIds() as Set == ['stringProp','boolProp'] as Set
         that fieldGroup.getField('stringProp'), instanceOf(TextField)
         that fieldGroup.getField('boolProp'), instanceOf(CheckBox)
@@ -64,6 +65,7 @@ public class DynamicallyBoundFieldGroupSpecification extends Specification {
         fieldGroup.buildAndBind('boolProp')
 
         expect:
+        fieldGroup.descriptors.keySet() == ['stringProp','intProp','boolProp'] as Set
         fieldGroup.getBoundPropertyIds() as Set == ['stringProp','boolProp'] as Set
         that fieldGroup.getField('stringProp'), instanceOf(TextField)
         that fieldGroup.getField('boolProp'), instanceOf(CheckBox)

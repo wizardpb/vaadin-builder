@@ -96,24 +96,28 @@ class VaadinBuilder extends FactoryBuilderSupport {
         registerFactory('horizontalSplitPanel', new ComponentContainerFactory(HorizontalSplitPanel))
     }
 
-    def registerFieldFactories() {
+    def registerItemFieldFactories() {
+        registerFactory('field',new DefaultFieldFactory())
         // Slider
-        // TextField
-        // TextArea
-        // PasswordField
+        registerFactory('textField',new FieldFactory(TextField))                // TextField
+        registerFactory('textArea',new FieldFactory(TextArea))                  // TextArea
+        registerFactory('passwordField',new FieldFactory(PasswordField))        // PasswordField
         // ProgressBar ?
-        // CheckBox
-        // RichTextArea
+        registerFactory('checkBox',new FieldFactory(CheckBox))                  // CheckBox
+        registerFactory('richTextArea',new FieldFactory(RichTextArea))          // RichTextArea
         // CustomField
+        registerFactory('inlineDateField',new FieldFactory(InlineDateField))    // InlineDateField
+        registerFactory('popupDateField',new FieldFactory(PopupDateField))      // PopupDateField
+    }
+
+    def registerContainerFieldFactories() {
         // Table (AbstractSelect)
         // TwinColSelect
         // Tree
-        // OptionGroup
         // NativeSelect
         // ListSelect
         // ComboBox
-        // InlineDateField
-        // PopupDateField
+        // OptionGroup
     }
 
     def registerUtilityFactories() {

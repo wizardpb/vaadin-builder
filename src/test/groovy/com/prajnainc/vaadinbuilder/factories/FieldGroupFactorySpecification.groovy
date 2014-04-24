@@ -31,7 +31,7 @@ public class FieldGroupFactorySpecification extends BuilderSpecification {
         boolean boolProp = true
     }
 
-    def "it builds the group"() {
+    def "it builds and binds to a Groovy object class"() {
 
         given:
         def c = builder.build {
@@ -54,6 +54,46 @@ public class FieldGroupFactorySpecification extends BuilderSpecification {
             verticalLayout {
                 fieldGroup(id: 'thisGroup', forClass: TestObject)
                 label('new label')
+            }
+        }
+        DynamicallyBoundFieldGroup fieldGroup = c.data
+
+        expect:
+        that fieldGroup, notNullValue()
+        that builder.thisGroup, sameInstance(fieldGroup)
+        that c.data.descriptors.keySet(), equalTo(['stringProp','intProp','boolProp'] as Set)
+    }
+
+    def "it binds to a given object"() {
+        given:
+        def obj = new TestObject()
+        def c = builder.build {
+            verticalLayout {
+                fieldGroup(id: 'thisGroup', bind: obj )
+            }
+        }
+        DynamicallyBoundFieldGroup fieldGroup = c.data
+        def propSet = ['stringProp','intProp','boolProp'] as Set
+
+        expect:
+        that fieldGroup, notNullValue()
+        that builder.thisGroup, sameInstance(fieldGroup)
+        that fieldGroup.descriptors.keySet(), equalTo(propSet)
+        that fieldGroup.itemDataSource, notNullValue()
+        that fieldGroup.itemDataSource.itemPropertyIds as Set, equalTo(propSet)
+        that fieldGroup.itemDataSource.getItemProperty('stringProp').value, equalTo(obj.stringProp)
+        that fieldGroup.itemDataSource.getItemProperty('intProp').value, equalTo(obj.intProp)
+        that fieldGroup.itemDataSource.getItemProperty('boolProp').value, equalTo(obj.boolProp)
+    }
+
+    def "it builds from a list of properties"() {
+        def c = builder.build {
+            verticalLayout {
+                fieldGroup('thisGroup', forProperties: [
+                        [name:'stringProp',type: String],
+                        [name:'intProp',type: Integer],
+                        [name:'boolProp',type: Boolean]
+                ])
             }
         }
 
