@@ -36,7 +36,7 @@ class LayoutFactory extends ComponentContainerFactory {
         // Apply child alignment via my component
         if(childFactory.savedAttributes.containsKey('alignment')) {
             assert component instanceof AbstractLayout
-            component.setComponentAlignment(childFactory.component,createAlignment(savedAttributes['alignment']))
+            component.setComponentAlignment(childFactory.component,createAlignment(childFactory.savedAttributes['alignment']))
         }
     }
 

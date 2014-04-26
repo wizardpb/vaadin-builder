@@ -65,23 +65,6 @@ class ComponentFactory extends AbstractFactory implements VaadinFactory {
     }
 
     /**
-     * We need to set the parent child relationship here. Under Vaadin, it is the parent object that
-     * knows how to add the child correctly, so we must delegate this to the parent. We don't use the
-     * @param builder
-     * @param parent
-     * @param child
-     */
-    @Override
-    void setParent(FactoryBuilderSupport builder, Object parent, Object child) {
-        def parentFactory = builder.parentFactory
-        parentFactory.doAddChild(child)
-    }
-
-    public void doAddChild(Component child) {
-        throw new UnsupportedOperationException("Components do not add children")
-    }
-
-    /**
      * Return a {@link String} attaching the nodeName from this {@link ComponentFactory} to the given node ({@link Component} object
      *
      * @param Component

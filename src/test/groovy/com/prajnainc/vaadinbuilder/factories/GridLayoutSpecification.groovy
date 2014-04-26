@@ -17,6 +17,7 @@
 package com.prajnainc.vaadinbuilder.factories
 
 import com.prajnainc.vaadinbuilder.BuilderSpecification
+import com.vaadin.ui.Alignment
 import com.vaadin.ui.GridLayout
 
 import static org.hamcrest.CoreMatchers.equalTo
@@ -59,5 +60,19 @@ public class GridLayoutSpecification extends BuilderSpecification {
 
         expect:
         that c.getComponent(0,0).value, equalTo('1-1')
+    }
+
+    def "it can set alignment for a child"() {
+        GridLayout c = builder.build {
+            gridLayout(columns: 2, rows: 1) {
+                label('0-0', alignment: Alignment.BOTTOM_LEFT)
+                label('1-0', alignment: Alignment.TOP_RIGHT)
+            }
+        }
+
+        expect:
+        that c.getComponentAlignment(c.getComponent(0,0)), equalTo(Alignment.BOTTOM_LEFT)
+        that c.getComponentAlignment(c.getComponent(1,0)), equalTo(Alignment.TOP_RIGHT)
+
     }
 }

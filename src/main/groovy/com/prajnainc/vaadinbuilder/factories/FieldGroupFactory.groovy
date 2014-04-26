@@ -35,7 +35,7 @@ import com.vaadin.ui.FormLayout
  * and also attached to the data field of the new layout
  *
  */
-class FieldGroupFactory extends AbstractFactory implements VaadinFactory {
+class FieldGroupFactory implements VaadinFactory {
 
     @Delegate LayoutFactory layoutFactory
 
@@ -63,5 +63,8 @@ class FieldGroupFactory extends AbstractFactory implements VaadinFactory {
         return layout
     }
 
+    void onFactoryRegistration(FactoryBuilderSupport builder, String registeredName, String registeredGroupName) {
+        // No action
+    }
 
 }

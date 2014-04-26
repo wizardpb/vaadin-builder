@@ -18,11 +18,15 @@ package com.prajnainc.vaadinbuilder.factories
 
 import com.prajnainc.vaadinbuilder.BuilderSpecification
 import com.prajnainc.vaadinbuilder.support.DynamicallyBoundFieldGroup
+import com.vaadin.ui.Alignment
 import com.vaadin.ui.FormLayout
+import com.vaadin.ui.GridLayout
 import com.vaadin.ui.HorizontalLayout
 import com.vaadin.ui.Label
 import com.vaadin.ui.VerticalLayout
 
+import static org.hamcrest.CoreMatchers.equalTo
+import static org.hamcrest.CoreMatchers.equalTo
 import static org.hamcrest.CoreMatchers.instanceOf
 import static org.hamcrest.CoreMatchers.sameInstance
 import static spock.util.matcher.HamcrestSupport.that
@@ -58,6 +62,33 @@ public class OrderedLayoutSpecification extends BuilderSpecification {
         that c.getComponent(0),instanceOf(Label)
         c.getComponent(0).value == 'contained'
 
+    }
+
+    def "it can set alignment for a child"() {
+        VerticalLayout c = builder.build {
+            verticalLayout {
+                label('a', alignment: Alignment.BOTTOM_LEFT)
+                label('b', alignment: Alignment.TOP_RIGHT)
+            }
+        }
+
+        expect:
+        that c.getComponentAlignment(c.getComponent(0)), equalTo(Alignment.BOTTOM_LEFT)
+        that c.getComponentAlignment(c.getComponent(1)), equalTo(Alignment.TOP_RIGHT)
+    }
+
+    def "it can set expand ration for a child"() {
+
+        VerticalLayout c = builder.build {
+            verticalLayout {
+                label('a', expandRatio: 0.5f)
+                label('b', expandRatio: 0.5f)
+            }
+        }
+
+        expect:
+        that c.getExpandRatio(c.getComponent(0)), equalTo(0.5f)
+        that c.getExpandRatio(c.getComponent(1)), equalTo(0.5f)
     }
 
 }

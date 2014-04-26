@@ -37,20 +37,14 @@ class ComponentContainerFactory extends ComponentFactory {
 
     @Override
     void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
-        /**
-         * The child factory has already added the child to my component (the parent). Now, just set
-         * any alignment or expansion settings
-         */
-        VaadinFactory childFactory = builder.currentFactory
+        assert component instanceof AbstractComponentContainer
+        component.addComponent(child)
+        VaadinFactory childFactory = builder.childBuilder.currentFactory
         setAlignmentFrom(childFactory)
         setExpandRatioFrom(childFactory)
 
     }
 
-    public void doAddChild(Component child) {
-        assert component instanceof AbstractComponentContainer
-        component.addComponent(child)
-    }
 
     protected void setAlignmentFrom(VaadinFactory childFactory) {
         // Do nothing by default
