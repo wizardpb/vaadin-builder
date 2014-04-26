@@ -38,13 +38,16 @@ class ComponentContainerFactory extends ComponentFactory {
     @Override
     void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
         assert component instanceof AbstractComponentContainer
-        component.addComponent(child)
         VaadinFactory childFactory = builder.childBuilder.currentFactory
+        addComponent(childFactory,child)
         setAlignmentFrom(childFactory)
         setExpandRatioFrom(childFactory)
 
     }
 
+    protected void addComponent(ComponentFactory childFactory,Component child) {
+        component.addComponent(child)
+    }
 
     protected void setAlignmentFrom(VaadinFactory childFactory) {
         // Do nothing by default

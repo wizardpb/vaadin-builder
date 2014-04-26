@@ -34,9 +34,9 @@ class OrderedLayoutFactory extends LayoutFactory {
 
     @Override
     protected void setExpandRatioFrom(VaadinFactory childFactory) {
-        if (childFactory.savedAttributes.containsKey('expandRatio')) {
+        if (childFactory.savedAttributes.containsKey(EXPAND_RATIO_ATTR)) {
             Float ratio
-            Object ratioValue = childFactory.savedAttributes['expandRatio']
+            Object ratioValue = childFactory.savedAttributes[EXPAND_RATIO_ATTR]
             try {
                 ratio = ratioValue as Float
             } catch (GroovyCastException e) {

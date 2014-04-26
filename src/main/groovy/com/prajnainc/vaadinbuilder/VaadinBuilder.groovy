@@ -84,7 +84,7 @@ class VaadinBuilder extends FactoryBuilderSupport {
     }
 
     def registerLayoutFactories() {
-        registerFactory('gridLayout', new LayoutFactory(GridLayout))
+        registerFactory('gridLayout', new GridLayoutFactory())
         registerFactory('verticalLayout', new OrderedLayoutFactory(VerticalLayout))
         registerFactory('horizontalLayout', new OrderedLayoutFactory(HorizontalLayout))
         registerFactory('formLayout', new OrderedLayoutFactory(FormLayout))

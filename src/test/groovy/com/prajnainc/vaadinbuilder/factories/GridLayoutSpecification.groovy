@@ -22,6 +22,7 @@ import com.vaadin.ui.GridLayout
 
 import static org.hamcrest.CoreMatchers.equalTo
 import static org.hamcrest.CoreMatchers.instanceOf
+import static org.hamcrest.CoreMatchers.nullValue
 import static spock.util.matcher.HamcrestSupport.that
 
 public class GridLayoutSpecification extends BuilderSpecification {
@@ -62,7 +63,7 @@ public class GridLayoutSpecification extends BuilderSpecification {
         that c.getComponent(0,0).value, equalTo('1-1')
     }
 
-    def "it can set alignment for a child"() {
+    def "it allows children to set their alignment"() {
         GridLayout c = builder.build {
             gridLayout(columns: 2, rows: 1) {
                 label('0-0', alignment: Alignment.BOTTOM_LEFT)
@@ -74,5 +75,37 @@ public class GridLayoutSpecification extends BuilderSpecification {
         that c.getComponentAlignment(c.getComponent(0,0)), equalTo(Alignment.BOTTOM_LEFT)
         that c.getComponentAlignment(c.getComponent(1,0)), equalTo(Alignment.TOP_RIGHT)
 
+    }
+
+    def "it allows children to set their location and span with List arguments"() {
+
+        GridLayout c = builder.build {
+            gridLayout(columns: 2, rows: 2) {
+                label('0-0', position: [0,0])
+                label('1-1', position: [0,1], span: [2,1])
+            }
+        }
+
+        expect:
+        that c.getComponent(0,0).value, equalTo('0-0')
+        that c.getComponent(1,0), nullValue()
+        that c.getComponent(0,1).value, equalTo('1-1')
+        that c.getComponent(1,1).value, equalTo('1-1')
+    }
+
+    def "it allows children to set their location and span with Map arguments"() {
+
+        GridLayout c = builder.build {
+            gridLayout(columns: 2, rows: 2) {
+                label('0-0', position: [column: 0, row: 0])
+                label('1-1', position: [column: 0, row: 1], span: [columns: 2, rows: 1])
+            }
+        }
+
+        expect:
+        that c.getComponent(0,0).value, equalTo('0-0')
+        that c.getComponent(1,0), nullValue()
+        that c.getComponent(0,1).value, equalTo('1-1')
+        that c.getComponent(1,1).value, equalTo('1-1')
     }
 }

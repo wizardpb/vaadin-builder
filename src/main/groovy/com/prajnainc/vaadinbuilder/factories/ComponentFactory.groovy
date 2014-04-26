@@ -27,7 +27,15 @@ import com.vaadin.ui.Component
 
 class ComponentFactory extends AbstractFactory implements VaadinFactory {
 
-    private static final ATTRIBUTES_TO_SAVE = ['expandRatio','alignment']
+    /**
+     * Attributes saved for use by a parent component, usually a {@link com.vaadin.ui.Layout}
+     */
+    public final static String EXPAND_RATIO_ATTR    = 'expandRatio'         // Expand ration for OrderedLayouts
+    public final static String ALIGNMENT_ATTR       = 'alignment'           // Component alignment in layout cell
+    public final static String GRID_POSITION_ATTR   = 'position'            // position in GridLayout
+    public final static String GRID_SPAN_ATTR       = 'span'                // Span of cells in GridLayout
+
+    private static final ATTRIBUTES_TO_SAVE = [EXPAND_RATIO_ATTR, ALIGNMENT_ATTR, GRID_POSITION_ATTR, GRID_SPAN_ATTR,]
 
     Class componentClass
     Map savedAttributes = [:]

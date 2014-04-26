@@ -34,7 +34,7 @@ class LayoutFactory extends ComponentContainerFactory {
     @Override
     protected void setAlignmentFrom(VaadinFactory childFactory) {
         // Apply child alignment via my component
-        if(childFactory.savedAttributes.containsKey('alignment')) {
+        if(childFactory.savedAttributes.containsKey(ALIGNMENT_ATTR)) {
             assert component instanceof AbstractLayout
             component.setComponentAlignment(childFactory.component,createAlignment(childFactory.savedAttributes['alignment']))
         }
