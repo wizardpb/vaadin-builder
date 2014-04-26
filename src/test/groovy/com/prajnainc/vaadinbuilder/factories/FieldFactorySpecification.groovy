@@ -32,10 +32,17 @@ import static spock.util.matcher.HamcrestSupport.*
 
 public class FieldFactorySpecification extends BuilderSpecification {
 
+    static class TestObject {
+        String stringProp = 'string'
+        Integer intProp = 1
+        Boolean boolProp = true
+        Date dateProp = new Date()
+    }
+
     def "without a field group, it should build all fields with explicit type"() {
 
         expect:
-        VerticalLayout c = builder.build {
+        VerticalLayout c = (VerticalLayout)builder.build {
             verticalLayout {
                 "$fieldNode"('thisProp')
             }
@@ -44,7 +51,6 @@ public class FieldFactorySpecification extends BuilderSpecification {
 
         that field, instanceOf(fieldClass)
         that field.caption, equalTo('This Prop')
-        that field.propertyDataSource.type, sameInstance(Object)
 
         where:
         fieldNode           | fieldClass
@@ -57,33 +63,28 @@ public class FieldFactorySpecification extends BuilderSpecification {
         'popupDateField'    | PopupDateField
     }
 
-    def "without a field group, it should build all fields with explicit type and a given data type"() {
+    def "with a field group, it should build all fields with explicit type and bind to a given data"() {
 
         expect:
-        VerticalLayout c = builder.build {
+        VerticalLayout c = (VerticalLayout)builder.build {
             verticalLayout {
-                "$fieldNode"('thisProp', dataType: dataType)
+                "$fieldNode"('thisProp')
             }
         }
         def field = c.getComponent(0)
 
         that field, instanceOf(fieldClass)
         that field.caption, equalTo('This Prop')
-        that field.propertyDataSource, notNullValue()
-        that field.propertyDataSource.type, equalTo(dataType)
 
         where:
-        fieldNode           | fieldClass        | dataType
-        'textField'         | TextField         | String
-        'textArea'          | TextArea          | String
-        'passwordField'     | PasswordField     | String
-        'checkBox'          | CheckBox          | Boolean
-        'richTextArea'      | RichTextArea      | String
-        'inlineDateField'   | InlineDateField   | Date
-        'popupDateField'    | PopupDateField    | Date
+        fieldNode           | fieldClass
+        'textField'         | TextField
+        'textArea'          | TextArea
+        'passwordField'     | PasswordField
+        'checkBox'          | CheckBox
+        'richTextArea'      | RichTextArea
+        'inlineDateField'   | InlineDateField
+        'popupDateField'    | PopupDateField
     }
 
-    def "with a field factory, it should imply the field data type" () {
-
-    }
 }

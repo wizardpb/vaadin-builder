@@ -30,7 +30,7 @@ class ComponentFactory extends AbstractFactory implements VaadinFactory {
     private static final ATTRIBUTES_TO_SAVE = ['expandRatio','alignment']
 
     Class componentClass
-    Map savedAttributes
+    Map savedAttributes = [:]
     String nodeName
     Component component
 
@@ -42,7 +42,6 @@ class ComponentFactory extends AbstractFactory implements VaadinFactory {
      * Save any attributes for later processing. They are removed from the passed in attributes
      */
     protected void extractSavedAttributes(Map attributes) {
-        savedAttributes = [:]
         ATTRIBUTES_TO_SAVE.each {
             if(attributes.containsKey(it)) savedAttributes[it] = attributes.remove(it)
         }
@@ -59,15 +58,22 @@ class ComponentFactory extends AbstractFactory implements VaadinFactory {
         if(componentClass.isAssignableFrom(value.getClass())) {
             component = value
         } else {
-            component = value ? componentClass.newInstance(value) : componentClass.newInstance()
+            component = componentClass.newInstance()
+            setComponentValue(value,attributes)
         }
         return component
     }
 
+    /**
+     * We need to set the parent child relationship here. Under Vaadin, it is the parent object that
+     * knows how to add the child correctly, so we must delegate this to the parent. We don't use the
+     * @param builder
+     * @param parent
+     * @param child
+     */
     @Override
     void setParent(FactoryBuilderSupport builder, Object parent, Object child) {
         def parentFactory = builder.parentFactory
-        assert parentFactory instanceof ComponentFactory
         parentFactory.doAddChild(child)
     }
 
@@ -84,4 +90,14 @@ class ComponentFactory extends AbstractFactory implements VaadinFactory {
         return "$nodeName($node)" as String
     }
 
+    /**
+     * Set any needed value into the component. Generally, this is the component caption, which can be
+     * overridden by a caption attribute
+     *
+     * @param value - the value to set
+     * @param attributes - the given attributes
+     */
+    protected setComponentValue(value, attributes) {
+        if(value instanceof String) component.caption = value
+    }
 }

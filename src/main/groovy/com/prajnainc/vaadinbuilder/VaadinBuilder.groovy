@@ -65,7 +65,7 @@ class VaadinBuilder extends FactoryBuilderSupport {
     }
 
     def registerComponentFactories() {
-        registerFactory('label',new ComponentFactory(Label))
+        registerFactory('label',new LabelFactory())
         // AbstractMedia
         registerFactory('embedded',new ComponentFactory(Embedded))
         // ColorPickerGrid

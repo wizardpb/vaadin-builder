@@ -3,6 +3,7 @@ package com.prajnainc.vaadinbuilder.factories
 import com.prajnainc.vaadinbuilder.VaadinBuilderException
 import com.vaadin.client.ui.Field
 import com.vaadin.data.fieldgroup.FieldGroup
+import com.vaadin.ui.Component
 
 /*
  * Copyright (c) 2014 Prajna Inc.
@@ -35,12 +36,19 @@ class DefaultFieldFactory extends FieldFactory {
     @Override
     Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
 
-        FieldGroup fieldGroup = findFieldGroup(builder.current)
+        def fieldGroup = findFieldGroup((Component)builder.current)
 
         if(!fieldGroup) {
             throw new VaadinBuilderException("Cannot use a $name node without a field group")
         }
 
+        if(attributes.containsKey('caption')) {
+            def caption = attributes.remove('caption')
+            component = fieldGroup.buildAndBind(caption,value)
+        } else {
+            component = fieldGroup.buildAndBind(value)
+        }
+        return component
     }
 
 }

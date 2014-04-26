@@ -2,7 +2,14 @@ package com.prajnainc.vaadinbuilder.factories
 
 import com.prajnainc.vaadinbuilder.BuilderSpecification
 import com.prajnainc.vaadinbuilder.VaadinBuilderException
-import com.vaadin.ui.VerticalLayout;/*
+import com.vaadin.ui.AbstractField
+import com.vaadin.ui.CheckBox
+import com.vaadin.ui.Field
+import com.vaadin.ui.PopupDateField
+import com.vaadin.ui.TextField
+import com.vaadin.ui.VerticalLayout;
+
+/*
  * Copyright (c) 2014 Prajna Inc.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,10 +33,17 @@ import static spock.util.matcher.HamcrestSupport.*
 
 public class DefaultFieldFactorySpecification extends BuilderSpecification {
 
+    static class TestObject {
+        String stringProp = 'string'
+        Integer intProp = 1
+        Boolean boolProp = true
+        Date dateProp = new Date()
+    }
+
     def "it should throw an exception if there is no field group"() {
 
         when:
-        VerticalLayout c = builder.build {
+        builder.build {
             verticalLayout {
                 field('thisProp')
             }
@@ -39,5 +53,55 @@ public class DefaultFieldFactorySpecification extends BuilderSpecification {
         RuntimeException e = thrown()
         that e.cause, instanceOf(VaadinBuilderException)
         e.cause.message == "Cannot use a field node without a field group"
+    }
+
+    def "with a field factory and bound type, it should imply the data type" () {
+
+        expect:
+        def obj = new TestObject()
+        def c = builder.build {
+            fieldGroup(id: 'thisGroup', modelType: TestObject ) {
+                field(propName)
+            }
+        }
+        def field = c.getComponent(0)
+        that field, instanceOf(fieldType)
+        that field.type, sameInstance(dataType)
+
+        where:
+        propName        | fieldType         | dataType
+        'stringProp'    | TextField         | String
+        'intProp'       | TextField         | String
+        'boolProp'      | CheckBox          | Boolean
+        'dateProp'      | PopupDateField    | Date
+
+
+    }
+
+    def "with a field factory and bound object, it should imply the data type" () {
+
+
+        def obj = new TestObject()
+        def c = builder.build {
+            fieldGroup(id: 'thisGroup', modelType: TestObject) {
+                field(propName)
+            }
+        }
+        c.data.setDataSource(obj)
+        AbstractField field = c.getComponent(0)
+
+        expect:
+        that field, instanceOf(fieldType)
+        that field.propertyDataSource.type, sameInstance(dataType)
+        that field.propertyDataSource.value, equalTo(obj."$propName")
+
+        where:
+        propName        | fieldType         | dataType
+        'stringProp'    | TextField         | String
+        // Needs mock for session to provide converter
+//        'intProp'       | TextField         | Integer
+        'boolProp'      | CheckBox          | Boolean
+        'dateProp'      | PopupDateField    | Date
+
     }
 }

@@ -32,7 +32,7 @@ public class ComponentFactorySpecification extends BuilderSpecification {
         def c = builder.build {
             "$node"()
         }
-        c instanceOf(klass)
+        that c, instanceOf(klass)
 
         where:
         node        | klass
@@ -69,7 +69,7 @@ public class ComponentFactorySpecification extends BuilderSpecification {
         def c = builder.build {
             "$node"(inst)
         }
-        c sameInstance(inst)
+        that c, sameInstance(inst)
 
         where:
         node        | klass

@@ -1,7 +1,10 @@
 package com.prajnainc.vaadinbuilder.factories
 
 import com.prajnainc.vaadinbuilder.BuilderSpecification
-import com.prajnainc.vaadinbuilder.support.DynamicallyBoundFieldGroup;/*
+import com.prajnainc.vaadinbuilder.support.DynamicallyBoundFieldGroup
+import com.vaadin.ui.FormLayout
+import com.vaadin.ui.Label
+import com.vaadin.ui.VerticalLayout;/*
  * Copyright (c) 2014 Prajna Inc.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
@@ -31,54 +34,61 @@ public class FieldGroupFactorySpecification extends BuilderSpecification {
         boolean boolProp = true
     }
 
-    def "it builds and binds to a Groovy object class"() {
+    interface Testable {
+
+        String getStringProp();
+        void setStringProp();
+
+        String getReadOnlyProp();
+    }
+
+    def "it can bind to a Groovy object class"() {
 
         given:
-        def c = builder.build {
-            verticalLayout {
-                fieldGroup('thisGroup', forClass: TestObject)
-                label('new label')
-            }
+        builder.build {
+            fieldGroup('myForm', modelType: TestObject)
         }
+        def fieldGroup = builder."myForm.fieldGroup"
 
         expect:
-        that builder.thisGroup, instanceOf(DynamicallyBoundFieldGroup)
-        that c.data, sameInstance(builder.thisGroup)
-        that c.data.descriptors.keySet(), equalTo(['stringProp','intProp','boolProp'] as Set)
+        that fieldGroup.descriptors.keySet(), equalTo(['stringProp','intProp','boolProp'] as Set)
+    }
+
+    def "it can bind to a interface"() {
+
+        given:
+        builder.build {
+            fieldGroup('myForm', modelType: Testable)
+        }
+        def fieldGroup = builder."myForm.fieldGroup"
+
+        expect:
+        that fieldGroup.descriptors.keySet(), equalTo(['stringProp','readOnlyProp'] as Set)
     }
 
     def "it recognizes the id attribute"() {
 
         given:
-        def c = builder.build {
-            verticalLayout {
-                fieldGroup(id: 'thisGroup', forClass: TestObject)
-                label('new label')
-            }
+        builder.build {
+            fieldGroup(id: 'myForm', modelType: TestObject)
         }
-        DynamicallyBoundFieldGroup fieldGroup = c.data
+        def fieldGroup = builder."myForm.fieldGroup"
 
         expect:
-        that fieldGroup, notNullValue()
-        that builder.thisGroup, sameInstance(fieldGroup)
-        that c.data.descriptors.keySet(), equalTo(['stringProp','intProp','boolProp'] as Set)
+        that fieldGroup.descriptors.keySet(), equalTo(['stringProp','intProp','boolProp'] as Set)
     }
 
     def "it binds to a given object"() {
         given:
         def obj = new TestObject()
-        def c = builder.build {
-            verticalLayout {
-                fieldGroup(id: 'thisGroup', bind: obj )
-            }
+        builder.build {
+            fieldGroup(id: 'myForm', modelType: TestObject)
         }
-        DynamicallyBoundFieldGroup fieldGroup = c.data
+        def fieldGroup = builder."myForm.fieldGroup"
         def propSet = ['stringProp','intProp','boolProp'] as Set
+        fieldGroup.dataSource = obj
 
         expect:
-        that fieldGroup, notNullValue()
-        that builder.thisGroup, sameInstance(fieldGroup)
-        that fieldGroup.descriptors.keySet(), equalTo(propSet)
         that fieldGroup.itemDataSource, notNullValue()
         that fieldGroup.itemDataSource.itemPropertyIds as Set, equalTo(propSet)
         that fieldGroup.itemDataSource.getItemProperty('stringProp').value, equalTo(obj.stringProp)
@@ -87,19 +97,53 @@ public class FieldGroupFactorySpecification extends BuilderSpecification {
     }
 
     def "it builds from a list of properties"() {
-        def c = builder.build {
-            verticalLayout {
-                fieldGroup('thisGroup', forProperties: [
-                        [name:'stringProp',type: String],
-                        [name:'intProp',type: Integer],
-                        [name:'boolProp',type: Boolean]
-                ])
+        builder.build {
+            fieldGroup('myForm', modelType: [
+                    [name:'stringProp',type: String],
+                    [name:'intProp',type: Integer],
+                    [name:'boolProp',type: Boolean]
+            ])
+
+        }
+        def fieldGroup = builder."myForm.fieldGroup"
+
+        expect:
+        that fieldGroup.descriptors.keySet(), equalTo(['stringProp','intProp','boolProp'] as Set)
+    }
+
+    def "it can specify the layout"() {
+
+        given:
+        def layout = builder.build {
+            fieldGroup('myForm', layout: 'verticalLayout', modelType: TestObject)
+        }
+
+        expect:
+        that layout, instanceOf(VerticalLayout)
+    }
+
+    def "it can build a default layout"() {
+
+        given:
+        def layout = builder.build {
+            fieldGroup('myForm', modelType: TestObject)
+        }
+
+        expect:
+        that layout, instanceOf(FormLayout)
+    }
+
+    def "it can add children"() {
+
+        given:
+        FormLayout layout = builder.build {
+            fieldGroup('myForm', modelType: TestObject) {
+                label('SomeLabel')
             }
         }
 
         expect:
-        that builder.thisGroup, instanceOf(DynamicallyBoundFieldGroup)
-        that c.data, sameInstance(builder.thisGroup)
-        that c.data.descriptors.keySet(), equalTo(['stringProp','intProp','boolProp'] as Set)
+        layout.componentCount == 1
+        that layout.getComponent(0), instanceOf(Label)
     }
 }

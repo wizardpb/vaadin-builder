@@ -44,18 +44,13 @@ class FieldFactory extends ComponentFactory {
 
     @Override
     Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
-//        FieldGroup fieldGroup = findFieldGroup(builder.getCurrent())
-//        def fieldType = attributes.remove('fieldType')
-        def dataType = attributes.remove('dataType') ?: Object
-//
-//        component = componentClass.newInstance()
-//        return component
-
-        super.newInstance(builder,name,value, attributes)
-        AbstractField field = component
-        field.caption = DefaultFieldFactory.createCaptionByPropertyId(value)
-        field.setPropertyDataSource(new ObjectProperty(null,dataType))
-        return field
+        FieldGroup fieldGroup = findFieldGroup(builder.getCurrent())
+        super.newInstance(builder, name, value, attributes)
+        if(fieldGroup) {
+            fieldGroup.bind(component,value)
+        }
+        component.caption = DefaultFieldFactory.createCaptionByPropertyId(value)
+        return component
     }
 
     protected FieldGroup findFieldGroup(Component currentComponent) {
