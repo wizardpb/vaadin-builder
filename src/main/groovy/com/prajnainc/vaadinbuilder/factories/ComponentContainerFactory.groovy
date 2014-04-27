@@ -25,11 +25,12 @@ import com.vaadin.ui.ComponentContainer
 /**
  * ComponentContainerFactory
  *
- * A {@link Factory} for building Vaadin components that contain other {@link Component}s
+ * A {@link Factory} for building Vaadin components that contain other {@link Component}s. It is the abstract base class
+ * of all factories that build component containers
  *
  */
 
-class ComponentContainerFactory extends ComponentFactory {
+abstract class ComponentContainerFactory extends ComponentFactory {
 
     ComponentContainerFactory(Class<?extends ComponentContainer> componentClass) {
         super(componentClass)

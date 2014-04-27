@@ -66,21 +66,22 @@ class VaadinBuilder extends FactoryBuilderSupport {
 
     def registerComponentFactories() {
         registerFactory('label',new LabelFactory())
-        // AbstractMedia
         registerFactory('embedded',new ComponentFactory(Embedded))
-        // ColorPickerGrid
+        // TODO - ColorPickerGrid
+        // TODO - ColorPickerGradient
         registerFactory('link',new ComponentFactory(Link))
-        // PopupView
+        // TODO - PopupView
         registerFactory('menuBar',new ComponentFactory(MenuBar))
         registerFactory('menuItem',new MenuItemFactory())
-        // CustomComponent
-        // ColorPickerGradient
-        // AbstractJavaScriptComponent
-        // AbstractEmbedded
-        // AbstractColorPicker
+        registerFactory('customComponent',new CustomComponentFactory()) // CustomComponent
         registerFactory('upload',new ComponentFactory(Upload))
         registerFactory('button',new ComponentFactory(Button))
         registerFactory('calendar',new ComponentFactory(Calendar))
+        // Abstract classes all taken care of by customComponent
+        // AbstractMedia
+        // AbstractJavaScriptComponent
+        // AbstractEmbedded
+        // AbstractColorPicker
     }
 
     def registerLayoutFactories() {
@@ -91,21 +92,21 @@ class VaadinBuilder extends FactoryBuilderSupport {
     }
 
     def registerContainerFactories() {
-        registerFactory('tabSheet', new ComponentContainerFactory(TabSheet))
-        registerFactory('verticalSplitPanel', new ComponentContainerFactory(VerticalSplitPanel))
-        registerFactory('horizontalSplitPanel', new ComponentContainerFactory(HorizontalSplitPanel))
+        registerFactory('tabSheet', new TabSheetFactory())
+        registerFactory('verticalSplitPanel', new SplitPanelFactory(VerticalSplitPanel))
+        registerFactory('horizontalSplitPanel', new SplitPanelFactory(HorizontalSplitPanel))
     }
 
     def registerItemFieldFactories() {
         registerFactory('field',new DefaultFieldFactory())
-        // Slider
+        registerFactory('slider',new FieldFactory(Slider))                     // Slider
         registerFactory('textField',new FieldFactory(TextField))                // TextField
         registerFactory('textArea',new FieldFactory(TextArea))                  // TextArea
         registerFactory('passwordField',new FieldFactory(PasswordField))        // PasswordField
-        // ProgressBar ?
+        // TODO - ProgressBar - needs threading support, maybe hide/unhide on start ?
         registerFactory('checkBox',new FieldFactory(CheckBox))                  // CheckBox
         registerFactory('richTextArea',new FieldFactory(RichTextArea))          // RichTextArea
-        // CustomField
+        registerFactory('customField',new CustomComponentFactory())                     // CustomField
         registerFactory('inlineDateField',new FieldFactory(InlineDateField))    // InlineDateField
         registerFactory('popupDateField',new FieldFactory(PopupDateField))      // PopupDateField
     }
@@ -122,8 +123,8 @@ class VaadinBuilder extends FactoryBuilderSupport {
 
     def registerUtilityFactories() {
         registerFactory('fieldGroup',new FieldGroupFactory())
-        // Converter ?
-        // Widget ?
+        // TODO - Converter - how to add to session
+        // TODO - Widget
     }
 
     @Override

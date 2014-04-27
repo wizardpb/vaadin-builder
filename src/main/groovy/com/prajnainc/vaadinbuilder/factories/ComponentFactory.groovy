@@ -23,6 +23,8 @@ import com.vaadin.ui.Component
  * ComponentFactory
  *
  * A {@link Factory} that creates instances of a Vaadin {@link Component}s
+ *
+ * TODO - make attribute saving dynamic, and parent class dependent (use attribute delegate - one per set of attributes)
  */
 
 class ComponentFactory extends AbstractFactory implements VaadinFactory {

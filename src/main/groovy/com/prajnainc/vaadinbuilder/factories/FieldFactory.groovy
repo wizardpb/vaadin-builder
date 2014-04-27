@@ -30,10 +30,17 @@ import com.vaadin.ui.DefaultFieldFactory
 /**
  * A {@link FieldFactory} builds fields of explicit types, given by the node name that was used to invoke the builder. If there is
  * a field group in the enclosing component hierarchy (an instance of {@link com.prajnainc.vaadinbuilder.support.DynamicallyBoundFieldGroup},
- * it will use that to bind the field to a {@link Property} supplied by the field group of the appropriate type.
+ * it will use that to bind the field to a {@link Property} of the appropriate type (supplied by the field group), and whose property Id is
+ * the value argument passed to the builder. This Property will then be bound to a Groovy property of that same name on the model type contained in the
+ * {@link FieldGroup}.
  *
- * If not, the field will be bound to a lone {@link Property} of the type given by an explicit 'dataType' attribute, or {@link Object} if
- * that is not supplied
+ * The whole field group can then be bound to a {@link GroovyObject} of the field groups model type by simply setting teh data source
+ * of the field group (see {@link com.prajnainc.vaadinbuilder.support.DynamicallyBoundFieldGroup#setDataSource(java.lang.Object)}
+ *
+ * fieldGroup nodes can be nested, with fields binding to the most locally-enclosing group.
+ *
+ * If there is no {@link FieldGroup}, the field will be attached to a lone {@link Property} of the type given by an explicit 'dataType' attribute, or {@link Object} if
+ * that is not supplied, again with a property Id given by the nodes value argument
  *
  */
 class FieldFactory extends ComponentFactory {
@@ -49,8 +56,19 @@ class FieldFactory extends ComponentFactory {
         if(fieldGroup) {
             fieldGroup.bind(component,value)
         }
-        component.caption = DefaultFieldFactory.createCaptionByPropertyId(value)
         return component
+    }
+
+    /**
+     * For a field, the factory value argument is humanized and used to set the component caption
+     *
+     * @param value
+     * @param attributes
+     * @return
+     */
+    @Override
+    protected setComponentValue(Object value, Object attributes) {
+        return super.setComponentValue(DefaultFieldFactory.createCaptionByPropertyId(value), attributes)
     }
 
     protected FieldGroup findFieldGroup(Component currentComponent) {
