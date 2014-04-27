@@ -23,6 +23,8 @@ import com.vaadin.ui.*
  * VaadinBuilder
  *
  * The central builder class
+ *
+ * TODO - decide which components should be set immediate by default. Fields and ?
  */
 
 class VaadinBuilder extends FactoryBuilderSupport {
