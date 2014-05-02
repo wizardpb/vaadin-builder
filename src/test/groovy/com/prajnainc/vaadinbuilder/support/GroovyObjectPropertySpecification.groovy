@@ -1,7 +1,8 @@
 package com.prajnainc.vaadinbuilder.support
 
 import com.prajnainc.vaadinbuilder.VaadinBuilderException
-import com.vaadin.data.Property;/**
+import com.vaadin.data.Property
+import groovy.beans.Bindable;/**
  * GroovyObjectPropertySpecification
  *
  *
@@ -82,4 +83,19 @@ public class GroovyObjectPropertySpecification extends Specification {
         then:
         thrown(VaadinBuilderException)
     }
+
+    def "it notifies ValueChangeListeners when value is set"() {
+
+        given:
+        def prop = new GroovyObjectProperty(new TestObject(),'prop1')
+        def event
+        prop.addValueChangeListener([valueChange: {evt -> event = evt}] as Property.ValueChangeListener)
+        prop.value = 'updated'
+
+        expect:
+        that event, instanceOf(Property.ValueChangeEvent)
+        that event.property, sameInstance(prop)
+
+    }
+
 }

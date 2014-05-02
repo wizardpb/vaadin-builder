@@ -33,10 +33,7 @@ class GroovyMapItem extends PropertysetItem {
     }
 
     GroovyMapItem(Map data) {
-        data.keySet().each {
-            def propName = it.toString()
-            addItemProperty(propName,methodPropertyFor(data,propName))
-        }
+        this(data, data.keySet() as List)
     }
 
     GroovyMapItem(Map data,List propNames) {

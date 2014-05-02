@@ -18,17 +18,17 @@ package com.prajnainc.vaadinbuilder.support
 
 import com.prajnainc.vaadinbuilder.VaadinBuilderException
 import com.vaadin.data.Property
+import com.vaadin.data.util.AbstractProperty
 
 /**
  * GroovyObjectProperty
  *
  *
  */
-class GroovyObjectProperty implements Property {
+class GroovyObjectProperty extends AbstractProperty {
 
     GroovyObject instance
     String name
-    boolean readOnly
 
     public GroovyObjectProperty(instance,name,readOnly=false) {
         def metaProperty = instance.metaClass.getMetaProperty(name)
@@ -36,7 +36,15 @@ class GroovyObjectProperty implements Property {
 
         this.instance = instance
         this.name = name
-        this.readOnly = readOnly || (metaProperty.setter == null)
+        super.setReadOnly(readOnly || (metaProperty.setter == null))
+    }
+
+    @Override
+    void setReadOnly(boolean newStatus) {
+        // Only set read-only if there is a setter on the instance
+        if(instance.metaClass.getMetaProperty(name).setter != null) {
+            super.setReadOnly(newStatus)
+        }
     }
 
     @Override
@@ -50,6 +58,7 @@ class GroovyObjectProperty implements Property {
             throw new Property.ReadOnlyException("$name on $instance is read-only")
         }
         instance.setProperty(name,newValue)
+        fireValueChange()
     }
 
     @Override

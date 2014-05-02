@@ -28,7 +28,7 @@ import com.vaadin.data.util.PropertysetItem
  */
 class GroovyBeanItem extends PropertysetItem {
 
-    private static List HIDDEN_PROPERTIES = ['class']
+    private static List HIDDEN_PROPERTIES = ['class', 'propertyChangeListeners']
 
     GroovyBeanItem(Object groovyBean) {
         this(groovyBean,groovyBean.metaClass.getProperties()*.name - HIDDEN_PROPERTIES)
