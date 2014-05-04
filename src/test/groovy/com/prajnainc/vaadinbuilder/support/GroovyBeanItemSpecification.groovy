@@ -16,12 +16,11 @@
 
 package com.prajnainc.vaadinbuilder.support
 
-import com.prajnainc.vaadinbuilder.support.GroovyBeanItem
 import com.vaadin.data.Item
-import com.vaadin.data.util.BeanItem;
-import spock.lang.*
-import static org.hamcrest.CoreMatchers.*
-import static spock.util.matcher.HamcrestSupport.*
+import spock.lang.Specification
+
+import static org.hamcrest.CoreMatchers.equalTo
+import static spock.util.matcher.HamcrestSupport.that
 
 public class GroovyBeanItemSpecification extends Specification {
 

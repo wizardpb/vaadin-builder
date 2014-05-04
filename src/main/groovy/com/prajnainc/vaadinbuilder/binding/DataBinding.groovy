@@ -1,5 +1,10 @@
 package com.prajnainc.vaadinbuilder.binding
 
+import com.vaadin.data.Container
+import com.vaadin.data.Item
+import com.vaadin.data.Property
+import com.vaadin.server.ClientConnector
+
 /*
  * Copyright (c) 2014 Prajna Inc.
  *
@@ -17,13 +22,6 @@ package com.prajnainc.vaadinbuilder.binding
  *
  *
  */
-
-import com.vaadin.data.Property
-import com.vaadin.data.Item
-import com.vaadin.data.Container
-import com.vaadin.server.ClientConnector
-import com.vaadin.ui.Component
-
 /**
  * DataBinding
  *
@@ -38,15 +36,18 @@ interface DataBinding extends ClientConnector.DetachListener {
     /**
      * Create and activate the binding. The target should be set
      *
+     * @return the binding that has been bound.
+     *
      */
-    public void bind();
+    public DataBinding bind();
 
     /**
      * Set and bind the target
      *
      * @param target
+     * @return the binding that has been bound
      */
-    public void bind(Object target);
+    public DataBinding bind(Object target);
 
     /**
      * Undo the binding, releasing any resources and observer connections in use

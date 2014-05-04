@@ -1,8 +1,6 @@
 package com.prajnainc.vaadinbuilder.factories
 
 import com.prajnainc.vaadinbuilder.VaadinBuilderException
-import com.vaadin.client.ui.Field
-import com.vaadin.data.fieldgroup.FieldGroup
 import com.vaadin.ui.Component
 
 /*

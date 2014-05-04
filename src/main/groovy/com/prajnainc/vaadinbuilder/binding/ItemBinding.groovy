@@ -4,8 +4,6 @@ import com.prajnainc.vaadinbuilder.VaadinBuilderException
 import com.prajnainc.vaadinbuilder.support.GroovyBeanItem
 import com.prajnainc.vaadinbuilder.support.GroovyMapItem
 import com.vaadin.data.Item
-import com.vaadin.server.ClientConnector
-import com.vaadin.ui.Component
 
 import java.beans.PropertyChangeEvent
 import java.beans.PropertyChangeListener
@@ -41,7 +39,7 @@ class ItemBinding extends AbstractDataBinding implements PropertyChangeListener 
     List itemIds
 
     @Override
-    void bind() {
+    DataBinding bind() {
         assert target != null; assert source != null; assert sourceProperty != null
 
         if(source.metaClass.getMetaProperty(sourceProperty) == null) {
@@ -50,12 +48,13 @@ class ItemBinding extends AbstractDataBinding implements PropertyChangeListener 
 
         target.setItemDataSource(createItem())
         source.addPropertyChangeListener(sourceProperty,this)
+        return this
     }
 
     @Override
-    void bind(Object target) {
+    DataBinding bind(Object target) {
         this.target = target
-        bind()
+        return bind()
     }
 
     @Override

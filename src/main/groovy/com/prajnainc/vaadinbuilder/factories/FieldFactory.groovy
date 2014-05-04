@@ -1,11 +1,7 @@
 package com.prajnainc.vaadinbuilder.factories
 
-import com.prajnainc.vaadinbuilder.VaadinBuilderException
-import com.vaadin.client.ui.Field
-import com.vaadin.data.fieldgroup.FieldGroup
-import com.vaadin.data.util.ObjectProperty
 import com.vaadin.data.Property
-import com.vaadin.ui.AbstractField
+import com.vaadin.data.fieldgroup.FieldGroup
 import com.vaadin.ui.Component
 import com.vaadin.ui.DefaultFieldFactory
 
@@ -29,18 +25,18 @@ import com.vaadin.ui.DefaultFieldFactory
 
 /**
  * A {@link FieldFactory} builds fields of explicit types, given by the node name that was used to invoke the builder. If there is
- * a field group in the enclosing component hierarchy (an instance of {@link com.prajnainc.vaadinbuilder.support.DynamicallyBoundFieldGroup},
+ * a field group in the enclosing component hierarchy (an instance of {@link FieldGroup},
  * it will use that to bind the field to a {@link Property} of the appropriate type (supplied by the field group), and whose property Id is
  * the value argument passed to the builder. This Property will then be bound to a Groovy property of that same name on the model type contained in the
- * {@link FieldGroup}.
- *
- * The whole field group can then be bound to a {@link GroovyObject} of the field groups model type by simply setting teh data source
- * of the field group (see {@link com.prajnainc.vaadinbuilder.support.DynamicallyBoundFieldGroup#setDataSource(java.lang.Object)}
+ * {@link FieldGroup}. See {@link FieldGroupFactory} and {@link com.prajnainc.vaadinbuilder.binding.DataBinding} for details of how {@link FieldGroup} nodes
+ * can be bound to data sources
  *
  * fieldGroup nodes can be nested, with fields binding to the most locally-enclosing group.
  *
  * If there is no {@link FieldGroup}, the field will be attached to a lone {@link Property} of the type given by an explicit 'dataType' attribute, or {@link Object} if
  * that is not supplied, again with a property Id given by the nodes value argument
+ *
+ *
  *
  */
 class FieldFactory extends ComponentFactory {
@@ -74,7 +70,7 @@ class FieldFactory extends ComponentFactory {
     protected FieldGroup findFieldGroup(Component currentComponent) {
         // Recurse up the parent chain until we find a field group or no parent
         if(currentComponent == null) return null
-        if(currentComponent.data instanceof FieldGroup) return currentComponent.data
+        if(currentComponent.data?.fieldGroup instanceof FieldGroup) return currentComponent.data.fieldGroup
         return findFieldGroup(currentComponent.parent)
     }
 }

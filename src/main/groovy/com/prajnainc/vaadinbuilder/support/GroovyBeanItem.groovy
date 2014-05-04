@@ -16,7 +16,6 @@
 
 package com.prajnainc.vaadinbuilder.support
 
-import com.vaadin.data.util.BeanItem
 import com.vaadin.data.util.PropertysetItem
 
 /**

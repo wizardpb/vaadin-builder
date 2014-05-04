@@ -4,7 +4,9 @@ import com.prajnainc.vaadinbuilder.binding.ItemBinding
 import com.prajnainc.vaadinbuilder.support.GroovyBeanItem
 import com.vaadin.data.Item
 import com.vaadin.data.fieldgroup.FieldGroup
-import groovy.beans.Bindable;/*
+import groovy.beans.Bindable
+
+/*
  * Copyright (c) 2014 Prajna Inc.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,10 +23,10 @@ import groovy.beans.Bindable;/*
  *
  *
  */
+import spock.lang.Specification
 
-import spock.lang.*
 import static org.hamcrest.CoreMatchers.*
-import static spock.util.matcher.HamcrestSupport.*
+import static spock.util.matcher.HamcrestSupport.that
 
 public class ItemBindingSpecification extends Specification {
 

@@ -16,8 +16,6 @@
 
 package com.prajnainc.vaadinbuilder.factories
 
-import com.prajnainc.vaadinbuilder.support.DynamicallyBoundFieldGroup
-import com.vaadin.ui.AbstractComponent
 import com.vaadin.ui.AbstractComponentContainer
 import com.vaadin.ui.Component
 import com.vaadin.ui.ComponentContainer

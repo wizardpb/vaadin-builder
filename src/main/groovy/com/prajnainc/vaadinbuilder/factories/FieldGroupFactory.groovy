@@ -1,11 +1,9 @@
 package com.prajnainc.vaadinbuilder.factories
 
-import com.prajnainc.vaadinbuilder.VaadinBuilder
 import com.prajnainc.vaadinbuilder.VaadinBuilderException
-import com.prajnainc.vaadinbuilder.support.DynamicallyBoundFieldGroup
-import com.vaadin.client.ui.formlayout.FormLayoutConnector
-import com.vaadin.ui.AbstractOrderedLayout
-import com.vaadin.ui.FormLayout
+import com.prajnainc.vaadinbuilder.binding.DataBinding
+import com.vaadin.data.Item
+import com.vaadin.data.fieldgroup.FieldGroup
 
 /*
  * Copyright (c) 2014 Prajna Inc.
@@ -28,15 +26,22 @@ import com.vaadin.ui.FormLayout
 /**
  * FieldGroupFactory
  *
- * <p>A {@link FieldGroupFactory} creates an instance of a given {@link com.vaadin.ui.Layout} and attaches a {@link DynamicallyBoundFieldGroup} to it
+ * <p>A {@link FieldGroupFactory} creates an instance of a given {@link com.vaadin.ui.Layout} and attaches a {@link FieldGroup} to it
  * the layout is created by using a sub-factory of the correct class, and delegating all factory call to it, with the exception of the
  * {@link Factory#newInstance(groovy.util.FactoryBuilderSupport, java.lang.Object, java.lang.Object, java.util.Map)} method.</p>
+ *
  * <p>The created {@link com.vaadin.data.fieldgroup.FieldGroup} is given an id of "${layoutId}.fieldGroup"
- * and also attached to the data field of the new layout
+ * and also attached to the data field of the new layout,along with any {@link DataBinding} passed in via the 'itemDataSource' attribute
  *
  */
 class FieldGroupFactory implements VaadinFactory {
 
+    /**
+     * Delegate to the layout factory for any other Factory services. This allows the factory to create both the field group and thelayout, and
+     * appear to the builder as a layout factory.
+     *
+     * Note that the delegate is dynamically updated on every node build in accordance with the layout type required
+     */
     @Delegate LayoutFactory layoutFactory
 
     @Override
@@ -46,20 +51,27 @@ class FieldGroupFactory implements VaadinFactory {
         if(layoutFactory == null) {
             throw new VaadinBuilderException("Unknown layout type '$layoutName'")
         }
-        def modelType = attributes.remove('modelType')
-        if(modelType == null) {
-            throw new VaadinBuilderException("Cannot build a field group without a model type")
-        }
+
+        def dataSource = attributes.remove('itemDataSource')
+
         // Create the factory and id it
-        def fieldGroup = new DynamicallyBoundFieldGroup(modelType)
-        def id = attributes['id'] ?: value
+        def fieldGroup = new FieldGroup()
+        def id = attributes.remove('id') ?: value
         if(id != null) {
             builder.setVariable("${id}.fieldGroup",fieldGroup)
         }
 
+        // Do any binding
+        switch(dataSource) {
+            case DataBinding: dataSource = dataSource.bind(fieldGroup); break;
+            case Item: fieldGroup.itemDataSource = dataSource; break;
+            case null: break;
+            default: throw new VaadinBuilderException("Cannot bind a ${dataSource.getClass().name} to a field group")
+        }
+
         //Create the layout by delegation and return it
         def layout = layoutFactory.newInstance(builder,name,value,attributes)
-        layout.data = fieldGroup
+        layout.data = [fieldGroup: fieldGroup, binding: dataSource]
         return layout
     }
 

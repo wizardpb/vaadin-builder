@@ -15,9 +15,6 @@
  */
 
 package com.prajnainc.vaadinbuilder.factories
-
-import com.vaadin.ui.Component
-
 /**
  * SingleComponentContainerFactory
  *

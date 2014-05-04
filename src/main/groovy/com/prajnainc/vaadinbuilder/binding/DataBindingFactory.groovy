@@ -1,6 +1,9 @@
 package com.prajnainc.vaadinbuilder.binding
 
 import com.prajnainc.vaadinbuilder.VaadinBuilderException
+import com.vaadin.data.Item
+import com.vaadin.data.fieldgroup.FieldGroup
+import com.vaadin.server.ClientConnector
 import com.vaadin.ui.Component
 
 /*
@@ -25,10 +28,10 @@ import com.vaadin.ui.Component
  * DataBindingFactory
  *
  */
-class DataBindingFactory {
+class DataBindingFactory implements DataBinding {
 
-    Component target
-    Object source
+    def target
+    def source
     String sourceProperty
 
     public DataBinding createBinding() {
@@ -41,16 +44,46 @@ class DataBindingFactory {
         return binding
     }
 
-    public DataBinding createBindingForTarget(Component target) {
+    public DataBinding createBindingForTarget(Object target) {
         this.target = target
         return createBinding()
     }
 
     private DataBinding createForModel() {
         assert sourceProperty != null
+        DataBinding binding
+        switch(target) {
+            case Item.Viewer:
+            case FieldGroup:
+                binding = new ItemBinding(target: target, source: source, sourceProperty: sourceProperty);
+                break;
+            default:
+                throw new VaadinBuilderException("Cannot create a binding for target $target")
+        }
+        return binding
     }
 
     private DataBinding createForComponent() {
+        throw new UnsupportedOperationException("bind component")
+    }
 
+    @Override
+    DataBinding bind() {
+        return createBinding().bind()
+    }
+
+    @Override
+    DataBinding bind(Object target) {
+        return createBindingForTarget(target).bind()
+    }
+
+    @Override
+    void unbind() {
+        throw new UnsupportedOperationException("Binding factories cannot unbind()")
+    }
+
+    @Override
+    void detach(ClientConnector.DetachEvent event) {
+        // No op
     }
 }

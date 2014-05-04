@@ -19,8 +19,6 @@ package com.prajnainc.vaadinbuilder.factories
 import com.prajnainc.vaadinbuilder.BuilderSpecification
 import com.vaadin.ui.*
 
-import java.util.Calendar
-
 import static org.hamcrest.CoreMatchers.*
 import static spock.util.matcher.HamcrestSupport.that
 

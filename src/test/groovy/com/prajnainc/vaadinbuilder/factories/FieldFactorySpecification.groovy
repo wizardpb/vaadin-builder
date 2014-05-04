@@ -1,14 +1,9 @@
 package com.prajnainc.vaadinbuilder.factories
 
 import com.prajnainc.vaadinbuilder.BuilderSpecification
-import com.vaadin.ui.CheckBox
-import com.vaadin.ui.InlineDateField
-import com.vaadin.ui.PasswordField
-import com.vaadin.ui.PopupDateField
-import com.vaadin.ui.RichTextArea
-import com.vaadin.ui.TextArea
-import com.vaadin.ui.TextField
-import com.vaadin.ui.VerticalLayout;/*
+import com.vaadin.ui.*
+
+/*
  * Copyright (c) 2014 Prajna Inc.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,10 +20,9 @@ import com.vaadin.ui.VerticalLayout;/*
  *
  *
  */
-
-import spock.lang.*
-import static org.hamcrest.CoreMatchers.*
-import static spock.util.matcher.HamcrestSupport.*
+import static org.hamcrest.CoreMatchers.equalTo
+import static org.hamcrest.CoreMatchers.instanceOf
+import static spock.util.matcher.HamcrestSupport.that
 
 public class FieldFactorySpecification extends BuilderSpecification {
 

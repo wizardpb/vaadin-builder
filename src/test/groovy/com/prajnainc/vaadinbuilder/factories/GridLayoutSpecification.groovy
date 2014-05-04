@@ -20,9 +20,7 @@ import com.prajnainc.vaadinbuilder.BuilderSpecification
 import com.vaadin.ui.Alignment
 import com.vaadin.ui.GridLayout
 
-import static org.hamcrest.CoreMatchers.equalTo
-import static org.hamcrest.CoreMatchers.instanceOf
-import static org.hamcrest.CoreMatchers.nullValue
+import static org.hamcrest.CoreMatchers.*
 import static spock.util.matcher.HamcrestSupport.that
 
 public class GridLayoutSpecification extends BuilderSpecification {

@@ -17,18 +17,10 @@
 package com.prajnainc.vaadinbuilder.factories
 
 import com.prajnainc.vaadinbuilder.BuilderSpecification
-import com.prajnainc.vaadinbuilder.support.DynamicallyBoundFieldGroup
-import com.vaadin.ui.Alignment
-import com.vaadin.ui.FormLayout
-import com.vaadin.ui.GridLayout
-import com.vaadin.ui.HorizontalLayout
-import com.vaadin.ui.Label
-import com.vaadin.ui.VerticalLayout
+import com.vaadin.ui.*
 
 import static org.hamcrest.CoreMatchers.equalTo
-import static org.hamcrest.CoreMatchers.equalTo
 import static org.hamcrest.CoreMatchers.instanceOf
-import static org.hamcrest.CoreMatchers.sameInstance
 import static spock.util.matcher.HamcrestSupport.that
 
 public class OrderedLayoutSpecification extends BuilderSpecification {

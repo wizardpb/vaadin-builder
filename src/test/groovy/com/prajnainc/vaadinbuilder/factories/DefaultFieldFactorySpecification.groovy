@@ -2,12 +2,11 @@ package com.prajnainc.vaadinbuilder.factories
 
 import com.prajnainc.vaadinbuilder.BuilderSpecification
 import com.prajnainc.vaadinbuilder.VaadinBuilderException
+import com.prajnainc.vaadinbuilder.support.GroovyBeanItem
 import com.vaadin.ui.AbstractField
 import com.vaadin.ui.CheckBox
-import com.vaadin.ui.Field
 import com.vaadin.ui.PopupDateField
 import com.vaadin.ui.TextField
-import com.vaadin.ui.VerticalLayout;
 
 /*
  * Copyright (c) 2014 Prajna Inc.
@@ -26,10 +25,8 @@ import com.vaadin.ui.VerticalLayout;
  *
  *
  */
-
-import spock.lang.*
 import static org.hamcrest.CoreMatchers.*
-import static spock.util.matcher.HamcrestSupport.*
+import static spock.util.matcher.HamcrestSupport.that
 
 public class DefaultFieldFactorySpecification extends BuilderSpecification {
 
@@ -55,39 +52,15 @@ public class DefaultFieldFactorySpecification extends BuilderSpecification {
         e.cause.message == "Cannot use a field node without a field group"
     }
 
-    def "with a field factory and bound type, it should imply the data type" () {
-
-        expect:
-        def obj = new TestObject()
-        def c = builder.build {
-            fieldGroup(id: 'thisGroup', modelType: TestObject ) {
-                field(propName)
-            }
-        }
-        def field = c.getComponent(0)
-        that field, instanceOf(fieldType)
-        that field.type, sameInstance(dataType)
-
-        where:
-        propName        | fieldType         | dataType
-        'stringProp'    | TextField         | String
-        'intProp'       | TextField         | String
-        'boolProp'      | CheckBox          | Boolean
-        'dateProp'      | PopupDateField    | Date
-
-
-    }
-
     def "with a field factory and bound object, it should imply the data type" () {
 
 
         def obj = new TestObject()
         def c = builder.build {
-            fieldGroup(id: 'thisGroup', modelType: TestObject) {
+            fieldGroup(id: 'thisGroup', itemDataSource: new GroovyBeanItem(new TestObject())) {
                 field(propName)
             }
         }
-        c.data.setDataSource(obj)
         AbstractField field = c.getComponent(0)
 
         expect:

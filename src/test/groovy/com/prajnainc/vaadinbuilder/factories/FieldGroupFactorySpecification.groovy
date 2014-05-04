@@ -1,10 +1,16 @@
 package com.prajnainc.vaadinbuilder.factories
 
 import com.prajnainc.vaadinbuilder.BuilderSpecification
-import com.prajnainc.vaadinbuilder.support.DynamicallyBoundFieldGroup
+import com.prajnainc.vaadinbuilder.binding.DataBindingFactory
+import com.prajnainc.vaadinbuilder.binding.ItemBinding
+import com.vaadin.data.Item
+import com.vaadin.data.fieldgroup.FieldGroup
 import com.vaadin.ui.FormLayout
 import com.vaadin.ui.Label
-import com.vaadin.ui.VerticalLayout;/*
+import com.vaadin.ui.VerticalLayout
+import groovy.beans.Bindable
+
+/*
  * Copyright (c) 2014 Prajna Inc.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,10 +27,8 @@ import com.vaadin.ui.VerticalLayout;/*
  *
  *
  */
-
-import spock.lang.*
 import static org.hamcrest.CoreMatchers.*
-import static spock.util.matcher.HamcrestSupport.*
+import static spock.util.matcher.HamcrestSupport.that
 
 public class FieldGroupFactorySpecification extends BuilderSpecification {
 
@@ -34,88 +38,29 @@ public class FieldGroupFactorySpecification extends BuilderSpecification {
         boolean boolProp = true
     }
 
-    interface Testable {
-
-        String getStringProp();
-        void setStringProp();
-
-        String getReadOnlyProp();
+    static class TestModel {
+        @Bindable def modelProp = new TestObject()
     }
 
-    def "it can bind to a Groovy object class"() {
-
-        given:
-        builder.build {
-            fieldGroup('myForm', modelType: TestObject)
-        }
-        def fieldGroup = builder."myForm.fieldGroup"
-
-        expect:
-        that fieldGroup.descriptors.keySet(), equalTo(['stringProp','intProp','boolProp'] as Set)
-    }
-
-    def "it can bind to a interface"() {
-
-        given:
-        builder.build {
-            fieldGroup('myForm', modelType: Testable)
-        }
-        def fieldGroup = builder."myForm.fieldGroup"
-
-        expect:
-        that fieldGroup.descriptors.keySet(), equalTo(['stringProp','readOnlyProp'] as Set)
-    }
+    def testModel = new TestModel()
 
     def "it recognizes the id attribute"() {
 
         given:
         builder.build {
-            fieldGroup(id: 'myForm', modelType: TestObject)
+            fieldGroup(id: 'myForm')
         }
         def fieldGroup = builder."myForm.fieldGroup"
 
         expect:
-        that fieldGroup.descriptors.keySet(), equalTo(['stringProp','intProp','boolProp'] as Set)
-    }
-
-    def "it binds to a given object"() {
-        given:
-        def obj = new TestObject()
-        builder.build {
-            fieldGroup(id: 'myForm', modelType: TestObject)
-        }
-        def fieldGroup = builder."myForm.fieldGroup"
-        def propSet = ['stringProp','intProp','boolProp'] as Set
-        fieldGroup.dataSource = obj
-
-        expect:
-        that fieldGroup.itemDataSource, notNullValue()
-        that fieldGroup.itemDataSource.itemPropertyIds as Set, equalTo(propSet)
-        that fieldGroup.itemDataSource.getItemProperty('stringProp').value, equalTo(obj.stringProp)
-        that fieldGroup.itemDataSource.getItemProperty('intProp').value, equalTo(obj.intProp)
-        that fieldGroup.itemDataSource.getItemProperty('boolProp').value, equalTo(obj.boolProp)
-    }
-
-    def "it builds from a list of properties"() {
-        builder.build {
-            fieldGroup('myForm', modelType: [
-                    [name:'stringProp',type: String],
-                    [name:'intProp',type: Integer],
-                    [name:'boolProp',type: Boolean]
-            ])
-
-        }
-        def fieldGroup = builder."myForm.fieldGroup"
-
-        expect:
-        that fieldGroup.descriptors.keySet(), equalTo(['stringProp','intProp','boolProp'] as Set)
+        that fieldGroup, instanceOf(FieldGroup)
     }
 
     def "it can specify the layout"() {
 
         given:
         def layout = builder.build {
-            fieldGroup('myForm', layout: 'verticalLayout', modelType: TestObject)
+            fieldGroup('myForm', layout: 'verticalLayout')
         }
 
         expect:
@@ -126,18 +71,18 @@ public class FieldGroupFactorySpecification extends BuilderSpecification {
 
         given:
         def layout = builder.build {
-            fieldGroup('myForm', modelType: TestObject)
+            fieldGroup('myForm')
         }
 
         expect:
         that layout, instanceOf(FormLayout)
     }
 
-    def "it can add children"() {
+    def "it can add children to the layout"() {
 
         given:
         FormLayout layout = builder.build {
-            fieldGroup('myForm', modelType: TestObject) {
+            fieldGroup('myForm') {
                 label('SomeLabel')
             }
         }
@@ -145,5 +90,33 @@ public class FieldGroupFactorySpecification extends BuilderSpecification {
         expect:
         layout.componentCount == 1
         that layout.getComponent(0), instanceOf(Label)
+    }
+
+    def "it adds the field group to the layouts data property"() {
+
+        given:
+        FormLayout layout = builder.build {
+            fieldGroup('myForm')
+        }
+
+        expect:
+        that layout.data.fieldGroup, sameInstance(builder."myForm.fieldGroup")
+    }
+
+    def "it can bind a binding factory"() {
+
+        given:
+        FormLayout layout = builder.build {
+            fieldGroup('myForm', itemDataSource: new DataBindingFactory(source: testModel, sourceProperty: 'modelProp' ))
+        }
+        def fieldGroup = layout.data.fieldGroup
+        def itemDataSource = fieldGroup.itemDataSource
+
+        expect:
+        that itemDataSource, instanceOf(Item)
+        that itemDataSource.itemPropertyIds as Set, equalTo(['stringProp','intProp','boolProp'] as Set)
+        that layout.data.binding, instanceOf(ItemBinding)
+        that layout.data.binding.target, sameInstance(fieldGroup)
+        that layout.data.binding.source, sameInstance(testModel)
     }
 }
