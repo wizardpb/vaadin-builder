@@ -40,14 +40,20 @@ class ItemBinding extends AbstractDataBinding implements PropertyChangeListener 
 
     @Override
     DataBinding bind() {
-        assert target != null; assert source != null; assert sourceProperty != null
+        assert target != null; assert source != null
 
-        if(source.metaClass.getMetaProperty(sourceProperty) == null) {
-            throw new VaadinBuilderException("Source $source has no property $sourceProperty")
+        // If there is a source property, bind it as a property on a model object ...
+        if(sourceProperty) {
+            if(source.metaClass.getMetaProperty(sourceProperty) == null) {
+                throw new VaadinBuilderException("Source $source has no property $sourceProperty")
+            }
+
+            target.setItemDataSource(createItem())
+            source.addPropertyChangeListener(sourceProperty,this)
+        } else {
+            // .. otherwise bind the source object directly, as a bean
+            target.setItemDataSource(new GroovyBeanItem(source))
         }
-
-        target.setItemDataSource(createItem())
-        source.addPropertyChangeListener(sourceProperty,this)
         return this
     }
 

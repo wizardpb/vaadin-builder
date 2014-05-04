@@ -114,17 +114,18 @@ class VaadinBuilder extends FactoryBuilderSupport {
     }
 
     def registerContainerFieldFactories() {
-        // Table (AbstractSelect)
         // TwinColSelect
-        // Tree
         // NativeSelect
         // ListSelect
         // ComboBox
         // OptionGroup
+        // Table (AbstractSelect)
+        // Tree
     }
 
     def registerUtilityFactories() {
         registerFactory('fieldGroup',new FieldGroupFactory())
+        registerFactory('bind', new BindFactory())
         // TODO - Converter - how to add to session
         // TODO - Widget
     }

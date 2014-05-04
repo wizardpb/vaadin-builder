@@ -40,7 +40,7 @@ public class ItemBindingSpecification extends Specification {
         String prop2 = 'prop2'
     }
 
-    def "it should bind a Groovy bean"() {
+    def "it should bind a property containing a Groovy bean"() {
 
         given:
         def model = new Model(modelProp: new TestBean())
@@ -53,7 +53,7 @@ public class ItemBindingSpecification extends Specification {
         ['prop1','prop2'].every { target.itemDataSource.getItemProperty(it).value == it }
     }
 
-    def "it should bind a Groovy map"() {
+    def "it should bind a property containing a Map"() {
 
         given:
         def model = new Model(modelProp: [prop1: 'prop1', prop2: 'prop2'])
@@ -89,7 +89,32 @@ public class ItemBindingSpecification extends Specification {
         expect:
         that target.itemDataSource, instanceOf(GroovyBeanItem)
         that target.itemDataSource.itemPropertyIds as Set, equalTo(['prop1'] as Set)
-        ['prop1'].every { target.itemDataSource.getItemProperty(it).value == it }
+        that target.itemDataSource.getItemProperty('prop1').value, equalTo('prop1')
     }
 
+    def "it will maintain the binding when the source property changes"() {
+
+        given:
+        def model = new Model(modelProp: new TestBean())
+        def FieldGroup target = new FieldGroup()
+        new ItemBinding(source: model, sourceProperty: 'modelProp').bind(target)
+        model.modelProp = new TestBean(prop1: 'new-prop1',prop2: 'new-prop2')
+        target.itemDataSource.getItemProperty('prop2').value = 'updated-prop2'
+
+        expect:
+        that target.itemDataSource.getItemProperty('prop1').value, equalTo("new-prop1")
+        that target.itemDataSource.getItemProperty('prop2').value, equalTo("updated-prop2")
+        that model.modelProp.prop2, equalTo("updated-prop2")
+    }
+
+    def "it can bind a source directly"() {
+
+        given:
+        def model = new Model(modelProp: new TestBean())
+        def FieldGroup target = new FieldGroup()
+        new ItemBinding(source: new TestBean()).bind(target)
+
+        expect:
+        ['prop1','prop2'].every { target.itemDataSource.getItemProperty(it).value == it }
+    }
 }

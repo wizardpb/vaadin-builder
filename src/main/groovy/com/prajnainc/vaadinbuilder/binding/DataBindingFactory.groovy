@@ -50,7 +50,6 @@ class DataBindingFactory implements DataBinding {
     }
 
     private DataBinding createForModel() {
-        assert sourceProperty != null
         DataBinding binding
         switch(target) {
             case Item.Viewer:
