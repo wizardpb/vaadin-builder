@@ -1,5 +1,6 @@
 package com.prajnainc.vaadinbuilder.factories
 
+import com.vaadin.ui.AbstractComponentContainer
 import com.vaadin.ui.TabSheet
 
 /*
@@ -30,5 +31,11 @@ class TabSheetFactory extends ComponentContainerFactory {
         super(TabSheet)
     }
 
-    // TODO - set child.
+    @Override
+    void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
+        VaadinFactory childFactory = builder.childBuilder.currentFactory
+        def caption = childFactory.savedAttributes[TAB_CAPTION]
+        // TODO icon
+        if(caption) parent.addTab(child, caption) else parent.addTab(child)
+    }
 }

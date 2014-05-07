@@ -36,8 +36,14 @@ class ComponentFactory extends AbstractFactory implements VaadinFactory {
     public final static String ALIGNMENT_ATTR       = 'alignment'           // Component alignment in layout cell
     public final static String GRID_POSITION_ATTR   = 'position'            // position in GridLayout
     public final static String GRID_SPAN_ATTR       = 'span'                // Span of cells in GridLayout
+    public final static String TAB_CAPTION          = 'tabCaption'
+    public final static String TAB_ICON             = 'tabIcon'
+    // TODO tab position
 
-    private static final ATTRIBUTES_TO_SAVE = [EXPAND_RATIO_ATTR, ALIGNMENT_ATTR, GRID_POSITION_ATTR, GRID_SPAN_ATTR,]
+    private static final ATTRIBUTES_TO_SAVE = [
+            EXPAND_RATIO_ATTR, ALIGNMENT_ATTR, GRID_POSITION_ATTR, GRID_SPAN_ATTR,
+            TAB_CAPTION, TAB_ICON
+    ]
 
     Class componentClass
     Map savedAttributes = [:]
@@ -48,11 +54,15 @@ class ComponentFactory extends AbstractFactory implements VaadinFactory {
         this.componentClass = componentClass
     }
 
+    protected List attributesToSave() {
+        return ATTRIBUTES_TO_SAVE
+    }
+
     /**
      * Save any attributes for later processing. They are removed from the passed in attributes
      */
     protected void extractSavedAttributes(Map attributes) {
-        ATTRIBUTES_TO_SAVE.each {
+        attributesToSave().each {
             if(attributes.containsKey(it)) savedAttributes[it] = attributes.remove(it)
         }
     }
