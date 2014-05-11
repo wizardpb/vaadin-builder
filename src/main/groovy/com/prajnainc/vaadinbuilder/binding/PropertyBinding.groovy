@@ -2,11 +2,11 @@ package com.prajnainc.vaadinbuilder.binding
 
 import com.prajnainc.vaadinbuilder.VaadinBuilderException
 import com.prajnainc.vaadinbuilder.support.GroovyBeanItem
-import com.prajnainc.vaadinbuilder.support.GroovyMapItem
-import com.vaadin.data.Item
+import com.prajnainc.vaadinbuilder.support.GroovyObjectProperty
+import com.vaadin.data.Property
+import com.vaadin.data.util.ObjectProperty
 
 import java.beans.PropertyChangeEvent
-import java.beans.PropertyChangeListener
 
 /*
  * Copyright (c) 2014 Prajna Inc.
@@ -27,13 +27,10 @@ import java.beans.PropertyChangeListener
  */
 
 /**
- * ItemBinding
- *
+ * PropertyBinding
  *
  */
-class ItemBinding extends AbstractDataBinding {
-
-    List itemIds
+class PropertyBinding extends AbstractDataBinding {
 
     @Override
     DataBinding bind() {
@@ -45,40 +42,26 @@ class ItemBinding extends AbstractDataBinding {
                 throw new VaadinBuilderException("Source $source has no property $sourceProperty")
             }
 
-            target.setItemDataSource(createItem())
+            target.setPropertyDataSource(new GroovyObjectProperty(source, sourceProperty))
             addChangeListener()
         } else {
-            // .. otherwise bind the source object directly, as a bean
-            target.setItemDataSource(new GroovyBeanItem(source))
+            // .. otherwise bind the source object directly, as a value
+            target.setPropertyDataSource(new ObjectProperty(source))
         }
         return this
     }
 
     @Override
     void unbind() {
-        target.setItemDataSource(null)
+        target.setPropertyDataSource(null)
         removeChangeListener()
     }
 
     @Override
     void propertyChange(PropertyChangeEvent evt) {
         if(evt.propertyName == sourceProperty) {
-            bind()
+            target.propertyDataSource.updateValue()
         }
     }
 
-    private Item createItem() {
-        def value = source.getProperty(sourceProperty)
-        Item item = null
-        if(value) {
-            item = itemIds ?
-                    (value instanceof Map ?
-                            new GroovyMapItem(value,itemIds) :
-                            new GroovyBeanItem(value, itemIds)) :
-                    (value instanceof Map ?
-                            new GroovyMapItem(value) :
-                            new GroovyBeanItem(value))
-        }
-        return item
-    }
 }

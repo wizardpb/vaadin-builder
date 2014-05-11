@@ -16,7 +16,12 @@
 
 package com.prajnainc.vaadinbuilder
 
+import com.prajnainc.vaadinbuilder.binding.DataBinding
 import com.prajnainc.vaadinbuilder.factories.*
+import com.vaadin.data.Container
+import com.vaadin.data.Item
+import com.vaadin.data.Property
+import com.vaadin.data.fieldgroup.FieldGroup
 import com.vaadin.ui.*
 
 /**
@@ -31,6 +36,8 @@ class VaadinBuilder extends FactoryBuilderSupport {
 
     public static final String DELEGATE_PROPERTY_OBJECT_ID = "_delegateProperty:id";
     public static final String DEFAULT_DELEGATE_PROPERTY_OBJECT_ID = "id";
+    public static final String GENERAL_BINDING_ATTRIBUTE = 'dataSource'
+    public static final Set BINDING_ATTRIBUTES = [GENERAL_BINDING_ATTRIBUTE,'propertyDataSource','itemDataSource', 'containerDataSource'] as Set;
 
     def currentNodeName
 
@@ -47,6 +54,77 @@ class VaadinBuilder extends FactoryBuilderSupport {
             if(node instanceof Component && !node.id) node.id = theID
         }
     }
+
+    /**
+     * An attribute delegate that implements binding to sources defined as {@link BindFactory} values for specific
+     * Vaadin data source attributes on a node definition. This is the case when a node is bound using the 'bind' construct
+     * as the value of one of the attributes 'dataSource', 'properyDataSource', 'itemDataSource' or 'containerDataSource' e.g.
+     * <code> fieldGroup(id: 'myGroup', dataSource: bind(source: someModel, sourceProperty: 'modelProeprty')) {
+     * ...
+     * }</code>
+     *
+     * <p>This delegate handles such patterns in a generic way, leveraging the BindFactories ability to correctly create and set
+     * data binding objects ({@link com.vaadin.data.Item}, {@link com.vaadin.data.Property} or {@link com.vaadin.data.Container})
+     * of the correct type and value for the source and target</p>
+     *
+     * @param builder
+     * @param node
+     * @param attributes
+     */
+    public static bindingAttributeDelegate(def builder, def node, Map attributes) {
+        def bindingAttrs = new HashSet(BINDING_ATTRIBUTES)
+        bindingAttrs.retainAll(attributes.keySet())
+
+        if(bindingAttrs.size() == 0) {
+            // Nothing needed
+            return null
+        }
+
+        if(bindingAttrs.size() > 1) {
+            throw new VaadinBuilderException("Only one of $BINDING_ATTRIBUTES may be specified")
+        }
+
+        def bindingAttr = bindingAttrs.first()
+        def bindingValue = attributes.remove(bindingAttr)
+
+        // If the node is a layout with a field group, the target is the field group, not the node itself
+        def target = node instanceof Layout && node.data?.fieldGroup != null ? node.data.fieldGroup : node
+
+        switch(bindingValue) {
+            case DataBinding:
+                // Store the binding in a Map (which may already exist) on the data property of the node
+                (node.data ?: (node.data = [:])).binding = bindingValue.bind(target); return;
+            case Property:
+                bindingAttr = validateBinding(target,bindingAttr,bindingValue,'property',[Property.Viewer]); break;
+            case Item:
+                bindingAttr = validateBinding(target,bindingAttr,bindingValue,'item',[Item.Viewer,FieldGroup]); break;
+            case Container:
+                bindingAttr = validateBinding(target,bindingAttr,bindingValue,'container',[Container.Viewer]); break;
+            default:
+                throw new VaadinBuilderException("Cannot bind value '$bindingValue' of type ${bindingValue.getClass()} to a $bindingAttr")
+        }
+
+        /*
+         * Bind actual data binding objects directly. At this point, bindingAttr should be the correct property name for the
+         * node type and binding object type
+         */
+        target."$bindingAttr" = bindingValue
+    }
+
+    private static String validateBinding(def node,String bindingAttr,bindingValue,prefix,List targetClasses) {
+        // The target must be of one of the target classes
+        if(!targetClasses.any { Class k -> k.isAssignableFrom(node.getClass()) }) {
+            throw new VaadinBuilderException("A $bindingValue cannot be bound to a $node")
+        }
+        if(bindingAttr == GENERAL_BINDING_ATTRIBUTE) {
+            bindingAttr = prefix + bindingAttr.capitalize()
+        }
+        if(node.metaClass.getMetaProperty(bindingAttr) == null) {
+            throw new VaadinBuilderException("A $node cannot be bound with $bindingAttr")
+        }
+        return bindingAttr
+    }
+
     /**
      * Compatibility API.
      *
@@ -59,6 +137,7 @@ class VaadinBuilder extends FactoryBuilderSupport {
 
     def registerSupportNodes() {
         addAttributeDelegate(VaadinBuilder.&objectIDAttributeDelegate)
+        addAttributeDelegate(VaadinBuilder.&bindingAttributeDelegate)
     }
 
     def registerSingleComponentFactories() {

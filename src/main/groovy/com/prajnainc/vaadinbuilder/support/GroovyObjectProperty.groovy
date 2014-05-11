@@ -61,6 +61,13 @@ class GroovyObjectProperty extends AbstractProperty {
         fireValueChange()
     }
 
+    /**
+     * Fire a value change event when the underlying object property changes
+     */
+    void updateValue() {
+        fireValueChange()
+    }
+
     @Override
     Class getType() {
         return instance.metaClass.getMetaProperty(name).type

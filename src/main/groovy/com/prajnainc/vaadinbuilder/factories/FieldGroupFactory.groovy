@@ -52,8 +52,6 @@ class FieldGroupFactory implements VaadinFactory {
             throw new VaadinBuilderException("Unknown layout type '$layoutName'")
         }
 
-        def dataSource = attributes.remove('itemDataSource')
-
         // Create the factory and id it
         def fieldGroup = new FieldGroup()
         def id = attributes.remove('id') ?: value
@@ -61,17 +59,9 @@ class FieldGroupFactory implements VaadinFactory {
             builder.setVariable("${id}.fieldGroup",fieldGroup)
         }
 
-        // Do any binding
-        switch(dataSource) {
-            case DataBinding: dataSource = dataSource.bind(fieldGroup); break;
-            case Item: fieldGroup.itemDataSource = dataSource; break;
-            case null: break;
-            default: throw new VaadinBuilderException("Cannot bind a ${dataSource.getClass().name} to a field group")
-        }
-
         //Create the layout by delegation and return it
         def layout = layoutFactory.newInstance(builder,name,value,attributes)
-        layout.data = [fieldGroup: fieldGroup, binding: dataSource]
+        layout.data = [fieldGroup: fieldGroup]
         return layout
     }
 

@@ -2,6 +2,7 @@ package com.prajnainc.vaadinbuilder.binding
 
 import com.prajnainc.vaadinbuilder.VaadinBuilderException
 import com.vaadin.data.Item
+import com.vaadin.data.Property
 import com.vaadin.data.fieldgroup.FieldGroup
 import com.vaadin.server.ClientConnector
 import com.vaadin.ui.Component
@@ -26,6 +27,8 @@ import com.vaadin.ui.Component
 
 /**
  * DataBindingFactory
+ *
+ * TODO - binding for Property and Container targets. Does Table need a special one ?
  *
  */
 class DataBindingFactory implements DataBinding {
@@ -55,6 +58,9 @@ class DataBindingFactory implements DataBinding {
             case Item.Viewer:
             case FieldGroup:
                 binding = new ItemBinding(target: target, source: source, sourceProperty: sourceProperty);
+                break;
+            case Property.Viewer:
+                binding = new PropertyBinding(target: target, source: source, sourceProperty: sourceProperty)
                 break;
             default:
                 throw new VaadinBuilderException("Cannot create a binding for target $target")

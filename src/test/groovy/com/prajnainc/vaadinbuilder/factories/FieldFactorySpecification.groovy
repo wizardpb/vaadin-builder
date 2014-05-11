@@ -57,6 +57,8 @@ public class FieldFactorySpecification extends BuilderSpecification {
         'popupDateField'    | PopupDateField
     }
 
+    // TODO - add test for property binding and field update on change
+
     def "with a field group, it should build all fields with explicit type and bind to a given data"() {
 
         expect:

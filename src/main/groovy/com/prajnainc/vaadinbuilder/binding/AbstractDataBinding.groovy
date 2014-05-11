@@ -1,6 +1,9 @@
 package com.prajnainc.vaadinbuilder.binding
 
+import com.prajnainc.vaadinbuilder.VaadinBuilderException
 import com.vaadin.server.ClientConnector
+
+import java.beans.PropertyChangeListener
 
 /*
  * Copyright (c) 2014 Prajna Inc.
@@ -27,10 +30,33 @@ import com.vaadin.server.ClientConnector
  * component detaches from the UI
  *
  */
-abstract class AbstractDataBinding implements DataBinding {
+abstract class AbstractDataBinding implements DataBinding, PropertyChangeListener {
+
+    def source
+    String sourceProperty
+    def target
 
     @Override
     void detach(ClientConnector.DetachEvent event) {
         unbind()
     }
+
+    @Override
+    DataBinding bind(Object target) {
+        this.target = target
+        return bind()
+    }
+
+    protected addChangeListener() {
+        def addListenerMethod = source.metaClass.getMetaMethod("addPropertyChangeListener",[sourceProperty,this] as Object[])
+        if(addListenerMethod == null) {
+            throw new VaadinBuilderException("Cannot add listener to ${source}.$sourceProperty as it is not a Bindable property")
+        }
+        source.addPropertyChangeListener(sourceProperty,this)
+    }
+
+    protected removeChangeListener() {
+        source.removePropertyChangeListener(sourceProperty,this)
+    }
+
 }
