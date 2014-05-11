@@ -28,7 +28,7 @@ import com.vaadin.ui.Component
 /**
  * DataBindingFactory
  *
- * TODO - binding for Property and Container targets. Does Table need a special one ?
+ * TODO - binding for Container targets. Does Table need a special one ?
  *
  */
 class DataBindingFactory implements DataBinding {
