@@ -97,7 +97,6 @@ public class GroovyObjectPropertySpecification extends Specification {
         expect:
         that event, instanceOf(Property.ValueChangeEvent)
         that event.property, sameInstance(prop)
-
     }
 
 }

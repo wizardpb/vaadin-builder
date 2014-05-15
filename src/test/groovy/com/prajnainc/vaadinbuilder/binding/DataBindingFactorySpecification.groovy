@@ -3,6 +3,7 @@ package com.prajnainc.vaadinbuilder.binding
 import com.prajnainc.vaadinbuilder.support.GroovyBeanItem
 import com.prajnainc.vaadinbuilder.support.GroovyMapItem
 import com.prajnainc.vaadinbuilder.support.GroovyObjectProperty
+import com.vaadin.data.Container
 import com.vaadin.data.Item
 import com.vaadin.data.Property
 import com.vaadin.ui.Label
@@ -14,8 +15,9 @@ import static spock.util.matcher.HamcrestSupport.*
 
 public class DataBindingFactorySpecification extends Specification {
 
-    def propertyViewer = Mock(Property.Viewer)
+    def property = Spy(Label)
     def itemViewer = Mock(Item.Viewer)
+    def containerViewer = Mock(Container.Viewer)
 
     static class TestModel {
         @Bindable
@@ -28,10 +30,12 @@ public class DataBindingFactorySpecification extends Specification {
 
         when:
         testModel.modelProp = 'string1'
-        new DataBindingFactory(source: testModel, sourceProperty: 'modelProp').bind(propertyViewer)
+        new DataBindingFactory(source: testModel, sourceProperty: 'modelProp').bind(property)
+        testModel.modelProp = 'newValue'
 
         then:
-        1 * propertyViewer.setPropertyDataSource(_ as GroovyObjectProperty)
+        1 * property.setPropertyDataSource(_)
+        1 * property.fireValueChange()
     }
 
     def "it can create and bind a Bindable to an Item.Viewer"() {
@@ -44,4 +48,5 @@ public class DataBindingFactorySpecification extends Specification {
         // It sets the item source once when bound, then again when the bound property changes
         2 * itemViewer.setItemDataSource(_ as GroovyMapItem)
     }
+
 }
