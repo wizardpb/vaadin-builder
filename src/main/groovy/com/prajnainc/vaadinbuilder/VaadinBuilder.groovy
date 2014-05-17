@@ -195,11 +195,11 @@ class VaadinBuilder extends FactoryBuilderSupport {
     def registerContainerFieldFactories() {
         registerFactory('table',new ComponentFactory(Table))
         registerFactory('comboBox',new ComponentFactory(ComboBox))
-        // TwinColSelect
-        // NativeSelect
-        // ListSelect
-        // OptionGroup
-        // Tree
+        registerFactory('twinColumnSelect',new ComponentFactory(TwinColSelect))
+        registerFactory('nativeSelect',new ComponentFactory(NativeSelect))
+        registerFactory('listSelect',new ComponentFactory(ListSelect))
+        registerFactory('optionGroup',new ComponentFactory(OptionGroup))
+        registerFactory('tree',new ComponentFactory(Tree))
     }
 
     def registerUtilityFactories() {

@@ -2,7 +2,12 @@ package com.prajnainc.vaadinbuilder.factories
 
 import com.prajnainc.vaadinbuilder.BuilderSpecification
 import com.vaadin.ui.ComboBox
-import com.vaadin.ui.Table;/*
+import com.vaadin.ui.ListSelect
+import com.vaadin.ui.NativeSelect
+import com.vaadin.ui.OptionGroup
+import com.vaadin.ui.Table
+import com.vaadin.ui.Tree
+import com.vaadin.ui.TwinColSelect;/*
  * Copyright (c) 2014 Prajna Inc.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
@@ -38,9 +43,14 @@ public class SelectFactorySpecification extends BuilderSpecification {
 
         where:
 
-        node        | nodeClass
-        'comboBox'  | ComboBox
-        'table'     | Table
+        node                | nodeClass
+        'comboBox'          | ComboBox
+        'table'             | Table
+        'twinColumnSelect'  | TwinColSelect
+        'nativeSelect'      | NativeSelect
+        'listSelect'        | ListSelect
+        'optionGroup'       | OptionGroup
+        'tree'              | Tree
     }
 
 }
