@@ -33,7 +33,7 @@ public class FieldFactorySpecification extends BuilderSpecification {
         Date dateProp = new Date()
     }
 
-    def "without a field group, it should build all fields with explicit type"() {
+    def "it should build all fields with explicit type"() {
 
         expect:
         VerticalLayout c = (VerticalLayout)builder.build {
@@ -57,30 +57,5 @@ public class FieldFactorySpecification extends BuilderSpecification {
         'popupDateField'    | PopupDateField
     }
 
-    // TODO - add test for property binding and field update on change
-
-    def "with a field group, it should build all fields with explicit type and bind to a given data"() {
-
-        expect:
-        VerticalLayout c = (VerticalLayout)builder.build {
-            verticalLayout {
-                "$fieldNode"('thisProp')
-            }
-        }
-        def field = c.getComponent(0)
-
-        that field, instanceOf(fieldClass)
-        that field.caption, equalTo('This Prop')
-
-        where:
-        fieldNode           | fieldClass
-        'textField'         | TextField
-        'textArea'          | TextArea
-        'passwordField'     | PasswordField
-        'checkBox'          | CheckBox
-        'richTextArea'      | RichTextArea
-        'inlineDateField'   | InlineDateField
-        'popupDateField'    | PopupDateField
-    }
 
 }

@@ -193,12 +193,12 @@ class VaadinBuilder extends FactoryBuilderSupport {
     }
 
     def registerContainerFieldFactories() {
+        registerFactory('table',new ComponentFactory(Table))
+        registerFactory('comboBox',new ComponentFactory(ComboBox))
         // TwinColSelect
         // NativeSelect
         // ListSelect
-        // ComboBox
         // OptionGroup
-        // Table (AbstractSelect)
         // Tree
     }
 
