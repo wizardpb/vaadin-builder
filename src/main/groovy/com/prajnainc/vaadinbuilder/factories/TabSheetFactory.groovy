@@ -1,8 +1,3 @@
-package com.prajnainc.vaadinbuilder.factories
-
-import com.vaadin.ui.AbstractComponentContainer
-import com.vaadin.ui.TabSheet
-
 /*
  * Copyright (c) 2014 Prajna Inc.
  *
@@ -20,6 +15,10 @@ import com.vaadin.ui.TabSheet
  *
  *
  */
+package com.prajnainc.vaadinbuilder.factories
+
+import com.vaadin.ui.TabSheet
+
 
 /**
  * TabSheetFactory

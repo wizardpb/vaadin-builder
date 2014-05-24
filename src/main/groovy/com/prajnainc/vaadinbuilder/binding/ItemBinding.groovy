@@ -1,13 +1,3 @@
-package com.prajnainc.vaadinbuilder.binding
-
-import com.prajnainc.vaadinbuilder.VaadinBuilderException
-import com.prajnainc.vaadinbuilder.support.GroovyBeanItem
-import com.prajnainc.vaadinbuilder.support.GroovyMapItem
-import com.vaadin.data.Item
-
-import java.beans.PropertyChangeEvent
-import java.beans.PropertyChangeListener
-
 /*
  * Copyright (c) 2014 Prajna Inc.
  *
@@ -25,6 +15,14 @@ import java.beans.PropertyChangeListener
  *
  *
  */
+package com.prajnainc.vaadinbuilder.binding
+
+import com.prajnainc.vaadinbuilder.VaadinBuilderException
+import com.prajnainc.vaadinbuilder.support.GroovyBeanItem
+import com.prajnainc.vaadinbuilder.support.GroovyMapItem
+import com.vaadin.data.Item
+
+import java.beans.PropertyChangeEvent
 
 /**
  * ItemBinding

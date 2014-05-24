@@ -1,10 +1,3 @@
-package com.prajnainc.vaadinbuilder.binding
-
-import com.vaadin.data.Container
-import com.vaadin.data.Item
-import com.vaadin.data.Property
-import com.vaadin.server.ClientConnector
-
 /*
  * Copyright (c) 2014 Prajna Inc.
  *
@@ -22,12 +15,18 @@ import com.vaadin.server.ClientConnector
  *
  *
  */
+package com.prajnainc.vaadinbuilder.binding
+
+import com.vaadin.data.Container
+import com.vaadin.data.Item
+import com.vaadin.data.Property
+import com.vaadin.server.ClientConnector
+
+
 /**
- * DataBinding
- *
- * A {@link DataBinding} is responsible for bindng a data source to a UI {@link com.vaadin.ui.Component} such
- * that the component will update it's view when the data sourec changes. It encapsulates all knowledge
- * neccesary to create a Vaadin data binding object (a {@link Property}, {@link Item} or a {@link Container} ),
+ * A {@link DataBinding} instance is responsible for binding a data source to a UI {@link com.vaadin.ui.Component} such
+ * that the component will update it's view when the data source changes. It encapsulates all knowledge
+ * necessary to create a Vaadin data binding object (a {@link Property}, {@link Item} or a {@link Container} ),
  * from a source object, connect it to a target component, and react to value changes from the source, propagating
  * these to the UI
  */

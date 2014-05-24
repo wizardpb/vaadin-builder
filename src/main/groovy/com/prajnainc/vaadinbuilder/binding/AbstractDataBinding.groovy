@@ -1,10 +1,3 @@
-package com.prajnainc.vaadinbuilder.binding
-
-import com.prajnainc.vaadinbuilder.VaadinBuilderException
-import com.vaadin.server.ClientConnector
-
-import java.beans.PropertyChangeListener
-
 /*
  * Copyright (c) 2014 Prajna Inc.
  *
@@ -22,11 +15,15 @@ import java.beans.PropertyChangeListener
  *
  *
  */
+package com.prajnainc.vaadinbuilder.binding
+
+import com.prajnainc.vaadinbuilder.VaadinBuilderException
+import com.vaadin.server.ClientConnector
+
+import java.beans.PropertyChangeListener
 
 /**
- * AbstractDataBinding
- *
- * A base class for all {@link DataBinding} classes. Implement the detach listener to unbind ourselves when our target
+ * AbstractDataBinding is a base class for all {@link DataBinding} classes. It implement the detach listener to unbind ourselves when our target
  * component detaches from the UI
  *
  */

@@ -13,18 +13,16 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-
 package com.prajnainc.vaadinbuilder.factories
 
 import com.prajnainc.vaadinbuilder.BuilderSpecification
 import com.prajnainc.vaadinbuilder.binding.DataBinding
 import com.prajnainc.vaadinbuilder.binding.DataBindingFactory
-import com.vaadin.data.Item
 import com.vaadin.data.fieldgroup.FieldGroup
-import groovy.beans.Bindable;
-import spock.lang.*
-import static org.hamcrest.CoreMatchers.*
-import static spock.util.matcher.HamcrestSupport.*
+
+import static org.hamcrest.CoreMatchers.instanceOf
+import static org.hamcrest.CoreMatchers.sameInstance
+import static spock.util.matcher.HamcrestSupport.that
 
 public class BindFactorySpecification extends BuilderSpecification {
 

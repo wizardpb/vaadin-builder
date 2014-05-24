@@ -1,10 +1,3 @@
-package com.prajnainc.vaadinbuilder.factories
-
-import com.prajnainc.vaadinbuilder.VaadinBuilderException
-import com.prajnainc.vaadinbuilder.binding.DataBinding
-import com.vaadin.data.Item
-import com.vaadin.data.fieldgroup.FieldGroup
-
 /*
  * Copyright (c) 2014 Prajna Inc.
  *
@@ -22,10 +15,13 @@ import com.vaadin.data.fieldgroup.FieldGroup
  *
  *
  */
+package com.prajnainc.vaadinbuilder.factories
+
+import com.prajnainc.vaadinbuilder.VaadinBuilderException
+import com.prajnainc.vaadinbuilder.binding.DataBinding
+import com.vaadin.data.fieldgroup.FieldGroup
 
 /**
- * FieldGroupFactory
- *
  * <p>A {@link FieldGroupFactory} creates an instance of a given {@link com.vaadin.ui.Layout} and attaches a {@link FieldGroup} to it
  * the layout is created by using a sub-factory of the correct class, and delegating all factory call to it, with the exception of the
  * {@link Factory#newInstance(groovy.util.FactoryBuilderSupport, java.lang.Object, java.lang.Object, java.util.Map)} method.</p>

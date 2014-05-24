@@ -13,13 +13,10 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-
 package com.prajnainc.vaadinbuilder
 
 /**
- * VaadinBuilderException
- *
- * Reports builder exceptions and errors
+ * VaadinBuilderException reports builder exceptions and errors
  */
 
 class VaadinBuilderException extends Exception {

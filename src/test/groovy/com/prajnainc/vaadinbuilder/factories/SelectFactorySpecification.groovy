@@ -1,14 +1,5 @@
-package com.prajnainc.vaadinbuilder.factories
-
-import com.prajnainc.vaadinbuilder.BuilderSpecification
-import com.vaadin.ui.ComboBox
-import com.vaadin.ui.ListSelect
-import com.vaadin.ui.NativeSelect
-import com.vaadin.ui.OptionGroup
-import com.vaadin.ui.Table
-import com.vaadin.ui.Tree
-import com.vaadin.ui.TwinColSelect;/*
- * Copyright (c) 2014 Prajna Inc.
+/*
+ * Copyright (c) 2014 Prajna Inc
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -21,13 +12,15 @@ import com.vaadin.ui.TwinColSelect;/*
  *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
- *
- *
  */
+package com.prajnainc.vaadinbuilder.factories
 
-import spock.lang.*
-import static org.hamcrest.CoreMatchers.*
-import static spock.util.matcher.HamcrestSupport.*
+import com.prajnainc.vaadinbuilder.BuilderSpecification
+
+import com.vaadin.ui.*
+
+import static org.hamcrest.CoreMatchers.instanceOf
+import static spock.util.matcher.HamcrestSupport.that
 
 public class SelectFactorySpecification extends BuilderSpecification {
 

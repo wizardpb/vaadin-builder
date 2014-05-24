@@ -1,12 +1,3 @@
-package com.prajnainc.vaadinbuilder.binding
-
-import com.prajnainc.vaadinbuilder.VaadinBuilderException
-import com.vaadin.data.Item
-import com.vaadin.data.Property
-import com.vaadin.data.fieldgroup.FieldGroup
-import com.vaadin.server.ClientConnector
-import com.vaadin.ui.Component
-
 /*
  * Copyright (c) 2014 Prajna Inc.
  *
@@ -24,6 +15,14 @@ import com.vaadin.ui.Component
  *
  *
  */
+package com.prajnainc.vaadinbuilder.binding
+
+import com.prajnainc.vaadinbuilder.VaadinBuilderException
+import com.vaadin.data.Item
+import com.vaadin.data.Property
+import com.vaadin.data.fieldgroup.FieldGroup
+import com.vaadin.server.ClientConnector
+import com.vaadin.ui.Component
 
 /**
  * DataBindingFactory

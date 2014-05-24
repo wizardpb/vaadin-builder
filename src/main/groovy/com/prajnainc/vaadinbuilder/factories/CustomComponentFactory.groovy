@@ -1,7 +1,3 @@
-package com.prajnainc.vaadinbuilder.factories
-
-import com.prajnainc.vaadinbuilder.VaadinBuilderException
-
 /*
  * Copyright (c) 2014 Prajna Inc.
  *
@@ -19,6 +15,10 @@ import com.prajnainc.vaadinbuilder.VaadinBuilderException
  *
  *
  */
+package com.prajnainc.vaadinbuilder.factories
+
+import com.prajnainc.vaadinbuilder.VaadinBuilderException
+
 
 /**
  * CustomComponentFactory

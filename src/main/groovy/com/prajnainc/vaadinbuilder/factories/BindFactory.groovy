@@ -16,7 +16,6 @@
 
 package com.prajnainc.vaadinbuilder.factories
 
-import com.prajnainc.vaadinbuilder.binding.DataBinding
 import com.prajnainc.vaadinbuilder.binding.DataBindingFactory
 
 /**

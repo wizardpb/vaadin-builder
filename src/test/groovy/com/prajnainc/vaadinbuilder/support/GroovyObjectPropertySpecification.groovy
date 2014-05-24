@@ -2,14 +2,13 @@ package com.prajnainc.vaadinbuilder.support
 
 import com.prajnainc.vaadinbuilder.VaadinBuilderException
 import com.vaadin.data.Property
+import spock.lang.Specification
 
 /**
  * GroovyObjectPropertySpecification
  *
  *
  */
-import spock.lang.Specification
-
 import static org.hamcrest.CoreMatchers.instanceOf
 import static org.hamcrest.CoreMatchers.sameInstance
 import static spock.util.matcher.HamcrestSupport.that

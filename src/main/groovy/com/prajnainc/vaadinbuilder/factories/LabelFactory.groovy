@@ -1,7 +1,3 @@
-package com.prajnainc.vaadinbuilder.factories
-
-import com.vaadin.ui.Label
-
 /*
  * Copyright (c) 2014 Prajna Inc.
  *
@@ -19,10 +15,11 @@ import com.vaadin.ui.Label
  *
  *
  */
+package com.prajnainc.vaadinbuilder.factories
+
+import com.vaadin.ui.Label
 
 /**
- * LabelFactory
- *
  * A {@link LayoutFactory} creates a {@link Label} object, and sets it's value to the value passed in
  * form the node call. e.g.
  * <code>

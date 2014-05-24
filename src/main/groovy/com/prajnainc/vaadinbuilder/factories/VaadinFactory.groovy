@@ -1,5 +1,3 @@
-package com.prajnainc.vaadinbuilder.factories
-
 /*
  * Copyright (c) 2014 Prajna Inc.
  *
@@ -17,9 +15,11 @@ package com.prajnainc.vaadinbuilder.factories
  *
  *
  */
+package com.prajnainc.vaadinbuilder.factories
+
 
 /**
- * VaadinFactory
+ * VaadinFactory is implemented by all factories that create Vaadin {@link com.vaadin.ui.Component}s
  *
  */
 interface VaadinFactory extends Factory {

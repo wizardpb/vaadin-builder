@@ -13,14 +13,13 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-
 package com.prajnainc.vaadinbuilder.support
 
 import com.vaadin.data.util.MethodProperty
 import com.vaadin.data.util.PropertysetItem
 
 /**
- * GroovyMapItem
+ * A GroovyMapItem binds a {@link Map} as a Vaadin {@link com.vaadin.data.Item}, treating it's keys as properties to be bound.
  *
  */
 class GroovyMapItem extends PropertysetItem {

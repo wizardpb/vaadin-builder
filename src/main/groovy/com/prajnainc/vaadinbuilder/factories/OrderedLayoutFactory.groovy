@@ -13,7 +13,6 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-
 package com.prajnainc.vaadinbuilder.factories
 
 import com.prajnainc.vaadinbuilder.VaadinBuilderException
@@ -21,7 +20,7 @@ import com.vaadin.ui.AbstractOrderedLayout
 import org.codehaus.groovy.runtime.typehandling.GroovyCastException
 
 /**
- * OrderedLayoutFactory
+ * OrderedLayoutFactory creates instances of subclasses of {@link AbstractOrderedLayout}
  *
  */
 

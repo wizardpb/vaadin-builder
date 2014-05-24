@@ -13,7 +13,6 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-
 package com.prajnainc.vaadinbuilder.factories
 
 import com.vaadin.ui.AbstractComponentContainer
@@ -21,9 +20,7 @@ import com.vaadin.ui.Component
 import com.vaadin.ui.ComponentContainer
 
 /**
- * ComponentContainerFactory
- *
- * A {@link Factory} for building Vaadin components that contain other {@link Component}s. It is the abstract base class
+ * ComponentContainerFactory is a {@link Factory} for building Vaadin components that contain other {@link Component}s. It is the abstract base class
  * of all factories that build component containers
  *
  */

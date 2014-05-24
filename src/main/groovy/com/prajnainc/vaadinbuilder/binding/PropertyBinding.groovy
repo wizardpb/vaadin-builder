@@ -1,13 +1,3 @@
-package com.prajnainc.vaadinbuilder.binding
-
-import com.prajnainc.vaadinbuilder.VaadinBuilderException
-import com.prajnainc.vaadinbuilder.support.GroovyBeanItem
-import com.prajnainc.vaadinbuilder.support.GroovyObjectProperty
-import com.vaadin.data.Property
-import com.vaadin.data.util.ObjectProperty
-
-import java.beans.PropertyChangeEvent
-
 /*
  * Copyright (c) 2014 Prajna Inc.
  *
@@ -25,6 +15,13 @@ import java.beans.PropertyChangeEvent
  *
  *
  */
+package com.prajnainc.vaadinbuilder.binding
+
+import com.prajnainc.vaadinbuilder.VaadinBuilderException
+import com.prajnainc.vaadinbuilder.support.GroovyObjectProperty
+import com.vaadin.data.util.ObjectProperty
+
+import java.beans.PropertyChangeEvent
 
 /**
  * PropertyBinding

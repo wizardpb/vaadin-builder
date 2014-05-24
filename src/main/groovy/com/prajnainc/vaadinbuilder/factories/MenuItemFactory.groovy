@@ -13,8 +13,6 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-
-
 package com.prajnainc.vaadinbuilder.factories
 
 import com.prajnainc.vaadinbuilder.VaadinBuilderException
@@ -24,15 +22,13 @@ import com.vaadin.ui.MenuBar.MenuItem
 
 /**
  *
- * MenuItemFactory
- *
- * Create and add {@link MenuItem}s to a {@link MenuBar}. This departs from the normal pattern of
+ * <p>A {@link MenuItemFactory} creates and adds {@link MenuItem}s to a {@link MenuBar}. This departs from the normal pattern of
  * creating a component then separately adding it, since {@link MenuBar} and (@link MenuItem} do
  * not possess methods to do this. Instead, they create and add the items in a single action. The
  * factory must therefore create and add in {@link Factory#newInstance}. It gets the parent from
- * the builder to do this.
+ * the builder to do this.</p>
  *
- * Separators also need special handling.
+ * <p>Separators also need special handling.</p>
  *
  */
 

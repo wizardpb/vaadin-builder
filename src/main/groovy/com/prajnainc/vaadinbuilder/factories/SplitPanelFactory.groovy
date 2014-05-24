@@ -1,7 +1,3 @@
-package com.prajnainc.vaadinbuilder.factories
-
-import com.vaadin.ui.AbstractSplitPanel
-
 /*
  * Copyright (c) 2014 Prajna Inc.
  *
@@ -19,6 +15,9 @@ import com.vaadin.ui.AbstractSplitPanel
  *
  *
  */
+package com.prajnainc.vaadinbuilder.factories
+
+import com.vaadin.ui.AbstractSplitPanel
 
 /**
  * SplitPanelFactory

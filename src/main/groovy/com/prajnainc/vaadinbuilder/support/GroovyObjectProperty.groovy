@@ -13,7 +13,6 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-
 package com.prajnainc.vaadinbuilder.support
 
 import com.prajnainc.vaadinbuilder.VaadinBuilderException
@@ -22,7 +21,6 @@ import com.vaadin.data.util.AbstractProperty
 
 /**
  * GroovyObjectProperty
- *
  *
  */
 class GroovyObjectProperty extends AbstractProperty {

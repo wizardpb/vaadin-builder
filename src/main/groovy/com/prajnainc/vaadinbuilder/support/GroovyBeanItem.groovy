@@ -13,16 +13,13 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-
 package com.prajnainc.vaadinbuilder.support
 
 import com.vaadin.data.util.PropertysetItem
 
 /**
- * GroovyBeanItem
- *
  * A {@link GroovyBeanItem} is a Vaadin {@link com.vaadin.data.Item} that can wrap any object that implements
- * {@link GroovyObject}.
+ * {@link GroovyObject}. It creates a {@link com.vaadin.data.Property} for all properties on the bound object
  *
  */
 class GroovyBeanItem extends PropertysetItem {

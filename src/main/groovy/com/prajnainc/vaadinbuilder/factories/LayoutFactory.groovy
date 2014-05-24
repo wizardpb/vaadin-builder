@@ -13,7 +13,6 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-
 package com.prajnainc.vaadinbuilder.factories
 
 import com.prajnainc.vaadinbuilder.VaadinBuilderException
@@ -21,7 +20,7 @@ import com.vaadin.ui.AbstractLayout
 import com.vaadin.ui.Alignment
 
 /**
- * LayoutFactory
+ * LayoutFactory is the base class for all {@link Factory} classes that create {@link com.vaadin.ui.Layout}s
  *
  */
 

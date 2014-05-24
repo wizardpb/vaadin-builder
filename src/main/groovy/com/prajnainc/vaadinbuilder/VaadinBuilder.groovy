@@ -13,7 +13,6 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-
 package com.prajnainc.vaadinbuilder
 
 import com.prajnainc.vaadinbuilder.binding.DataBinding
@@ -25,9 +24,7 @@ import com.vaadin.data.fieldgroup.FieldGroup
 import com.vaadin.ui.*
 
 /**
- * VaadinBuilder
- *
- * The central builder class
+ * VaadinBuilder is the builder class itself
  *
  * TODO - decide which components should be set immediate by default. Fields and ?
  */
