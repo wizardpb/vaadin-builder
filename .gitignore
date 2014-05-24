@@ -15,5 +15,5 @@
 #
 .idea/
 .gradle/
-build/
+builder/build/
 vaadin-builder.iml
