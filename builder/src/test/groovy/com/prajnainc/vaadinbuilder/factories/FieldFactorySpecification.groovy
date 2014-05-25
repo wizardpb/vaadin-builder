@@ -16,6 +16,7 @@
 package com.prajnainc.vaadinbuilder.factories
 
 import com.prajnainc.vaadinbuilder.BuilderSpecification
+import com.prajnainc.vaadinbuilder.VaadinBuilderException
 import com.vaadin.ui.*
 
 import static org.hamcrest.CoreMatchers.equalTo
@@ -38,6 +39,7 @@ import static org.hamcrest.CoreMatchers.equalTo
  *
  */
 import static org.hamcrest.CoreMatchers.instanceOf
+import static org.hamcrest.CoreMatchers.nullValue
 import static spock.util.matcher.HamcrestSupport.that
 
 public class FieldFactorySpecification extends BuilderSpecification {
@@ -73,5 +75,59 @@ public class FieldFactorySpecification extends BuilderSpecification {
         'popupDateField'    | PopupDateField
     }
 
+    def "it should allow a null propertyId without a field group"() {
 
+        expect:
+        VerticalLayout c = (VerticalLayout)builder.build {
+            verticalLayout {
+                "$fieldNode"()
+            }
+        }
+        def field = c.getComponent(0)
+
+        that field, instanceOf(fieldClass)
+        that field.caption, nullValue()
+
+        where:
+        fieldNode           | fieldClass
+        'textField'         | TextField
+        'textArea'          | TextArea
+        'passwordField'     | PasswordField
+        'checkBox'          | CheckBox
+        'richTextArea'      | RichTextArea
+        'inlineDateField'   | InlineDateField
+        'popupDateField'    | PopupDateField
+    }
+
+    def "it should require propertyId with a field group"() {
+
+        when:
+        builder.build {
+            fieldGroup {
+                textField()
+            }
+        }
+
+        then:
+        def e = thrown(RuntimeException)
+        e.cause instanceof VaadinBuilderException
+        e.cause.message == "Fields of a field group require a propery id"
+
+    }
+
+    def "it should require a non-empty propertyId with a field group"() {
+
+        when:
+        builder.build {
+            fieldGroup {
+                textField('')
+            }
+        }
+
+        then:
+        def e = thrown(RuntimeException)
+        e.cause instanceof VaadinBuilderException
+        e.cause.message == "Fields of a field group require a propery id"
+
+    }
 }

@@ -16,6 +16,7 @@
 
 package com.prajnainc.vaadinbuilder.samplerapp
 
+import com.prajnainc.vaadinbuilder.VaadinBuilder
 import com.vaadin.server.VaadinRequest
 import com.vaadin.ui.UI;
 /**
@@ -24,8 +25,17 @@ import com.vaadin.ui.UI;
  */
 class SamplerUI extends UI {
 
+    def builder = new VaadinBuilder()
+
     @Override
     protected void init(VaadinRequest vaadinRequest) {
-
+        def view  = builder.build {
+            panel(caption: "Top Panel") {
+                verticalLayout(width: '100%', height: '100%') {
+                    textArea(width: '100%', height: '100%', expandRatio: 1.0f,value: "Some text")
+                }
+            }
+        }
+        content = view
     }
 }

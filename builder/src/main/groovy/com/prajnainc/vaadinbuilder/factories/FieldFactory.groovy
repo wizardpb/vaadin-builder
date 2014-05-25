@@ -17,6 +17,7 @@
  */
 package com.prajnainc.vaadinbuilder.factories
 
+import com.prajnainc.vaadinbuilder.VaadinBuilderException
 import com.vaadin.data.Property
 import com.vaadin.data.fieldgroup.FieldGroup
 import com.vaadin.ui.Component
@@ -49,6 +50,9 @@ class FieldFactory extends ComponentFactory {
         FieldGroup fieldGroup = findFieldGroup(builder.getCurrent())
         super.newInstance(builder, name, value, attributes)
         if(fieldGroup) {
+            if(!value) {
+                throw new VaadinBuilderException("Fields of a field group require a propery id")
+            }
             fieldGroup.bind(component,value)
         }
         return component
@@ -63,7 +67,7 @@ class FieldFactory extends ComponentFactory {
      */
     @Override
     protected setComponentValue(Object value, Object attributes) {
-        return super.setComponentValue(DefaultFieldFactory.createCaptionByPropertyId(value), attributes)
+        return super.setComponentValue(value != null ? DefaultFieldFactory.createCaptionByPropertyId(value) : value, attributes)
     }
 
     protected FieldGroup findFieldGroup(Component currentComponent) {
