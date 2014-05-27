@@ -16,10 +16,12 @@
 package com.prajnainc.vaadinbuilder.factories
 
 import com.prajnainc.vaadinbuilder.BuilderSpecification
+import com.prajnainc.vaadinbuilder.VaadinBuilderException
 import com.prajnainc.vaadinbuilder.binding.DataBindingFactory
 import com.prajnainc.vaadinbuilder.binding.ItemBinding
 import com.vaadin.data.Item
 import com.vaadin.data.fieldgroup.FieldGroup
+import com.vaadin.ui.AbsoluteLayout
 import com.vaadin.ui.FormLayout
 import com.vaadin.ui.Label
 import com.vaadin.ui.VerticalLayout
@@ -76,7 +78,7 @@ public class FieldGroupFactorySpecification extends BuilderSpecification {
 
         given:
         def layout = builder.build {
-            fieldGroup('myForm', layout: 'verticalLayout')
+            fieldGroup('myForm', layout: new VerticalLayout())
         }
 
         expect:
@@ -134,5 +136,29 @@ public class FieldGroupFactorySpecification extends BuilderSpecification {
         that layout.data.binding, instanceOf(ItemBinding)
         that layout.data.binding.target, sameInstance(fieldGroup)
         that layout.data.binding.source, sameInstance(testModel)
+    }
+
+    def "it should catch non-layouts as attributes"() {
+        when:
+        def layout = builder.build {
+            fieldGroup('myForm', layout: new Object())
+        }
+
+        then:
+        def e = thrown(RuntimeException)
+        e.cause instanceof VaadinBuilderException
+        e.cause.message == "Unknown layout type 'java.lang.Object'"
+    }
+
+    def "it should catch unknown layout factories as attributes"() {
+        when:
+        def layout = builder.build {
+            fieldGroup('myForm', layout: new AbsoluteLayout())
+        }
+
+        then:
+        def e = thrown(RuntimeException)
+        e.cause instanceof VaadinBuilderException
+        e.cause.message == "No factory known for layout type '${AbsoluteLayout.name}'"
     }
 }
