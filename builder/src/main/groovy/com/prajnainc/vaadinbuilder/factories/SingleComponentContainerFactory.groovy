@@ -28,7 +28,7 @@ class SingleComponentContainerFactory extends ComponentFactory {
 
     @Override
     void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
-        component.setContent(child)
+        parent.setContent(child)
     }
 
 }

@@ -17,6 +17,7 @@
  */
 package com.prajnainc.vaadinbuilder.factories
 
+import com.prajnainc.vaadinbuilder.VaadinBuilder
 import com.prajnainc.vaadinbuilder.VaadinBuilderException
 import com.vaadin.ui.Component
 import com.vaadin.ui.GridLayout
@@ -33,22 +34,22 @@ class GridLayoutFactory extends LayoutFactory {
     }
 
     @Override
-    protected void addComponent(ComponentFactory childFactory, Component child) {
-        component.addComponent(child,*validateArguments(childFactory))
+    protected void addComponent(VaadinBuilder builder, Component parent, Component child) {
+        parent.addComponent(child,*validateArguments(child,builder.context))
 
     }
 
-    private List validateArguments(ComponentFactory childFactory) {
-        def position = childFactory.savedAttributes.remove(GRID_POSITION_ATTR)
-        def span = childFactory.savedAttributes.remove(GRID_SPAN_ATTR)
+    private List validateArguments(Component component, Map childContext) {
+        def position = childContext.savedAttributes.remove(VaadinBuilder.GRID_POSITION_ATTR)
+        def span = childContext.savedAttributes.remove(VaadinBuilder.GRID_SPAN_ATTR)
 
         if(!position && span) {
             // We need specific position information for a span - get it from the component
             position = [component.cursorX, component.cursorY]
         }
 
-        position = validateAndCollect(position,['column','row'],GRID_POSITION_ATTR)
-        span = validateAndCollect(span,['columns','rows'],GRID_SPAN_ATTR)
+        position = validateAndCollect(position,['column','row'],VaadinBuilder.GRID_POSITION_ATTR)
+        span = validateAndCollect(span,['columns','rows'],VaadinBuilder.GRID_SPAN_ATTR)
 
         // If there is a span, calculate lower bottom corner coordinates
         return span ? position + [position.first() + span.first() - 1, position.last() + span.last() - 1] : position

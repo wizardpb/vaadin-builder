@@ -15,6 +15,7 @@
  */
 package com.prajnainc.vaadinbuilder.factories
 
+import com.prajnainc.vaadinbuilder.VaadinBuilder
 import com.prajnainc.vaadinbuilder.VaadinBuilderException
 import com.vaadin.ui.AbstractOrderedLayout
 import org.codehaus.groovy.runtime.typehandling.GroovyCastException
@@ -32,17 +33,17 @@ class OrderedLayoutFactory extends LayoutFactory {
     }
 
     @Override
-    protected void setExpandRatioFrom(VaadinFactory childFactory) {
-        if (childFactory.savedAttributes.containsKey(EXPAND_RATIO_ATTR)) {
+    protected void setExpandRatioFrom(VaadinBuilder childBuilder, Object parent, Object child) {
+        if (childBuilder.context.savedAttributes.containsKey(VaadinBuilder.EXPAND_RATIO_ATTR)) {
             Float ratio
-            Object ratioValue = childFactory.savedAttributes[EXPAND_RATIO_ATTR]
+            Object ratioValue = childBuilder.context.savedAttributes[VaadinBuilder.EXPAND_RATIO_ATTR]
             try {
                 ratio = ratioValue as Float
             } catch (GroovyCastException e) {
                 throw new VaadinBuilderException("The ${ratioValue.getClass().simpleName} value '$ratioValue' cannot be converted to an expand ration. It must be a number", e)
             }
-            assert component instanceof AbstractOrderedLayout
-            component.setExpandRatio(childFactory.component, ratio)
+            assert parent instanceof AbstractOrderedLayout
+            parent.setExpandRatio(child, ratio)
         }
     }
 }

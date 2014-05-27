@@ -24,6 +24,4 @@ package com.prajnainc.vaadinbuilder.factories
  */
 interface VaadinFactory extends Factory {
 
-    Map getSavedAttributes()
-
 }

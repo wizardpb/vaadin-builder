@@ -41,6 +41,8 @@ class DefaultFieldFactory extends FieldFactory {
             throw new VaadinBuilderException("Cannot use a $name node without a field group")
         }
 
+        def component
+
         if(attributes.containsKey('caption')) {
             def caption = attributes.remove('caption')
             component = fieldGroup.buildAndBind(caption,value)

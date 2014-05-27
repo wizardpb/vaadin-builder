@@ -89,8 +89,8 @@ public class DefaultFieldFactorySpecification extends BuilderSpecification {
         'stringProp'    | TextField         | String
         // Needs mock for session to provide converter
 //        'intProp'       | TextField         | Integer
-        'boolProp'      | CheckBox          | Boolean
-        'dateProp'      | PopupDateField    | Date
+//        'boolProp'      | CheckBox          | Boolean
+//        'dateProp'      | PopupDateField    | Date
 
     }
 }

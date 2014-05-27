@@ -55,6 +55,27 @@ public class OrderedLayoutSpecification extends BuilderSpecification {
 
     }
 
+
+    def "it can add recursively"() {
+
+        given:
+        def c = builder.build {
+            verticalLayout {
+                verticalLayout() {
+                    textField('input',id: 'inputField', columns: 30)
+                }
+                button('Commit', id: 'commitButton')
+            }
+        }
+
+        expect:
+        that c, instanceOf(VerticalLayout)
+        c.componentCount == 2
+        that c.getComponent(0),instanceOf(VerticalLayout)
+        that c.getComponent(1),instanceOf(Button)
+
+    }
+
     def "it can set alignment for a child"() {
         VerticalLayout c = builder.build {
             verticalLayout {

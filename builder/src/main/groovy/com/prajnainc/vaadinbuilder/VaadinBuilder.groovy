@@ -31,6 +31,23 @@ import com.vaadin.ui.*
 
 class VaadinBuilder extends FactoryBuilderSupport {
 
+    /**
+     * Attributes saved for use by a parent component, usually a {@link com.vaadin.ui.Layout}
+     */
+    public final static String EXPAND_RATIO_ATTR    = 'expandRatio'         // Expand ration for OrderedLayouts
+    public final static String ALIGNMENT_ATTR       = 'alignment'           // Component alignment in layout cell
+    public final static String GRID_POSITION_ATTR   = 'position'            // position in GridLayout
+    public final static String GRID_SPAN_ATTR       = 'span'                // Span of cells in GridLayout
+    public final static String TAB_CAPTION          = 'tabCaption'
+    public final static String TAB_ICON             = 'tabIcon'
+    // TODO tab position
+
+    private static final ATTRIBUTES_TO_SAVE = [
+            EXPAND_RATIO_ATTR, ALIGNMENT_ATTR,
+            GRID_POSITION_ATTR, GRID_SPAN_ATTR,
+            TAB_CAPTION, TAB_ICON
+    ]
+
     public static final String DELEGATE_PROPERTY_OBJECT_ID = "_delegateProperty:id";
     public static final String DEFAULT_DELEGATE_PROPERTY_OBJECT_ID = "id";
     public static final String GENERAL_BINDING_ATTRIBUTE = 'dataSource'
@@ -221,5 +238,18 @@ class VaadinBuilder extends FactoryBuilderSupport {
             throw new VaadinBuilderException("${currentNodeName}(): one of the attributes '${attrList}' must be preset")
         }
         return containedAttrs.first()
+    }
+
+    @Override
+    protected Object createNode(Object name, Map attributes, Object value) {
+        /**
+         * Collect saved attributes and save them on the current context. This is made available to the factories via the builder,
+         * and (because it is saved in the context) is unique to the current node being built
+         */
+        getContext().savedAttributes = [:]
+        ATTRIBUTES_TO_SAVE.each {
+            if(attributes.containsKey(it)) getContext().savedAttributes[it] = attributes.remove(it)
+        }
+        return super.createNode(name, attributes, value)
     }
 }

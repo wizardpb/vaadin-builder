@@ -15,6 +15,7 @@
  */
 package com.prajnainc.vaadinbuilder.factories
 
+import com.prajnainc.vaadinbuilder.VaadinBuilder
 import com.prajnainc.vaadinbuilder.VaadinBuilderException
 import com.vaadin.ui.AbstractLayout
 import com.vaadin.ui.Alignment
@@ -31,11 +32,14 @@ class LayoutFactory extends ComponentContainerFactory {
     }
 
     @Override
-    protected void setAlignmentFrom(VaadinFactory childFactory) {
-        // Apply child alignment via my component
-        if(childFactory.savedAttributes.containsKey(ALIGNMENT_ATTR)) {
-            assert component instanceof AbstractLayout
-            component.setComponentAlignment(childFactory.component,createAlignment(childFactory.savedAttributes['alignment']))
+    protected void setAlignmentFrom(VaadinBuilder childBuilder, Object parent, Object child) {
+        // Apply child alignment to the parent
+        def context = childBuilder.context
+
+        if(context.savedAttributes.containsKey(VaadinBuilder.ALIGNMENT_ATTR)) {
+            def alignment = context.savedAttributes[VaadinBuilder.ALIGNMENT_ATTR]
+            assert parent instanceof AbstractLayout
+            parent.setComponentAlignment(child,createAlignment(alignment))
         }
     }
 

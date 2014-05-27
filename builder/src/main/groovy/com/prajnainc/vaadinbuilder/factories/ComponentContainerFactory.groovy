@@ -15,6 +15,7 @@
  */
 package com.prajnainc.vaadinbuilder.factories
 
+import com.prajnainc.vaadinbuilder.VaadinBuilder
 import com.vaadin.ui.AbstractComponentContainer
 import com.vaadin.ui.Component
 import com.vaadin.ui.ComponentContainer
@@ -33,23 +34,22 @@ abstract class ComponentContainerFactory extends ComponentFactory {
 
     @Override
     void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
-        assert component instanceof AbstractComponentContainer
-        VaadinFactory childFactory = builder.childBuilder.currentFactory
-        addComponent(childFactory,child)
-        setAlignmentFrom(childFactory)
-        setExpandRatioFrom(childFactory)
+        assert parent instanceof AbstractComponentContainer
+        addComponent(builder.childBuilder,parent,child)
+        setAlignmentFrom(builder.childBuilder,parent,child)
+        setExpandRatioFrom(builder.childBuilder,parent,child)
 
     }
 
-    protected void addComponent(ComponentFactory childFactory,Component child) {
-        component.addComponent(child)
+    protected void addComponent(VaadinBuilder childBuilder, Component parent, Component child) {
+        parent.addComponent(child)
     }
 
-    protected void setAlignmentFrom(VaadinFactory childFactory) {
+    protected void setAlignmentFrom(VaadinBuilder childBuilder, Object parent, Object child) {
         // Do nothing by default
     }
 
-    protected void setExpandRatioFrom(VaadinFactory childFactory) {
+    protected void setExpandRatioFrom(VaadinBuilder childBuilder, Object parent, Object child) {
         // Do nothing by default
     }
 }

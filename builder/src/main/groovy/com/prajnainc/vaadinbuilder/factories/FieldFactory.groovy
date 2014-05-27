@@ -48,7 +48,7 @@ class FieldFactory extends ComponentFactory {
     @Override
     Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
         FieldGroup fieldGroup = findFieldGroup(builder.getCurrent())
-        super.newInstance(builder, name, value, attributes)
+        def component = super.newInstance(builder, name, value, attributes)
         if(fieldGroup) {
             if(!value) {
                 throw new VaadinBuilderException("Fields of a field group require a propery id")
@@ -66,8 +66,8 @@ class FieldFactory extends ComponentFactory {
      * @return
      */
     @Override
-    protected setComponentValue(Object value, Object attributes) {
-        return super.setComponentValue(value != null ? DefaultFieldFactory.createCaptionByPropertyId(value) : value, attributes)
+    protected setComponentValue(Component component, value, attributes) {
+        return super.setComponentValue(component, value != null ? DefaultFieldFactory.createCaptionByPropertyId(value) : value, attributes)
     }
 
     protected FieldGroup findFieldGroup(Component currentComponent) {

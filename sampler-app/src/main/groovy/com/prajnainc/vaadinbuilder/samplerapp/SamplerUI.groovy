@@ -17,7 +17,12 @@
 package com.prajnainc.vaadinbuilder.samplerapp
 
 import com.prajnainc.vaadinbuilder.VaadinBuilder
+import com.vaadin.data.Property
+import com.vaadin.data.util.ObjectProperty
 import com.vaadin.server.VaadinRequest
+import com.vaadin.shared.ui.MarginInfo
+import com.vaadin.ui.Button
+import com.vaadin.ui.Field
 import com.vaadin.ui.UI;
 /**
  * SamplerUI
@@ -31,11 +36,35 @@ class SamplerUI extends UI {
     protected void init(VaadinRequest vaadinRequest) {
         def view  = builder.build {
             panel(caption: "Top Panel") {
-                verticalLayout(width: '100%', height: '100%') {
-                    textArea(width: '100%', height: '100%', expandRatio: 1.0f,value: "Some text")
+                verticalLayout() {
+                    fieldGroup() {
+                        textField('input',id: 'inputField', columns: 30)
+                    }
+//                    button('Commit', id: 'commitButton')
                 }
             }
         }
+
+
+        Property property = new ObjectProperty(null,Object)
+        Field f =  builder.inputField
+        f.setPropertyDataSource(property)
+
+        property.addValueChangeListener(new Property.ValueChangeListener() {
+            @Override
+            void valueChange(Property.ValueChangeEvent valueChangeEvent) {
+                println "Property value changed: $valueChangeEvent.property.value"
+            }
+        })
+
+        Button b = builder.commitButton
+        b.addClickListener(new Button.ClickListener() {
+            @Override
+            void buttonClick(Button.ClickEvent clickEvent) {
+                f.commit()
+            }
+        })
+
         content = view
     }
 }

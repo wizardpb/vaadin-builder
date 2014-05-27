@@ -17,6 +17,7 @@
  */
 package com.prajnainc.vaadinbuilder.factories
 
+import com.vaadin.ui.Component
 import com.vaadin.ui.Label
 
 /**
@@ -35,7 +36,7 @@ class LabelFactory extends ComponentFactory {
     }
 
     @Override
-    protected setComponentValue(Object value, Object attributes) {
+    protected setComponentValue(Component component, value, attributes) {
         component.value = value
     }
 }
