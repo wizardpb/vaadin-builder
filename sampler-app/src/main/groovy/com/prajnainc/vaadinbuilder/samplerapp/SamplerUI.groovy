@@ -16,55 +16,58 @@
 
 package com.prajnainc.vaadinbuilder.samplerapp
 
-import com.prajnainc.vaadinbuilder.VaadinBuilder
-import com.vaadin.data.Property
-import com.vaadin.data.util.ObjectProperty
+import com.prajnainc.vaadinbuilder.ui.BuilderUI
+import com.vaadin.server.BrowserWindowOpener
 import com.vaadin.server.VaadinRequest
 import com.vaadin.shared.ui.MarginInfo
 import com.vaadin.ui.Button
-import com.vaadin.ui.Field
-import com.vaadin.ui.UI;
+
 /**
- * SamplerUI
+ * <p>{@link SamplerUI} is the main {@link com.vaadin.ui.UI} for the Sampler app. It implements a Vaadin Buidle rsmapler application that
+ * allows textural builder scripts to be entered and built on teh fly, allowing experimentation and exploration of using
+ * {@link com.prajnainc.vaadinbuilder.VaadinBuilder}</p>
+ * <p>It has a larger text area in which a textual
+ * builder definition can be typed, and a 'Build' {@link Button} that opens a new UI (a {@link BuiltUI} that uses that
+ * definition to build its content.</p>
  *
  */
-class SamplerUI extends UI {
+class SamplerUI extends BuilderUI {
 
-    def builder = new VaadinBuilder()
+    public static SamplerUI instance
 
     @Override
-    protected void init(VaadinRequest vaadinRequest) {
-        def view  = builder.build {
-            panel(caption: "Top Panel") {
-                verticalLayout() {
-                    fieldGroup() {
-                        textField('input',id: 'inputField', columns: 30)
+    def getViewDefinition() {
+        return {
+            verticalLayout(width: '100%', height: '100%', margin: new MarginInfo(true), spacing: true) {
+                panel(caption: "UI Builder", width: '100%', height: '100%') {
+                    verticalLayout( width: '100%', height: '100%', margin: new MarginInfo(true), spacing: true) {
+                        textArea(caption: 'Build Script',id: 'buildScriptText', width: '100%', height: '100%', expandRatio: 1.0f)
+                        button('Build!', id: 'buildButton')
                     }
-//                    button('Commit', id: 'commitButton')
                 }
             }
         }
+    }
 
+    @Override
+    protected void init(VaadinRequest vaadinRequest) {
 
-        Property property = new ObjectProperty(null,Object)
-        Field f =  builder.inputField
-        f.setPropertyDataSource(property)
+        super.init(vaadinRequest)
 
-        property.addValueChangeListener(new Property.ValueChangeListener() {
-            @Override
-            void valueChange(Property.ValueChangeEvent valueChangeEvent) {
-                println "Property value changed: $valueChangeEvent.property.value"
-            }
-        })
+        Button b = builder.buildButton
 
-        Button b = builder.commitButton
-        b.addClickListener(new Button.ClickListener() {
-            @Override
-            void buttonClick(Button.ClickEvent clickEvent) {
-                f.commit()
-            }
-        })
+        // Create an opener extension
+        BrowserWindowOpener opener = new BrowserWindowOpener(BuiltUI.class);
+        opener.setFeatures("height=200,width=300,resizable");
 
-        content = view
+        // Attach it to a button
+        opener.extend(b);
+
+        instance = this
+
+    }
+
+    String getBuildScript() {
+        builder.buildScriptText.value
     }
 }

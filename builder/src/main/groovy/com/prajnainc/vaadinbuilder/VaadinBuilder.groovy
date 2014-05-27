@@ -223,6 +223,19 @@ class VaadinBuilder extends FactoryBuilderSupport {
         // TODO - Widget
     }
 
+
+    /**
+     * Build from a String script using my classLoader
+     *
+     * @param script
+     * @return - the built UI
+     */
+    public Object build(String script) {
+        def loader = getClass().classLoader
+        loader = loader instanceof GroovyClassLoader ? loader : new GroovyClassLoader(loader)
+        build(script,loader)
+    }
+
     @Override
     protected Object dispatchNodeCall(Object name, Object args) {
         currentNodeName = name
