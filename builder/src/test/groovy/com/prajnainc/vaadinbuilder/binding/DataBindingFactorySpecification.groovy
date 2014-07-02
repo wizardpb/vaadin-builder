@@ -15,7 +15,7 @@
  */
 package com.prajnainc.vaadinbuilder.binding
 
-import com.prajnainc.vaadinbuilder.support.GroovyMapItem
+import com.prajnainc.vaadinbuilder.support.GroovyBeanItem
 import com.vaadin.data.Container
 import com.vaadin.data.Item
 import com.vaadin.ui.Label
@@ -55,7 +55,7 @@ public class DataBindingFactorySpecification extends Specification {
 
         then:
         // It sets the item source once when bound, then again when the bound property changes
-        2 * itemViewer.setItemDataSource(_ as GroovyMapItem)
+        2 * itemViewer.setItemDataSource(_ as GroovyBeanItem)
     }
 
 }

@@ -25,37 +25,56 @@ import com.vaadin.data.util.AbstractProperty
  */
 class GroovyObjectProperty extends AbstractProperty {
 
-    GroovyObject instance
-    String name
+    private Class type
+    private getter
+    private setter
+    private String readOnlyMessage
 
-    public GroovyObjectProperty(instance,name,readOnly=false) {
+    public GroovyObjectProperty(GroovyObject instance,name,readOnly=false) {
         def metaProperty = instance.metaClass.getMetaProperty(name)
         if(!metaProperty) throw new VaadinBuilderException("$instance has no property '$name'")
 
-        this.instance = instance
-        this.name = name
+        this.type = metaProperty.type
+        this.getter = {-> instance.getProperty(name)}
+
+        if(!readOnly && metaProperty.setter != null) {
+            this.setter = { newValue -> instance.setProperty(name, newValue) }
+        }
+        this.readOnlyMessage = "$name on $instance is read-only"
+
         super.setReadOnly(readOnly || (metaProperty.setter == null))
+    }
+
+    public GroovyObjectProperty(Map instance,name,readOnly=false) {
+
+        this.type = Object
+        this.getter = {-> instance[name] }
+
+        if(!readOnly) {
+            this.setter = { newValue -> instance[name] = newValue }
+        }
+        this.readOnlyMessage = "$name on $instance is read-only"
+
+        super.setReadOnly(readOnly)
     }
 
     @Override
     void setReadOnly(boolean newStatus) {
         // Only set read-only if there is a setter on the instance
-        if(instance.metaClass.getMetaProperty(name).setter != null) {
-            super.setReadOnly(newStatus)
-        }
+        if(setter) { super.setReadOnly(newStatus) }
     }
 
     @Override
     Object getValue() {
-        return instance.getProperty(name)
+        return getter()
     }
 
     @Override
     void setValue(Object newValue) throws Property.ReadOnlyException {
         if(readOnly) {
-            throw new Property.ReadOnlyException("$name on $instance is read-only")
+            throw new Property.ReadOnlyException(readOnlyMessage)
         }
-        instance.setProperty(name,newValue)
+        setter(newValue)
         fireValueChange()
     }
 
@@ -68,7 +87,7 @@ class GroovyObjectProperty extends AbstractProperty {
 
     @Override
     Class getType() {
-        return instance.metaClass.getMetaProperty(name).type
+        return type
     }
 
 }

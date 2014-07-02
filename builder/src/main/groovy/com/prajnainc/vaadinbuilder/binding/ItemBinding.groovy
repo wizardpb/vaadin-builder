@@ -19,7 +19,6 @@ package com.prajnainc.vaadinbuilder.binding
 
 import com.prajnainc.vaadinbuilder.VaadinBuilderException
 import com.prajnainc.vaadinbuilder.support.GroovyBeanItem
-import com.prajnainc.vaadinbuilder.support.GroovyMapItem
 import com.vaadin.data.Item
 
 import java.beans.PropertyChangeEvent
@@ -69,13 +68,7 @@ class ItemBinding extends AbstractDataBinding {
         def value = source.getProperty(sourceProperty)
         Item item = null
         if(value) {
-            item = itemIds ?
-                    (value instanceof Map ?
-                            new GroovyMapItem(value,itemIds) :
-                            new GroovyBeanItem(value, itemIds)) :
-                    (value instanceof Map ?
-                            new GroovyMapItem(value) :
-                            new GroovyBeanItem(value))
+            item = itemIds ? new GroovyBeanItem(value, itemIds) : new GroovyBeanItem(value)
         }
         return item
     }

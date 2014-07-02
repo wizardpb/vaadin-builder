@@ -98,4 +98,35 @@ public class GroovyObjectPropertySpecification extends Specification {
         that event.property, sameInstance(prop)
     }
 
+    def "it can read a Map entry as a property"() {
+
+        given:
+        def prop = new GroovyObjectProperty([prop1: 'prop1', prop2: 'prop2'],'prop1')
+
+        expect:
+        prop.value == 'prop1'
+    }
+
+    def "it can write a Map entry as a property"() {
+
+        given:
+        def bean = [prop1: 'prop1', prop2: 'prop2']
+        def prop = new GroovyObjectProperty(bean,'prop1')
+        prop.value = 'new string'
+
+        expect:
+        bean.prop1 == 'new string'
+
+    }
+
+    def "it can make a Map entry read-only"() {
+        when:
+        def instance = [prop1: 'prop1']
+        def prop = new GroovyObjectProperty(instance,'prop1',true)
+        prop.value = ''
+
+        then:
+        thrown(Property.ReadOnlyException)
+        instance.prop1 == 'prop1'
+    }
 }

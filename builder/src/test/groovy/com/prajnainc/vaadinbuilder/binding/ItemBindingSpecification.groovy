@@ -16,7 +16,6 @@
 package com.prajnainc.vaadinbuilder.binding
 
 import com.prajnainc.vaadinbuilder.support.GroovyBeanItem
-import com.prajnainc.vaadinbuilder.support.GroovyMapItem
 import com.vaadin.data.fieldgroup.FieldGroup
 import groovy.beans.Bindable
 import spock.lang.Specification
@@ -74,7 +73,7 @@ public class ItemBindingSpecification extends Specification {
         new ItemBinding(source: model, sourceProperty: 'modelProp').bind(target)
 
         expect:
-        that target.itemDataSource, instanceOf(GroovyMapItem)
+        that target.itemDataSource, instanceOf(GroovyBeanItem)
         that target.itemDataSource.itemPropertyIds as Set, equalTo(['prop1','prop2'] as Set)
         ['prop1','prop2'].every { target.itemDataSource.getItemProperty(it).value == it }
     }

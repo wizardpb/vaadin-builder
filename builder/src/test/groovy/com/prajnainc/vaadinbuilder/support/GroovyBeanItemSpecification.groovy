@@ -99,4 +99,20 @@ public class GroovyBeanItemSpecification extends Specification {
         item.getItemPropertyIds() as List == ['objectProp','stringProp']
 
     }
+
+    def "it can wrap a Map"() {
+        expect:
+        Item item = new GroovyBeanItem([
+                objectProp:[value: 1],
+                stringProp: 'string',
+                intProp: 1,
+        ])
+        item.getItemProperty(propName).value == propValue
+
+        where:
+        propName        | propValue
+        'objectProp'    | [value: 1]
+        'stringProp'    | 'string'
+        'intProp'       | 1
+    }
 }
