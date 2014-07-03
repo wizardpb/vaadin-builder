@@ -18,6 +18,7 @@
 package com.prajnainc.vaadinbuilder.binding
 
 import com.prajnainc.vaadinbuilder.VaadinBuilderException
+import com.prajnainc.vaadinbuilder.support.BindingCategory
 import com.vaadin.data.Item
 import com.vaadin.data.Property
 import com.vaadin.data.fieldgroup.FieldGroup
@@ -25,7 +26,7 @@ import com.vaadin.server.ClientConnector
 import com.vaadin.ui.Component
 
 /**
- * DataBindingFactory
+ * A {@link DataBindingFactory} creates bindings for later binding to a target.
  *
  * TODO - binding for Container targets. Does Table need a special one ?
  *
@@ -38,37 +39,12 @@ class DataBindingFactory implements DataBinding {
 
     public DataBinding createBinding() {
         assert source != null && target != null
-        DataBinding binding
-        switch(source) {
-            case Component: binding = createForComponent(); break;
-            default: binding = createForModel(); break;
-        }
-        return binding
+        return use(BindingCategory) { target.bindTo(source,sourceProperty) }
     }
 
     public DataBinding createBindingForTarget(Object target) {
         this.target = target
         return createBinding()
-    }
-
-    private DataBinding createForModel() {
-        DataBinding binding
-        switch(target) {
-            case Item.Viewer:
-            case FieldGroup:
-                binding = new ItemBinding(target: target, source: source, sourceProperty: sourceProperty);
-                break;
-            case Property.Viewer:
-                binding = new PropertyBinding(target: target, source: source, sourceProperty: sourceProperty)
-                break;
-            default:
-                throw new VaadinBuilderException("Cannot create a binding for target $target")
-        }
-        return binding
-    }
-
-    private DataBinding createForComponent() {
-        throw new UnsupportedOperationException("bind component")
     }
 
     @Override

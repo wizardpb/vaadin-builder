@@ -24,34 +24,25 @@ import com.vaadin.data.util.ObjectProperty
 import java.beans.PropertyChangeEvent
 
 /**
- * PropertyBinding
+ * A {@link PropertyBinding} binds a source as a single value, usually to a {@link com.vaadin.data.Property.Viewer}
  *
  */
 class PropertyBinding extends AbstractDataBinding {
 
     @Override
-    DataBinding bind() {
-        assert target != null; assert source != null
+    protected void bindSourceProperty() {
+        target.setPropertyDataSource(new GroovyObjectProperty(source, sourceProperty))
+    }
 
-        // If there is a source property, bind it as a property on a model object ...
-        if(sourceProperty) {
-            if(source.metaClass.getMetaProperty(sourceProperty) == null) {
-                throw new VaadinBuilderException("Source $source has no property $sourceProperty")
-            }
-
-            target.setPropertyDataSource(new GroovyObjectProperty(source, sourceProperty))
-            addChangeListener()
-        } else {
-            // .. otherwise bind the source object directly, as a value
-            target.setPropertyDataSource(new ObjectProperty(source))
-        }
-        return this
+    @Override
+    protected void bindSource() {
+        target.setPropertyDataSource(new ObjectProperty(source))
     }
 
     @Override
     void unbind() {
         target.setPropertyDataSource(null)
-        removeChangeListener()
+        super.unbind()
     }
 
     @Override

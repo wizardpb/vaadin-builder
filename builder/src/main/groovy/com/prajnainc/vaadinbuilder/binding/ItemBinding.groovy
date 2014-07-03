@@ -17,15 +17,13 @@
  */
 package com.prajnainc.vaadinbuilder.binding
 
-import com.prajnainc.vaadinbuilder.VaadinBuilderException
 import com.prajnainc.vaadinbuilder.support.GroovyBeanItem
 import com.vaadin.data.Item
 
 import java.beans.PropertyChangeEvent
 
 /**
- * ItemBinding
- *
+ * An ItemBinding binds some source object as an {@link Item}, usually to an {@link Item.Viewer}.
  *
  */
 class ItemBinding extends AbstractDataBinding {
@@ -33,28 +31,24 @@ class ItemBinding extends AbstractDataBinding {
     List itemIds
 
     @Override
-    DataBinding bind() {
-        assert target != null; assert source != null
-
-        // If there is a source property, bind it as a property on a model object ...
-        if(sourceProperty) {
-            if(source.metaClass.getMetaProperty(sourceProperty) == null) {
-                throw new VaadinBuilderException("Source $source has no property $sourceProperty")
-            }
-
-            target.setItemDataSource(createItem())
-            addChangeListener()
-        } else {
-            // .. otherwise bind the source object directly, as a bean
-            target.setItemDataSource(new GroovyBeanItem(source))
+    protected void bindSourceProperty() {
+        def value = source.getProperty(sourceProperty)
+        Item item = null
+        if(value) {
+            item = itemIds ? new GroovyBeanItem(value, itemIds) : new GroovyBeanItem(value)
         }
-        return this
+        target.setItemDataSource(item)
+    }
+
+    @Override
+    protected void bindSource() {
+        target.setItemDataSource(new GroovyBeanItem(source))
     }
 
     @Override
     void unbind() {
         target.setItemDataSource(null)
-        removeChangeListener()
+        super.unbind()
     }
 
     @Override
@@ -64,12 +58,4 @@ class ItemBinding extends AbstractDataBinding {
         }
     }
 
-    private Item createItem() {
-        def value = source.getProperty(sourceProperty)
-        Item item = null
-        if(value) {
-            item = itemIds ? new GroovyBeanItem(value, itemIds) : new GroovyBeanItem(value)
-        }
-        return item
-    }
 }

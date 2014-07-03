@@ -41,6 +41,8 @@ import static org.hamcrest.CoreMatchers.equalTo
 import static org.hamcrest.CoreMatchers.instanceOf
 import static spock.util.matcher.HamcrestSupport.that
 
+// TODO - check exception conditions
+
 public class ItemBindingSpecification extends Specification {
 
     static class Model {
