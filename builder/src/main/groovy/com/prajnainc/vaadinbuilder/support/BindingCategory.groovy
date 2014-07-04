@@ -21,9 +21,12 @@ import com.prajnainc.vaadinbuilder.VaadinBuilderException
 import com.prajnainc.vaadinbuilder.binding.DataBinding
 import com.prajnainc.vaadinbuilder.binding.ItemBinding
 import com.prajnainc.vaadinbuilder.binding.PropertyBinding
+import com.prajnainc.vaadinbuilder.binding.SelectContainerBinding
 import com.vaadin.data.Item
 import com.vaadin.data.Property
 import com.vaadin.data.fieldgroup.FieldGroup
+import com.vaadin.ui.AbstractSelect
+import com.vaadin.ui.Table
 
 /**
  * BindingCategory
@@ -43,6 +46,14 @@ class BindingCategory {
 
     static DataBinding bindTo(Property.Viewer self, Object source, String sourceProperty) {
         new PropertyBinding(target: self, source: source, sourceProperty: sourceProperty)
+    }
+
+    static DataBinding bindTo(AbstractSelect self, Object source, String sourceProperty) {
+        new SelectContainerBinding(target: self, source: source, sourceProperty: sourceProperty)
+    }
+
+    static DataBinding bindTo(Table self, Object source, String sourceProperty) {
+        throw new VaadinBuilderException("Table binding not yet implemented")
     }
 
     static DataBinding bindTo(Object self, Object source, String sourceProperty) {

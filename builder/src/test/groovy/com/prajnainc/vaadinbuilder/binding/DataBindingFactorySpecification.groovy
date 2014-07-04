@@ -15,10 +15,15 @@
  */
 package com.prajnainc.vaadinbuilder.binding
 
+import com.prajnainc.vaadinbuilder.VaadinBuilderException
 import com.prajnainc.vaadinbuilder.support.GroovyBeanItem
 import com.vaadin.data.Container
 import com.vaadin.data.Item
+import com.vaadin.data.fieldgroup.FieldGroup
+import com.vaadin.data.util.IndexedContainer
+import com.vaadin.ui.ComboBox
 import com.vaadin.ui.Label
+import com.vaadin.ui.Table
 import groovy.beans.Bindable
 import spock.lang.Specification
 
@@ -26,7 +31,9 @@ public class DataBindingFactorySpecification extends Specification {
 
     def property = Spy(Label)
     def itemViewer = Mock(Item.Viewer)
-    def containerViewer = Mock(Container.Viewer)
+    def fieldGroup = Mock(FieldGroup)
+    def comboBox = Mock(ComboBox)
+    def table = Mock(Table)
 
     static class TestModel {
         @Bindable
@@ -58,4 +65,42 @@ public class DataBindingFactorySpecification extends Specification {
         2 * itemViewer.setItemDataSource(_ as GroovyBeanItem)
     }
 
+    def "it can create and bind a Bindable to a FieldGroup"() {
+        when:
+
+        new DataBindingFactory(source: testModel,sourceProperty: 'modelProp').bind(fieldGroup)
+        testModel.modelProp = [prop1: 'newProp1']
+
+        then:
+        // It sets the item source once when bound, then again when the bound property changes
+        2 * fieldGroup.setItemDataSource(_ as GroovyBeanItem)
+    }
+
+    def "it can create and bind a Bindable to an AbstractSelect (ComboBox)"() {
+        when:
+        testModel.modelProp = 1..5
+        new DataBindingFactory(source: testModel,sourceProperty: 'modelProp').bind(comboBox)
+        testModel.modelProp = 'a'..'d'
+
+        then:
+        // It sets the item source once when bound, then again when the bound property changes
+        2 * comboBox.setContainerDataSource(_ as IndexedContainer)
+    }
+
+    def "it throws an exception on a Table (temporary)"() {
+        when:
+        new DataBindingFactory(source: testModel,sourceProperty: 'modelProp').bind(table)
+
+        then:
+        def e = thrown VaadinBuilderException
+    }
+
+    def "it throws an exception on a non-bindable object"() {
+        when:
+
+        new DataBindingFactory(source: testModel,sourceProperty: 'modelProp').bind([:])
+
+        then:
+        def e = thrown VaadinBuilderException
+    }
 }
