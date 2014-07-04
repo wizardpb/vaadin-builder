@@ -44,21 +44,20 @@ public class TableColumnFactorySpecification extends BuilderSpecification {
         that table.containerPropertyIds as List,equalTo(['column1'])
     }
 
-    @NotYetImplemented
     def "it can build a columns with headers, icons and alignment"() {
 
         given:
         def icon = new FileResource(new File('/some/file'))
         Table t = builder.build {
             table(id: 'table') {
-                tableColumn('column1',header:'Column One',alignment: Alignment.BOTTOM_LEFT, icon: icon)
+                tableColumn('column1',header:'Column One', alignment: Table.Align.CENTER , icon: icon)
             }
         }
 
         expect:
-        that t.getColumnAlignment('column1'),equalTo(Alignment.BOTTOM_LEFT)
+        that t.getColumnAlignment('column1'),equalTo(Table.Align.CENTER )
         that t.getColumnHeader('column1'), equalTo('Column One')
-        that t.getColumnIcon(),sameInstance(icon)
+        that t.getColumnIcon('column1'),sameInstance(icon)
     }
 
     def "it can build a columns with a type"() {

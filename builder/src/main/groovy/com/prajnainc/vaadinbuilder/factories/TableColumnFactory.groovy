@@ -51,7 +51,8 @@ class TableColumnFactory extends AbstractFactory implements VaadinFactory {
         Class type = attributes.type ?: Object
 
         // Builder saves general attribute 'alignment' here
-        Alignment alignment = builder.savedAttributes.alignment
+        Table.Align alignment = builder.savedAttributes.alignment
+
         table.addContainerProperty(child.value,type,null,header,icon,alignment)
     }
 }

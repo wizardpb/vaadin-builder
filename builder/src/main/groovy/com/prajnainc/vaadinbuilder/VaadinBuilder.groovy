@@ -260,10 +260,11 @@ class VaadinBuilder extends FactoryBuilderSupport {
          * Collect saved attributes and save them on the current context. This is made available to the factories via the builder,
          * and (because it is saved in the context) is unique to the current node being built
          */
-        context.savedAttributes = [:]
+        def savedAttributes = [:]
         ATTRIBUTES_TO_SAVE.each {
-            if(attributes.containsKey(it)) context.savedAttributes[it] = attributes.remove(it)
+            if(attributes.containsKey(it)) savedAttributes[it] = attributes.remove(it)
         }
+        context.savedAttributes = savedAttributes
         return super.createNode(name, attributes, value)
     }
 
