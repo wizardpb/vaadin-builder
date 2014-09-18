@@ -27,6 +27,12 @@ import com.vaadin.data.util.filter.UnsupportedFilterException
 /**
  * GroovyBeanContainer
  *
+ * Modeled on {@link AbstractBeanContainer}, a {@link GroovyBeanContainer} allows a more flexible containment
+ * of object values. As long as the contained objects can be contained in a {@link @GroovyBeanItem), they
+ * can be added to this {@link Container}. The allowable set of {@link Item} properties is defined by
+ * a set of {@link GroovyObjectPropertyDescriptor}s, which can be defined at container creation time, or
+ * added dynamically.
+ *
  */
 class GroovyBeanContainer extends AbstractInMemoryContainer<Object,Object, GroovyBeanItem> implements
         Container.Filterable, Container.SimpleFilterable, Container.Sortable, Property.ValueChangeListener,
@@ -48,6 +54,26 @@ class GroovyBeanContainer extends AbstractInMemoryContainer<Object,Object, Groov
      * Determines the property ids that are present in the container.
      */
     private LinkedHashMap<String,GroovyObjectPropertyDescriptor> model;
+
+    /**
+     * Create an instance with a given type
+     *
+     * @param type
+     * @param properties
+     */
+    public GroovyBeanContainer(Class<?> type, List<GroovyObjectPropertyDescriptor> properties) {
+        this.type = type
+        this.model = properties.collectEntries { [it.name, it]}
+    }
+
+    /**
+     * Create an instance of general type
+     *
+     * @param properties
+     */
+    public GroovyBeanContainer(List<GroovyObjectPropertyDescriptor> properties) {
+        this(Object,properties)
+    }
 
     /*
      * (non-Javadoc)
@@ -623,9 +649,10 @@ class GroovyBeanContainer extends AbstractInMemoryContainer<Object,Object, Groov
     @Override
     public boolean addContainerProperty(Object propertyId, Class<?> type,
                                         Object defaultValue) throws UnsupportedOperationException {
-        throw new UnsupportedOperationException(
-                "Use addNestedContainerProperty(String) to add container properties to a "
-                        + getClass().getSimpleName());
+        def descriptor = new GroovyObjectPropertyDescriptor(
+                name: propertyId, propertyType: type, defaultValue: defaultValue
+        )
+        addContainerProperty(propertyId, descriptor)
     }
 
     /**
@@ -637,8 +664,7 @@ class GroovyBeanContainer extends AbstractInMemoryContainer<Object,Object, Groov
      * @param propertyDescriptor
      * @return true if the property was added
      */
-    protected final boolean addContainerProperty(String propertyId,
-                                                 VaadinPropertyDescriptor<GroovyObject> propertyDescriptor) {
+    protected final boolean addContainerProperty(String propertyId, GroovyObjectPropertyDescriptor propertyDescriptor) {
         if (null == propertyId || null == propertyDescriptor) {
             return false;
         }
@@ -658,60 +684,6 @@ class GroovyBeanContainer extends AbstractInMemoryContainer<Object,Object, Groov
         fireContainerPropertySetChange();
 
         return true;
-    }
-
-    /**
-     * Adds a nested container property for the container, e.g.
-     * "manager.address.street".
-     *
-     * All intermediate getters must exist and should return non-null values
-     * when the property value is accessed. If an intermediate getter returns
-     * null, a null value will be returned.
-     *
-     * @see com.vaadin.data.util.NestedMethodProperty
-     *
-     * @param propertyId
-     * @return true if the property was added
-     */
-    public boolean addNestedContainerProperty(String propertyId) {
-        return addContainerProperty(propertyId, new NestedPropertyDescriptor(
-                propertyId, type));
-    }
-
-    /**
-     * Adds a nested container properties for all sub-properties of a named
-     * property to the container. The named property itself is removed from the
-     * model as its subproperties are added.
-     *
-     * All intermediate getters must exist and should return non-null values
-     * when the property value is accessed. If an intermediate getter returns
-     * null, a null value will be returned.
-     *
-     * @see com.vaadin.data.util.NestedMethodProperty
-     * @see #addNestedContainerProperty(String)
-     *
-     * @param propertyId
-     */
-    @SuppressWarnings("unchecked")
-    public void addNestedContainerBean(String propertyId) {
-        Class<?> propertyType = getType(propertyId);
-        LinkedHashMap<String, VaadinPropertyDescriptor<Object>> pds = GroovyBeanItem
-                .getPropertyDescriptors((Class<Object>) propertyType);
-        for (String subPropertyId : pds.keySet()) {
-            String qualifiedPropertyId = propertyId + "." + subPropertyId;
-            NestedPropertyDescriptor<GroovyObject> pd = new NestedPropertyDescriptor<GroovyObject>(
-                    qualifiedPropertyId, (Class<GroovyObject>) type);
-            model.put(qualifiedPropertyId, pd);
-            model.remove(propertyId);
-            for (GroovyBeanItem item : itemIdToItem.values()) {
-                item.addItemProperty(propertyId,
-                        pd.createProperty(item.getBean()));
-                item.removeItemProperty(propertyId);
-            }
-        }
-
-        // Sends a change event
-        fireContainerPropertySetChange();
     }
 
     @Override

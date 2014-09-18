@@ -26,12 +26,13 @@ import com.vaadin.data.util.VaadinPropertyDescriptor
  */
 class GroovyObjectPropertyDescriptor implements VaadinPropertyDescriptor<Object> {
 
-    private String propertyName
-    private Class propertyType
+    private String name
+    private Class propertyType = Object
+    private Object defaultValue
 
     @Override
     String getName() {
-        return propertyName
+        return name
     }
 
     @Override
@@ -39,8 +40,12 @@ class GroovyObjectPropertyDescriptor implements VaadinPropertyDescriptor<Object>
         return propertyType
     }
 
+    Object getDefaultValue() {
+        return defaultValue
+    }
+
     @Override
     Property<?> createProperty(Object bean) {
-        return new GroovyObjectProperty(bean,propertyName)
+        return new GroovyObjectProperty(bean,name)
     }
 }
