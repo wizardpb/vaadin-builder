@@ -30,6 +30,8 @@ class GroovyObjectPropertyDescriptor implements VaadinPropertyDescriptor<Object>
     private Class propertyType = Object
     private Object defaultValue
 
+    // TODO - validate defaultValue type ?
+
     @Override
     String getName() {
         return name
@@ -46,6 +48,18 @@ class GroovyObjectPropertyDescriptor implements VaadinPropertyDescriptor<Object>
 
     @Override
     Property<?> createProperty(Object bean) {
-        return new GroovyObjectProperty(bean,name)
+        initializeDefault(bean)
+        return new GroovyObjectProperty(bean, name)
+    }
+
+    private void initializeDefault(GroovyObject bean) {
+        // No action for default values on GroovyObject targets - the property should be there, so use it's value
+    }
+
+    private void initializeDefault(Map bean) {
+        // Only initialize with the default if the property (map key) is not there
+        if(!bean.containsKey(name)) {
+            bean[name] = defaultValue
+        }
     }
 }

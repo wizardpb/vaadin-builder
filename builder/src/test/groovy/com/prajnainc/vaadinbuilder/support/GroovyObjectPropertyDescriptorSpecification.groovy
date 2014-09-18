@@ -66,4 +66,41 @@ public class GroovyObjectPropertyDescriptorSpecification extends Specification {
         that prop, instanceOf(GroovyObjectProperty)
         that prop.value, equalTo('value')
     }
+
+    def "it should initialize default properties in Maps without the property"() {
+        given:
+        def descriptor = new GroovyObjectPropertyDescriptor(name: 'prop', propertyType: Object, defaultValue: '')
+        def bean = [:]
+        def prop = descriptor.createProperty(bean)
+
+        expect:
+        that prop.value, equalTo('')
+        that bean, equalTo([prop: ''])
+
+    }
+
+    def "it should not initialize default properties in Maps with the property"() {
+        given:
+        def descriptor = new GroovyObjectPropertyDescriptor(name: 'prop', propertyType: Object, defaultValue: '')
+        def bean = [prop: 'value']
+        def prop = descriptor.createProperty(bean)
+
+        expect:
+        that prop.value, equalTo('value')
+        that bean, equalTo([prop: 'value'])
+    }
+
+    static class TestObject {
+        def prop = 'objProp'
+    }
+
+    def "it should not initialize default properties on GroovyObjects"() {
+        given:
+        def descriptor = new GroovyObjectPropertyDescriptor(name: 'prop', propertyType: Object, defaultValue: '')
+        def bean = new TestObject()
+        def prop = descriptor.createProperty(bean)
+
+        expect:
+        that prop.value, equalTo('objProp')
+    }
 }

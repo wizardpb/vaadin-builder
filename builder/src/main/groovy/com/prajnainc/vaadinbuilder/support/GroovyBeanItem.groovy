@@ -24,9 +24,12 @@ import com.vaadin.data.util.PropertysetItem
  */
 class GroovyBeanItem extends PropertysetItem {
 
+    private Object bean
+
     private static List HIDDEN_PROPERTIES = ['class', 'propertyChangeListeners']
 
     GroovyBeanItem(GroovyObject groovyBean,List properties) {
+        this.bean = groovyBean
         properties.each {
             addItemProperty(it,new GroovyObjectProperty(groovyBean,it))
         }
@@ -37,6 +40,7 @@ class GroovyBeanItem extends PropertysetItem {
     }
 
     GroovyBeanItem(Map mapBean,List properties) {
+        this.bean = mapBean
         properties.each {
             addItemProperty(it,new GroovyObjectProperty(mapBean,it))
         }
@@ -44,5 +48,9 @@ class GroovyBeanItem extends PropertysetItem {
 
     GroovyBeanItem(Map mapBean) {
         this(mapBean,mapBean.keySet() as List)
+    }
+
+    public Object getBean() {
+        return bean
     }
 }
