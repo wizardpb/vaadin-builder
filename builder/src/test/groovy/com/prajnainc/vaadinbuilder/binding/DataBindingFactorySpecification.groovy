@@ -72,6 +72,7 @@ public class DataBindingFactorySpecification extends Specification {
         testModel.modelProp = [prop1: 'newProp1']
 
         then:
+        // TODO - check for call to fieldGroup.getItenIds()
         // It sets the item source once when bound, then again when the bound property changes
         2 * fieldGroup.setItemDataSource(_ as GroovyBeanItem)
     }

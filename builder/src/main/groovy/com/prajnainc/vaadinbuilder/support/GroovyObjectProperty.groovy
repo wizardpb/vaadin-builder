@@ -22,6 +22,8 @@ import com.vaadin.data.util.AbstractProperty
 /**
  * GroovyObjectProperty
  *
+ * TODO - make it handle nested property names: 'a.b.c'
+ *
  */
 class GroovyObjectProperty extends AbstractProperty {
 

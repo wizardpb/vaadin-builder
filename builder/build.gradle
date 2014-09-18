@@ -22,7 +22,7 @@ repositories {
 version='0.1.0'
 
 dependencies {
-    compile 'org.codehaus.groovy:groovy-all:2.2.2',
+    compile 'org.codehaus.groovy:groovy-all:2.3.6',
 //            'com.vaadin:vaadin-client:7.1.13',
 //            'com.vaadin:vaadin-client-compiled:7.1.13',
 //            'com.vaadin:vaadin-push:7.1.13',

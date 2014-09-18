@@ -119,7 +119,7 @@ class VaadinBuilder extends FactoryBuilderSupport {
         }
 
         /*
-         * Bind actual data binding objects directly. At this point, bindingAttr should be the correct property name for the
+         * Bind actual data binding objects directly. At this point, bindingAttr should be the correct property propertyName for the
          * node type and binding object type
          */
         target."$bindingAttr" = bindingValue

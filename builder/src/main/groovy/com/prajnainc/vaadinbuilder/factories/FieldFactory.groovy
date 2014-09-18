@@ -24,10 +24,10 @@ import com.vaadin.ui.Component
 import com.vaadin.ui.DefaultFieldFactory
 
 /**
- * <p>A {@link FieldFactory} builds fields of explicit types, given by the node name that was used to invoke the builder. If there is
+ * <p>A {@link FieldFactory} builds fields of explicit types, given by the node propertyName that was used to invoke the builder. If there is
  * a field group in the enclosing component hierarchy (an instance of {@link FieldGroup},
  * it will use that to bind the field to a {@link Property} of the appropriate type (supplied by the field group), and whose property Id is
- * the value argument passed to the builder. This Property will then be bound to a Groovy property of that same name on the model type contained in the
+ * the value argument passed to the builder. This Property will then be bound to a Groovy property of that same propertyName on the model type contained in the
  * {@link FieldGroup}. See {@link FieldGroupFactory} and {@link com.prajnainc.vaadinbuilder.binding.DataBinding} for details of how {@link FieldGroup} nodes
  * can be bound to data sources</p>
  *

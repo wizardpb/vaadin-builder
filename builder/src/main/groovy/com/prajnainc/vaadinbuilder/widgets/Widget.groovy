@@ -26,7 +26,7 @@ import com.vaadin.ui.Component
  * itself playing the role of presenter. It contains a definition of the view, implemented as a {@link Closure} that can
  * be passed to a {@link VaadinBuilder} to create the hierarchy of Vaadin {@link com.vaadin.ui.Component}s that actually implement and display the UI.
  *
- * Each instance of a {@link Widget} can have a unique name, which is used to identify the component by id, as other {@link com.vaadin.ui.Component}s
+ * Each instance of a {@link Widget} can have a unique propertyName, which is used to identify the component by id, as other {@link com.vaadin.ui.Component}s
  * built by a builder are.
  *
  * Widgets can be introduced into a containing view by the use of the builder 'widget' node. When encountered. this node creates an instance of the

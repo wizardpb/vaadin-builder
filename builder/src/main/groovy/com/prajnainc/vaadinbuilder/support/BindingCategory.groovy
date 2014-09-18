@@ -41,6 +41,7 @@ class BindingCategory {
     }
 
     static DataBinding bindTo(FieldGroup self, Object source, String sourceProperty) {
+        // TODO what about itemIds?
         new ItemBinding(target: self, source: source, sourceProperty: sourceProperty)
     }
 

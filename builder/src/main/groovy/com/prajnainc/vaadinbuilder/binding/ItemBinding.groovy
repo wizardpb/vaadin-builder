@@ -34,7 +34,7 @@ class ItemBinding extends AbstractDataBinding {
     protected void bindSourceProperty() {
         def value = source.getProperty(sourceProperty)
         Item item = null
-        if(value) {
+        if(value != null) {
             item = itemIds ? new GroovyBeanItem(value, itemIds) : new GroovyBeanItem(value)
         }
         target.setItemDataSource(item)
