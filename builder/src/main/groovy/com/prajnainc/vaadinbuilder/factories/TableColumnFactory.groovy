@@ -18,6 +18,7 @@
 package com.prajnainc.vaadinbuilder.factories
 
 import com.prajnainc.vaadinbuilder.VaadinBuilderException
+import com.prajnainc.vaadinbuilder.binding.TableBinding
 import com.vaadin.server.Resource
 import com.vaadin.ui.Alignment
 import com.vaadin.ui.Table
@@ -46,13 +47,30 @@ class TableColumnFactory extends AbstractFactory implements VaadinFactory {
 
         def attributes = child.attributes
         Table table = parent
-        String header = attributes.header ?: attributes.value
+        String propertyId = child.value ?: attributes.name
+        if(!propertyId) {
+            throw new VaadinBuilderException('Table columns must be named')
+        }
+        String header = attributes.header ?: propertyId
         Resource icon = attributes.icon
         Class type = attributes.type ?: Object
+        def defaultValue = attributes.defaultValue
 
         // Builder saves general attribute 'alignment' here
         Table.Align alignment = builder.savedAttributes.alignment
 
-        table.addContainerProperty(child.value,type,null,header,icon,alignment)
+        // If the data is bound, add it to the binding so we retain it across re-binds
+        TableBinding binding = table.data?.binding
+        if(binding) {
+            binding.addDescriptor(propertyId,type,defaultValue)  // This also adds it as a container property
+
+            // Set the column properties
+            table.setColumnHeader(propertyId,header)
+            table.setColumnIcon(propertyId,icon)
+            table.setColumnAlignment(propertyId,alignment)
+        } else {
+            // Just add it to the table directly
+            table.addContainerProperty(propertyId,type,null,header,icon,alignment)
+        }
     }
 }

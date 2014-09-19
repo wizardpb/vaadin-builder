@@ -28,7 +28,7 @@ class GroovyBeanItem extends PropertysetItem {
 
     private static List HIDDEN_PROPERTIES = ['class', 'propertyChangeListeners']
 
-    GroovyBeanItem(GroovyObject groovyBean,List properties) {
+    GroovyBeanItem(GroovyObject groovyBean,Collection<String> properties) {
         this.bean = groovyBean
         properties.each {
             addItemProperty(it,new GroovyObjectProperty(groovyBean,it))
@@ -39,7 +39,7 @@ class GroovyBeanItem extends PropertysetItem {
         this(groovyBean,groovyBean.metaClass.getProperties()*.name - HIDDEN_PROPERTIES)
     }
 
-    GroovyBeanItem(Map mapBean,List properties) {
+    GroovyBeanItem(Map mapBean,Collection<String> properties) {
         this.bean = mapBean
         properties.each {
             addItemProperty(it,new GroovyObjectProperty(mapBean,it))
@@ -47,7 +47,7 @@ class GroovyBeanItem extends PropertysetItem {
     }
 
     GroovyBeanItem(Map mapBean) {
-        this(mapBean,mapBean.keySet() as List)
+        this(mapBean,mapBean.keySet())
     }
 
     public Object getBean() {

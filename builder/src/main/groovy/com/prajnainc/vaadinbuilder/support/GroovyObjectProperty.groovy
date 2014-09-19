@@ -32,7 +32,7 @@ class GroovyObjectProperty extends AbstractProperty {
     private setter
     private String readOnlyMessage
 
-    public GroovyObjectProperty(GroovyObject instance,name,readOnly=false) {
+    public GroovyObjectProperty(GroovyObject instance,String name,readOnly=false) {
         def metaProperty = instance.metaClass.getMetaProperty(name)
         if(!metaProperty) throw new VaadinBuilderException("$instance has no property '$name'")
 
@@ -47,7 +47,7 @@ class GroovyObjectProperty extends AbstractProperty {
         super.setReadOnly(readOnly || (metaProperty.setter == null))
     }
 
-    public GroovyObjectProperty(Map instance,name,readOnly=false) {
+    public GroovyObjectProperty(Map instance,String name,readOnly=false) {
 
         this.type = Object
         this.getter = {-> instance[name] }

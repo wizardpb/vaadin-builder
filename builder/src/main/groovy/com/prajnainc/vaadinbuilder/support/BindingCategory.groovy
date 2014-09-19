@@ -22,6 +22,7 @@ import com.prajnainc.vaadinbuilder.binding.DataBinding
 import com.prajnainc.vaadinbuilder.binding.ItemBinding
 import com.prajnainc.vaadinbuilder.binding.PropertyBinding
 import com.prajnainc.vaadinbuilder.binding.SelectContainerBinding
+import com.prajnainc.vaadinbuilder.binding.TableBinding
 import com.vaadin.data.Item
 import com.vaadin.data.Property
 import com.vaadin.data.fieldgroup.FieldGroup
@@ -54,7 +55,7 @@ class BindingCategory {
     }
 
     static DataBinding bindTo(Table self, Object source, String sourceProperty) {
-        throw new VaadinBuilderException("Table binding not yet implemented")
+        new TableBinding(target: self, source: source, sourceProperty: sourceProperty)
     }
 
     static DataBinding bindTo(Object self, Object source, String sourceProperty) {
