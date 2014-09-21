@@ -73,7 +73,7 @@ public class TabSheetFactorySpecification extends BuilderSpecification {
         given:
         TabSheet tabSheet = builder.build {
             tabSheet {
-                label('tab 1', tabCaption: 'Label1')
+                label('tab 1', caption: 'Label1')
             }
         }
 

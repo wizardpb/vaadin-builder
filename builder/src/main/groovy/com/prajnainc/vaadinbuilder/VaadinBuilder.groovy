@@ -38,14 +38,12 @@ class VaadinBuilder extends FactoryBuilderSupport {
     public final static String ALIGNMENT_ATTR       = 'alignment'           // Component alignment in layout cell
     public final static String GRID_POSITION_ATTR   = 'position'            // position in GridLayout
     public final static String GRID_SPAN_ATTR       = 'span'                // Span of cells in GridLayout
-    public final static String TAB_CAPTION          = 'tabCaption'
-    public final static String TAB_ICON             = 'tabIcon'
-    // TODO tab position
+    public final static String MODEL_TYPE_ATTR      = 'modelType'           // The type (class) of a Property, Item or Container binding
 
     private static final ATTRIBUTES_TO_SAVE = [
             EXPAND_RATIO_ATTR, ALIGNMENT_ATTR,
             GRID_POSITION_ATTR, GRID_SPAN_ATTR,
-            TAB_CAPTION, TAB_ICON
+            MODEL_TYPE_ATTR
     ]
 
     public static final String DELEGATE_PROPERTY_OBJECT_ID = "_delegateProperty:id";

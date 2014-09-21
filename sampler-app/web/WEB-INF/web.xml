@@ -13,6 +13,6 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>VaadinApplicationServlet</servlet-name>
-        <url-pattern>/sampler/*</url-pattern>
+        <url-pattern>/*</url-pattern>
     </servlet-mapping>
 </web-app>

@@ -159,7 +159,7 @@ implements BeanContainer
     }
 
     private GroovyBeanItem createItem(bean) {
-        return new GroovyBeanItem(bean,model.keySet())
+        return new GroovyBeanItem(bean,model.values())
     }
 }
 

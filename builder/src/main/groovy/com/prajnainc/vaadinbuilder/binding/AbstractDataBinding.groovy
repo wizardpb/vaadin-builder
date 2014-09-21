@@ -18,6 +18,7 @@
 package com.prajnainc.vaadinbuilder.binding
 
 import com.prajnainc.vaadinbuilder.VaadinBuilderException
+import com.prajnainc.vaadinbuilder.support.GroovyObjectPropertyDescriptor
 import com.vaadin.server.ClientConnector
 
 import java.beans.PropertyChangeListener
@@ -36,15 +37,11 @@ abstract class AbstractDataBinding implements DataBinding, PropertyChangeListene
     def source
     String sourceProperty
     def target
+    List propertyDescriptors
 
     abstract protected void bindSourceProperty();
 
     abstract protected void bindSource();
-
-    @Override
-    void detach(ClientConnector.DetachEvent event) {
-        unbind()
-    }
 
     @Override
     DataBinding bind(Object target) {
@@ -74,6 +71,13 @@ abstract class AbstractDataBinding implements DataBinding, PropertyChangeListene
     @Override
     void unbind() {
         removeChangeListener()
+    }
+
+    public GroovyObjectPropertyDescriptor descriptorFor(String propName) {
+        def pd = propertyDescriptors.find { GroovyObjectPropertyDescriptor it ->
+            it.name == propName
+        }
+        return pd
     }
 
     protected addChangeListener() {

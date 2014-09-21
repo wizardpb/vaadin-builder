@@ -19,6 +19,7 @@ package com.prajnainc.vaadinbuilder.binding
 
 import com.prajnainc.vaadinbuilder.VaadinBuilderException
 import com.prajnainc.vaadinbuilder.support.GroovyObjectProperty
+import com.prajnainc.vaadinbuilder.support.GroovyObjectPropertyDescriptor
 import com.vaadin.data.util.ObjectProperty
 
 import java.beans.PropertyChangeEvent
@@ -31,7 +32,8 @@ class PropertyBinding extends AbstractDataBinding {
 
     @Override
     protected void bindSourceProperty() {
-        target.setPropertyDataSource(new GroovyObjectProperty(source, sourceProperty))
+        // Type and default values deafult to those defined by the source
+        target.setPropertyDataSource(new GroovyObjectPropertyDescriptor(name: sourceProperty).createProperty(source))
     }
 
     @Override

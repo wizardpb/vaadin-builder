@@ -37,28 +37,27 @@ import com.vaadin.ui.Table
  */
 class BindingCategory {
 
-    static DataBinding bindTo(Item.Viewer self, Object source, String sourceProperty) {
-        new ItemBinding(target: self, source: source, sourceProperty: sourceProperty)
+    static DataBinding bindTo(Item.Viewer self, Object source, String sourceProperty, List propertyDescriptors) {
+        new ItemBinding(target: self, source: source, sourceProperty: sourceProperty, propertyDescriptors: propertyDescriptors)
     }
 
-    static DataBinding bindTo(FieldGroup self, Object source, String sourceProperty) {
-        // TODO what about itemIds?
-        new ItemBinding(target: self, source: source, sourceProperty: sourceProperty)
+    static DataBinding bindTo(FieldGroup self, Object source, String sourceProperty, List propertyDescriptors) {
+        new ItemBinding(target: self, source: source, sourceProperty: sourceProperty, propertyDescriptors: propertyDescriptors)
     }
 
-    static DataBinding bindTo(Property.Viewer self, Object source, String sourceProperty) {
-        new PropertyBinding(target: self, source: source, sourceProperty: sourceProperty)
+    static DataBinding bindTo(Property.Viewer self, Object source, String sourceProperty, List propertyDescriptors) {
+        new PropertyBinding(target: self, source: source, sourceProperty: sourceProperty, propertyDescriptors: propertyDescriptors)
     }
 
-    static DataBinding bindTo(AbstractSelect self, Object source, String sourceProperty) {
-        new SelectContainerBinding(target: self, source: source, sourceProperty: sourceProperty)
+    static DataBinding bindTo(AbstractSelect self, Object source, String sourceProperty, List propertyDescriptors) {
+        new SelectContainerBinding(target: self, source: source, sourceProperty: sourceProperty, propertyDescriptors: propertyDescriptors)
     }
 
-    static DataBinding bindTo(Table self, Object source, String sourceProperty) {
-        new TableBinding(target: self, source: source, sourceProperty: sourceProperty)
+    static DataBinding bindTo(Table self, Object source, String sourceProperty, List propertyDescriptors) {
+        new TableBinding(target: self, source: source, sourceProperty: sourceProperty, propertyDescriptors: propertyDescriptors)
     }
 
-    static DataBinding bindTo(Object self, Object source, String sourceProperty) {
+    static DataBinding bindTo(Object self, Object source, String sourceProperty, List propertyDescriptors) {
         throw new VaadinBuilderException("Cannot create a binding for target $self")
     }
 }

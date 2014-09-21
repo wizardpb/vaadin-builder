@@ -30,7 +30,7 @@ import java.beans.PropertyChangeEvent
  */
 class TableBinding extends AbstractDataBinding {
 
-    def propertyDescriptors = []
+    List<GroovyObjectPropertyDescriptor> propertyDescriptors = []
 
     private bindData(Object data) {
         Container container = new GroovyBeanContainer(propertyDescriptors)
@@ -42,9 +42,10 @@ class TableBinding extends AbstractDataBinding {
     }
 
     public void addDescriptor(String propertyId, Class type, Object defaultValue) {
-        assert target.containerDataSource instanceof Container
         propertyDescriptors.add(new GroovyObjectPropertyDescriptor(name:propertyId, propertyType: type, defaultValue: defaultValue))
-        target.containerDataSource.addContainerProperty(propertyId,type,defaultValue)
+        if(target.containerDataSource) {
+            target.containerDataSource.addContainerProperty(propertyId,type,defaultValue)
+        }
     }
 
     @Override

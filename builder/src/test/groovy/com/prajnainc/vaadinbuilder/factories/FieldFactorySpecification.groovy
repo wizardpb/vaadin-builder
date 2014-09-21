@@ -17,6 +17,9 @@ package com.prajnainc.vaadinbuilder.factories
 
 import com.prajnainc.vaadinbuilder.BuilderSpecification
 import com.prajnainc.vaadinbuilder.VaadinBuilderException
+import com.vaadin.data.util.converter.DefaultConverterFactory
+import com.vaadin.data.util.converter.StringToIntegerConverter
+import com.vaadin.server.VaadinSession
 import com.vaadin.ui.*
 
 import static org.hamcrest.CoreMatchers.equalTo
@@ -49,6 +52,10 @@ public class FieldFactorySpecification extends BuilderSpecification {
         Integer intProp = 1
         Boolean boolProp = true
         Date dateProp = new Date()
+    }
+
+    def mockSession = Stub(VaadinSession) {
+        getConverterFactory() >> (new DefaultConverterFactory())
     }
 
     def "it should build all fields with explicit type"() {
@@ -111,7 +118,7 @@ public class FieldFactorySpecification extends BuilderSpecification {
         then:
         def e = thrown(RuntimeException)
         e.cause instanceof VaadinBuilderException
-        e.cause.message == "Fields of a field group require a propery id"
+        e.cause.message == "Fields of a field group require a property id"
 
     }
 
@@ -127,7 +134,8 @@ public class FieldFactorySpecification extends BuilderSpecification {
         then:
         def e = thrown(RuntimeException)
         e.cause instanceof VaadinBuilderException
-        e.cause.message == "Fields of a field group require a propery id"
+        e.cause.message == "Fields of a field group require a property id"
 
     }
+
 }

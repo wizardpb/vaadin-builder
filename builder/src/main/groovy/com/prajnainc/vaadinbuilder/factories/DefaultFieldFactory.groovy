@@ -35,7 +35,7 @@ class DefaultFieldFactory extends FieldFactory {
     @Override
     Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
 
-        def fieldGroup = findFieldGroup((Component)builder.current)
+        def fieldGroup = findFieldGroupContainer((Component)builder.current)?.data?.fieldGroup
 
         if(!fieldGroup) {
             throw new VaadinBuilderException("Cannot use a $name node without a field group")

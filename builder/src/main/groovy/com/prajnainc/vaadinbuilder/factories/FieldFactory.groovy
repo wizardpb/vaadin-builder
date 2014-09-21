@@ -17,9 +17,16 @@
  */
 package com.prajnainc.vaadinbuilder.factories
 
+import com.prajnainc.vaadinbuilder.VaadinBuilder
 import com.prajnainc.vaadinbuilder.VaadinBuilderException
+import com.prajnainc.vaadinbuilder.binding.AbstractDataBinding
+import com.prajnainc.vaadinbuilder.binding.DataBinding
+import com.prajnainc.vaadinbuilder.support.GroovyObjectPropertyDescriptor
 import com.vaadin.data.Property
 import com.vaadin.data.fieldgroup.FieldGroup
+import com.vaadin.ui.AbstractComponent
+import com.vaadin.ui.AbstractComponentContainer
+import com.vaadin.ui.AbstractField
 import com.vaadin.ui.Component
 import com.vaadin.ui.DefaultFieldFactory
 
@@ -47,18 +54,55 @@ class FieldFactory extends ComponentFactory {
 
     @Override
     Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
-        FieldGroup fieldGroup = findFieldGroup(builder.getCurrent())
-        def component = super.newInstance(builder, name, value, attributes)
-        if(fieldGroup) {
-            if(!value) {
-                throw new VaadinBuilderException("Fields of a field group require a propery id")
-            }
-            fieldGroup.bind(component,value)
+
+        AbstractComponent container = findFieldGroupContainer(builder.getCurrent())
+        FieldGroup fieldGroup = container?.data?.fieldGroup
+
+        if(fieldGroup && !value) {
+            throw new VaadinBuilderException("Fields of a field group require a property id")
         }
+
+        AbstractField component = super.newInstance(builder, name, value, attributes)
+
+        // Save propName, modelType, fieldGroup and binding for later
+        def modelType = attributes.remove(VaadinBuilder.MODEL_TYPE_ATTR)
+
+        if(modelType && !(modelType instanceof Class)) {
+            throw new VaadinBuilderException("Model type must be a class")
+        }
+
+        component.data = [
+                propName: value,
+                modelType: modelType,
+                fieldGroup: fieldGroup, binding: container?.data?.binding
+        ]
+
         return component
     }
 
-    /**
+    @Override
+    void setParent(FactoryBuilderSupport builder, Object parent, Object child) {
+        super.setParent(builder, parent, child)
+
+        String propName = child.data?.propName
+        FieldGroup fieldGroup = child.data?.fieldGroup
+
+        if(fieldGroup) {
+            assert propName as boolean
+            AbstractDataBinding binding = child.data.binding
+
+            // Get the model type from the attributes or the binding if it's there
+            GroovyObjectPropertyDescriptor descriptor = binding?.propertyDescriptors.find { it.name == propName}
+            Class modelType = child.data.modelType ?: (descriptor?.propertyType ?: Object)
+
+            if(!child.converter && !(modelType in [String,Object])) {
+                // We need a converter - look for a default
+                child.setConverter(modelType)
+            }
+            fieldGroup.bind(child,propName)
+        }
+    }
+/**
      * For a field, the factory value argument is humanized and used to set the component caption
      *
      * @param value
@@ -70,10 +114,10 @@ class FieldFactory extends ComponentFactory {
         return super.setComponentValue(component, value != null ? DefaultFieldFactory.createCaptionByPropertyId(value) : value, attributes)
     }
 
-    protected FieldGroup findFieldGroup(Component currentComponent) {
+    protected AbstractComponent findFieldGroupContainer(Component currentComponent) {
         // Recurse up the parent chain until we find a field group or no parent
         if(currentComponent == null) return null
-        if(currentComponent.data?.fieldGroup instanceof FieldGroup) return currentComponent.data.fieldGroup
-        return findFieldGroup(currentComponent.parent)
+        if(currentComponent.data?.fieldGroup instanceof FieldGroup) return currentComponent
+        return findFieldGroupContainer(currentComponent.parent)
     }
 }

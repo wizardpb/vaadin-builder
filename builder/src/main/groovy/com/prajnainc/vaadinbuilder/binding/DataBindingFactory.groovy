@@ -19,6 +19,7 @@ package com.prajnainc.vaadinbuilder.binding
 
 import com.prajnainc.vaadinbuilder.VaadinBuilderException
 import com.prajnainc.vaadinbuilder.support.BindingCategory
+import com.prajnainc.vaadinbuilder.support.GroovyBeanItem
 import com.vaadin.data.Item
 import com.vaadin.data.Property
 import com.vaadin.data.fieldgroup.FieldGroup
@@ -33,28 +34,38 @@ import com.vaadin.ui.Component
  */
 class DataBindingFactory implements DataBinding {
 
-    def target
     def source
     String sourceProperty
+    def target
+    List propertyDescriptors = []
 
     public DataBinding createBinding() {
-        assert source != null && target != null
-        return use(BindingCategory) { target.bindTo(source,sourceProperty) }
-    }
-
-    public DataBinding createBindingForTarget(Object target) {
-        this.target = target
-        return createBinding()
+        assert source != null
+        DataBinding binding
+        if(target != null) {
+            // If there is a target, we can create the binding
+            binding = use(BindingCategory) { target.bindTo(source,sourceProperty,propertyDescriptors) }
+        } else {
+            // If there is no target, create any target type information we can, and return ourseleves
+            if(sourceProperty) {
+                Class bindingType = source.metaClass.getMetaProperty(sourceProperty).type
+                propertyDescriptors = GroovyBeanItem.bindablePropertyDescriptorsFor(bindingType)
+            }
+            binding = this
+        }
+        return binding
     }
 
     @Override
     DataBinding bind() {
+        assert target != null
         return createBinding().bind()
     }
 
     @Override
     DataBinding bind(Object target) {
-        return createBindingForTarget(target).bind()
+        this.target = target
+        return bind()
     }
 
     @Override
@@ -62,8 +73,4 @@ class DataBindingFactory implements DataBinding {
         throw new UnsupportedOperationException("Binding factories cannot unbind()")
     }
 
-    @Override
-    void detach(ClientConnector.DetachEvent event) {
-        // No op
-    }
 }

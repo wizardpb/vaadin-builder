@@ -17,6 +17,7 @@
 package com.prajnainc.vaadinbuilder.support
 
 import com.vaadin.data.Item
+import com.vaadin.data.util.VaadinPropertyDescriptor
 import spock.lang.Specification
 
 import static org.hamcrest.CoreMatchers.equalTo
@@ -45,6 +46,17 @@ public class GroovyBeanItemSpecification extends Specification {
 
        expect:
        that item.getItemPropertyIds() as Set, equalTo(['objectProp','stringProp','intProp','dummyProp','dummyBool','readOnly'] as Set)
+
+    }
+
+    def "it binds the correct types on a GroovyObject"() {
+        given:
+        def item = new GroovyBeanItem(new GroovyBean())
+
+        expect:
+        that item.getItemPropertyIds().collectEntries { [it,item.getItemProperty(it)?.type]}, equalTo(
+                [objectProp: Object,stringProp: String,intProp: Integer,dummyProp: Object,dummyBool: boolean, readOnly: Object]
+        )
 
     }
 
@@ -93,14 +105,20 @@ public class GroovyBeanItemSpecification extends Specification {
     def "it can specify the properties to bind" () {
 
         given:
-        def item = new GroovyBeanItem(new GroovyBean(),['objectProp','stringProp'])
+        def item = new GroovyBeanItem(new GroovyBean(),[
+                new GroovyObjectPropertyDescriptor(name: 'objectProp', propertyType: Object),
+                new GroovyObjectPropertyDescriptor(name: 'stringProp', propertyType: String)
+        ])
 
         expect:
-        item.getItemPropertyIds() as List == ['objectProp','stringProp']
+        that item.getItemPropertyIds() as List, equalTo(['objectProp','stringProp'])
+        that item.getItemPropertyIds().collectEntries { [it,item.getItemProperty(it)?.type]}, equalTo(
+                [objectProp: Object,stringProp: String]
+        )
 
     }
 
-    def "it can wrap a Map"() {
+    def "it can bind to a Map"() {
         expect:
         Item item = new GroovyBeanItem([
                 objectProp:[value: 1],
@@ -114,5 +132,30 @@ public class GroovyBeanItemSpecification extends Specification {
         'objectProp'    | [value: 1]
         'stringProp'    | 'string'
         'intProp'       | 1
+    }
+
+    def "it binds to a Map with specific types"() {
+        given:
+        def mapBean = [
+                objectProp:[value: 1],
+                stringProp: 'string',
+                intProp: 1,
+        ]
+        Item item = new GroovyBeanItem(mapBean, [
+                new GroovyObjectPropertyDescriptor(name: 'objectProp', propertyType: Map, defaultValue: [:]),
+                new GroovyObjectPropertyDescriptor(name: 'stringProp', propertyType: String, defaultValue: ''),
+                new GroovyObjectPropertyDescriptor(name: 'intProp', propertyType: Integer, defaultValue: null)
+        ])
+
+        expect:
+        that item.getItemPropertyIds().collectEntries { [it,item.getItemProperty(it)?.type]}, equalTo(
+                [objectProp: Map,stringProp: String, intProp: Integer]
+        )
+
+
+    }
+
+    def "it can detect types exceptions"() {
+        // TODO - implement
     }
 }

@@ -32,6 +32,18 @@ public class GroovyBeanContainerSpecification extends Specification {
         Object prop3
     }
 
+    def descriptors = [
+            new GroovyObjectPropertyDescriptor(name: 'prop1', propertyType: String),
+            new GroovyObjectPropertyDescriptor(name: 'prop2', propertyType: int),
+            new GroovyObjectPropertyDescriptor(name: 'prop3', propertyType: Object)
+    ]
+
+    def container
+
+    def setup() {
+        container = new GroovyBeanContainer(descriptors)
+    }
+
     def "it can be created with no properties"() {
         given:
         def container = new GroovyBeanContainer()
@@ -43,11 +55,7 @@ public class GroovyBeanContainerSpecification extends Specification {
     def "it can be created with a list of property descriptors"() {
 
         given:
-        def container = new GroovyBeanContainer([
-                new GroovyObjectPropertyDescriptor(name: 'prop1'),
-                new GroovyObjectPropertyDescriptor(name: 'prop2', propertyType: String),
-                new GroovyObjectPropertyDescriptor(name: 'prop3', propertyType: String, defaultValue: '')
-        ])
+        def container = new GroovyBeanContainer(descriptors)
 
         expect:
         that container.containerPropertyIds, equalTo(['prop1','prop2','prop3'] as Set)
@@ -56,9 +64,6 @@ public class GroovyBeanContainerSpecification extends Specification {
     def "it can add an object as an item"() {
 
         given:
-        def container = new GroovyBeanContainer((1..3).collect {
-            new GroovyObjectPropertyDescriptor(name: 'prop'+it)
-        })
         def bean = new TestBean(prop1: 'prop1', prop2: 2, prop3: null)
         Item item = container.addBean(bean)
 
@@ -72,9 +77,6 @@ public class GroovyBeanContainerSpecification extends Specification {
 
     def "it can add a collection of objects"() {
         given:
-        def container = new GroovyBeanContainer((1..3).collect {
-            new GroovyObjectPropertyDescriptor(name: 'prop'+it)
-        })
         def beans = (1..4).collect {
             new TestBean(prop1: 'prop'+it, prop2: it, prop3: [val: it])
         }
@@ -93,9 +95,6 @@ public class GroovyBeanContainerSpecification extends Specification {
     def "it can remove items"() {
 
         given:
-        def container = new GroovyBeanContainer((1..3).collect {
-            new GroovyObjectPropertyDescriptor(name: 'prop'+it)
-        })
         def beans = (1..4).collect {
             new TestBean(prop1: 'prop'+it, prop2: it, prop3: [val: it])
         }
@@ -112,9 +111,9 @@ public class GroovyBeanContainerSpecification extends Specification {
     def "it can add container properties"() {
         def bean = new TestBean(prop1: 'prop1Value')
         given:
-        def container = new GroovyBeanContainer()
+        container = new GroovyBeanContainer()
         container.addBean(bean)
-        container.addContainerProperty('prop1',Object,null)
+        container.addContainerProperty('prop1',String,null)
 
         expect:
         that container.getContainerPropertyIds() as List,is(['prop1'])

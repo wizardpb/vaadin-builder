@@ -15,17 +15,21 @@
  */
 package com.prajnainc.vaadinbuilder.factories
 
+import com.google.gwt.thirdparty.javascript.jscomp.CodingConvention
 import com.prajnainc.vaadinbuilder.BuilderSpecification
 import com.prajnainc.vaadinbuilder.VaadinBuilderException
 import com.prajnainc.vaadinbuilder.binding.DataBindingFactory
 import com.prajnainc.vaadinbuilder.binding.ItemBinding
 import com.vaadin.data.Item
 import com.vaadin.data.fieldgroup.FieldGroup
+import com.vaadin.data.util.converter.DefaultConverterFactory
+import com.vaadin.server.VaadinSession
 import com.vaadin.ui.AbsoluteLayout
 import com.vaadin.ui.FormLayout
 import com.vaadin.ui.Label
 import com.vaadin.ui.VerticalLayout
 import groovy.beans.Bindable
+import groovy.transform.NotYetImplemented
 
 import static org.hamcrest.CoreMatchers.*
 
@@ -52,15 +56,28 @@ public class FieldGroupFactorySpecification extends BuilderSpecification {
 
     static class TestObject {
         String stringProp = 'string'
-        int intProp = 1
+        Integer intProp = 1
         boolean boolProp = true
     }
 
+//    def mockSession = Stub(VaadinSession) {
+//        getConverterFactory() >> (new DefaultConverterFactory())
+//    }
+
     static class TestModel {
-        @Bindable def modelProp = new TestObject()
+        @Bindable TestObject modelProp = new TestObject()
+        @Bindable objProp = [stringProp: 'string', intProp: 1, boolProp: true]
     }
 
     def testModel = new TestModel()
+
+    def mockSession = Stub(VaadinSession) {
+        getConverterFactory() >> new DefaultConverterFactory()
+    }
+
+    def setup() {
+        VaadinSession.setCurrent(mockSession)
+    }
 
     def "it recognizes the id attribute"() {
 
@@ -132,10 +149,88 @@ public class FieldGroupFactorySpecification extends BuilderSpecification {
 
         expect:
         that itemDataSource, instanceOf(Item)
-        that itemDataSource.itemPropertyIds as Set, equalTo(['stringProp','intProp','boolProp'] as Set)
+        that itemDataSource.itemPropertyIds as Set, equalTo([] as Set)
         that layout.data.binding, instanceOf(ItemBinding)
         that layout.data.binding.target, sameInstance(fieldGroup)
         that layout.data.binding.source, sameInstance(testModel)
+    }
+
+    def "it can bind to a bind call and imply types from the source"() {
+
+        given:
+        FormLayout layout = builder.build {
+            fieldGroup('myForm', dataSource: bind(source: testModel, sourceProperty: 'modelProp' ))
+        }
+        def fieldGroup = layout.data.fieldGroup
+        def itemDataSource = fieldGroup.itemDataSource
+
+        expect:
+        that itemDataSource, instanceOf(Item)
+        that itemDataSource.itemPropertyIds as Set, equalTo(['stringProp', 'intProp', 'boolProp'] as Set)
+    }
+
+    @NotYetImplemented
+    def "it can bind fields to a source with fields of explicit model type"() {
+
+        given:
+        FormLayout layout = builder.build {
+            fieldGroup('myForm', dataSource: bind(source: testModel, sourceProperty: 'objProp' )) {
+                textField('stringProp', modelType: String)
+                textField('intProp', modelType: Integer)
+                checkBox('boolProp', modelType: Boolean)
+            }
+        }
+        def fieldGroup = layout.data.fieldGroup
+        Item itemDataSource = fieldGroup.itemDataSource
+
+        expect:
+        that itemDataSource.itemPropertyIds as Set, equalTo(['stringProp', 'intProp', 'boolProp'] as Set)
+        that itemDataSource.getItemProperty('stringProp').value, equalTo(testModel.objProp.stringProp)
+        that itemDataSource.getItemProperty('intProp').value, equalTo(testModel.objProp.intProp)
+        that itemDataSource.getItemProperty('boolProp').value, equalTo(testModel.objProp.boolProp)
+    }
+
+    def "it can bind fields to a source with fields that need converters"() {
+
+        given:
+        FormLayout layout = builder.build {
+            fieldGroup('myForm', dataSource: bind(source: testModel, sourceProperty: 'modelProp' )) {
+                textField('stringProp')
+                textField('intProp')
+                checkBox('boolProp')
+            }
+        }
+        def fieldGroup = layout.data.fieldGroup
+        Item itemDataSource = fieldGroup.itemDataSource
+
+        expect:
+        that itemDataSource.itemPropertyIds as Set, equalTo(['stringProp', 'intProp', 'boolProp'] as Set)
+        that itemDataSource.getItemProperty('stringProp').value, equalTo(testModel.modelProp.stringProp)
+        that itemDataSource.getItemProperty('intProp').value, equalTo(testModel.modelProp.intProp)
+        that itemDataSource.getItemProperty('boolProp').value, equalTo(testModel.modelProp.boolProp)
+    }
+
+    def "it can initialize with null and re-bind fields with the correct types"() {
+
+        given:
+        testModel.modelProp = null
+        FormLayout layout = builder.build {
+            fieldGroup('myForm', dataSource: bind(source: testModel, sourceProperty: 'modelProp' )) {
+                textField('stringProp')
+                textField('intProp')
+                checkBox('boolProp')
+            }
+        }
+        testModel.modelProp = new TestObject()
+        def fieldGroup = layout.data.fieldGroup
+        def itemDataSource = fieldGroup.itemDataSource
+
+        expect:
+        that itemDataSource, instanceOf(Item)
+        that itemDataSource.itemPropertyIds as Set, equalTo(['stringProp','intProp','boolProp'] as Set)
+        that itemDataSource.getItemProperty('stringProp').value, equalTo(testModel.modelProp.stringProp)
+        that itemDataSource.getItemProperty('intProp').value, equalTo(testModel.modelProp.intProp)
+        that itemDataSource.getItemProperty('boolProp').value, equalTo(testModel.modelProp.boolProp)
     }
 
     def "it should catch non-layouts as attributes"() {

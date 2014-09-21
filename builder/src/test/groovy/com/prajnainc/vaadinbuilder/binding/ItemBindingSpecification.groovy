@@ -16,6 +16,7 @@
 package com.prajnainc.vaadinbuilder.binding
 
 import com.prajnainc.vaadinbuilder.support.GroovyBeanItem
+import com.prajnainc.vaadinbuilder.support.GroovyObjectPropertyDescriptor
 import com.vaadin.data.fieldgroup.FieldGroup
 import groovy.beans.Bindable
 import spock.lang.Specification
@@ -54,12 +55,23 @@ public class ItemBindingSpecification extends Specification {
         String prop2 = 'prop2'
     }
 
+    def descriptors = [
+            new GroovyObjectPropertyDescriptor(name: 'prop1', propertyType: String),
+            new GroovyObjectPropertyDescriptor(name: 'prop2', propertyType: String)
+
+    ]
+
+    def itemBinding
+
+    def setup() {
+        itemBinding = new ItemBinding(source: new Model(modelProp: new TestBean()),sourceProperty: 'modelProp', propertyDescriptors: descriptors)
+    }
+
     def "it should bind a property containing a Groovy bean"() {
 
         given:
-        def model = new Model(modelProp: new TestBean())
         def FieldGroup target = new FieldGroup()
-        new ItemBinding(source: model, sourceProperty: 'modelProp').bind(target)
+        itemBinding.bind(target)
 
         expect:
         that target.itemDataSource, instanceOf(GroovyBeanItem)
@@ -70,9 +82,9 @@ public class ItemBindingSpecification extends Specification {
     def "it should bind a property containing a Map"() {
 
         given:
-        def model = new Model(modelProp: [prop1: 'prop1', prop2: 'prop2'])
+        itemBinding.source = new Model(modelProp: [prop1: 'prop1', prop2: 'prop2'])
         def FieldGroup target = new FieldGroup()
-        new ItemBinding(source: model, sourceProperty: 'modelProp').bind(target)
+        itemBinding.bind(target)
 
         expect:
         that target.itemDataSource, instanceOf(GroovyBeanItem)
@@ -83,9 +95,9 @@ public class ItemBindingSpecification extends Specification {
     def "it can set a target and bind"() {
 
         given:
-        def model = new Model(modelProp: new TestBean())
         def FieldGroup target = new FieldGroup()
-        new ItemBinding(source: model, sourceProperty: 'modelProp',target: target).bind()
+        itemBinding.target = target
+        itemBinding.bind()
 
         expect:
         that target.itemDataSource, instanceOf(GroovyBeanItem)
@@ -96,9 +108,9 @@ public class ItemBindingSpecification extends Specification {
     def "it can bind a specific set of properties"() {
 
         given:
-        def model = new Model(modelProp: new TestBean())
         def FieldGroup target = new FieldGroup()
-        new ItemBinding(source: model, sourceProperty: 'modelProp', itemIds: ['prop1']).bind(target)
+        itemBinding.propertyDescriptors = descriptors.take(1)
+        itemBinding.bind(target)
 
         expect:
         that target.itemDataSource, instanceOf(GroovyBeanItem)
@@ -109,26 +121,25 @@ public class ItemBindingSpecification extends Specification {
     def "it will maintain the binding when the source property changes"() {
 
         given:
-        def model = new Model(modelProp: new TestBean())
         def FieldGroup target = new FieldGroup()
-        new ItemBinding(source: model, sourceProperty: 'modelProp').bind(target)
-        model.modelProp = new TestBean(prop1: 'new-prop1',prop2: 'new-prop2')
-        target.itemDataSource.getItemProperty('prop2').value = 'updated-prop2'
+        itemBinding.bind(target)
+        itemBinding.source.modelProp = new TestBean(prop1: 'new-prop1',prop2: 'new-prop2')
+        target.itemDataSource.getItemProperty('prop2').value = 'new-prop2'
 
         expect:
         that target.itemDataSource.getItemProperty('prop1').value, equalTo("new-prop1")
-        that target.itemDataSource.getItemProperty('prop2').value, equalTo("updated-prop2")
-        that model.modelProp.prop2, equalTo("updated-prop2")
+        that target.itemDataSource.getItemProperty('prop2').value, equalTo("new-prop2")
+        that itemBinding.source.modelProp.prop2, equalTo("new-prop2")
     }
 
     def "it can bind a source directly"() {
 
         given:
-        def model = new Model(modelProp: new TestBean())
         def FieldGroup target = new FieldGroup()
         new ItemBinding(source: new TestBean()).bind(target)
 
         expect:
         ['prop1','prop2'].every { target.itemDataSource.getItemProperty(it).value == it }
     }
+
 }

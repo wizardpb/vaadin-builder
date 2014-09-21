@@ -37,8 +37,6 @@ class BindFactory extends AbstractFactory implements VaadinFactory {
         def target = attributes.remove('target')
 
         def factory = new DataBindingFactory(target: target, source: source, sourceProperty: sourceProperty)
-
-        // If there is a target, create the binding , otherwise return the factory, the target will bind it later
-        return target ? factory.createBinding() : factory
+        return factory.createBinding()
     }
 }

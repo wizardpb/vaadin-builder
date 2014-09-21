@@ -52,7 +52,7 @@ class GroovyObjectPropertyDescriptor implements VaadinPropertyDescriptor<Object>
     @Override
     Property<?> createProperty(Object bean) {
         initializeDefault(bean)
-        return new GroovyObjectProperty(bean, name)
+        return new GroovyObjectProperty(bean, this)
     }
 
     private void initializeDefault(GroovyObject bean) {

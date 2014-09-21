@@ -16,46 +16,144 @@
 package com.prajnainc.vaadinbuilder.factories
 
 import com.prajnainc.vaadinbuilder.BuilderSpecification
-import com.prajnainc.vaadinbuilder.binding.DataBinding
 import com.prajnainc.vaadinbuilder.binding.DataBindingFactory
+import com.prajnainc.vaadinbuilder.binding.ItemBinding
+import com.vaadin.data.Item
 import com.vaadin.data.fieldgroup.FieldGroup
+import groovy.beans.Bindable
 
-import static org.hamcrest.CoreMatchers.instanceOf
-import static org.hamcrest.CoreMatchers.sameInstance
+import static org.hamcrest.CoreMatchers.*
 import static spock.util.matcher.HamcrestSupport.that
 
 public class BindFactorySpecification extends BuilderSpecification {
 
     static class TestBean {
         String prop1
+        Integer prop2
+        def prop3
     }
 
-    def "it creates factories when there is no target"() {
+    static class TestModel {
+        @Bindable
+        TestBean data
+    }
+
+    def "it creates factories when there is no target and no type information"() {
 
         given:
         def source = new TestBean()
-         def factory = builder.build {
+         def binding = builder.build {
             bind(source: source)
         }
 
         expect:
-        that factory,instanceOf(DataBindingFactory)
-        that factory.source, sameInstance(source)
+        that binding,instanceOf(DataBindingFactory)
+        that binding.source, sameInstance(source)
 
     }
+
+    def "it creates binding factories when there is no target but adds type information from the source"() {
+
+        given:
+        def source = new TestModel()
+        def binding = builder.build {
+            bind(source: source, sourceProperty: 'data')
+        }
+        def descriptors = binding.propertyDescriptors.sort { it.name }
+
+        expect:
+        that binding, instanceOf(DataBindingFactory)
+        that descriptors*.name, equalTo(['prop1','prop2','prop3'])
+        that descriptors*.propertyType, equalTo([String, Integer, Object])
+        that descriptors*.defaultValue, equalTo( [null]*3)
+    }
+
 
     def "it creates bindings when there is a target"() {
 
         given:
         def (source, target) = [new TestBean(), new FieldGroup()]
-        def factory = builder.build {
+        def binding = builder.build {
             bind(source: source, target: target)
         }
 
         expect:
-        that factory, instanceOf(DataBinding)
-        that factory.source, sameInstance(source)
-        that factory.target, sameInstance(target)
+        that binding, instanceOf(ItemBinding)
+        that binding.source, sameInstance(source)
+        that binding.target, sameInstance(target)
 
+    }
+
+    def "it binds to a direct target"() {
+
+        given:
+        FieldGroup target = new FieldGroup()
+        def source = new TestBean()
+        def binding = builder.build {
+            bind(source: source, target: target)
+        }
+        binding.bind()
+
+        expect:
+        that target.itemDataSource, instanceOf(Item)
+        that target.itemDataSource.getItemPropertyIds().sort(), equalTo(['prop1','prop2','prop3'])
+    }
+
+    def "it binds a target to a null source property"() {
+        given:
+        def source = new TestModel()
+        FieldGroup target = new FieldGroup()
+        def binding = builder.build {
+            bind(source: source, sourceProperty: 'data')
+        }
+        def descriptors = binding.propertyDescriptors.sort { it.name }
+        binding = binding.bind(target)
+
+        expect:
+        that binding, instanceOf(ItemBinding)
+        that descriptors*.name, equalTo(['prop1','prop2','prop3'])
+        that descriptors*.propertyType, equalTo([String, Integer, Object])
+        that descriptors*.defaultValue, equalTo( [null]*3)
+        that target.itemDataSource,nullValue()
+    }
+
+    def "it binds a target to a non-null source property"() {
+        given:
+        def source = new TestModel(data: new TestBean(prop1: 'p1', prop2: 1, prop3: new Object()))
+        FieldGroup target = new FieldGroup()
+        def binding = builder.build {
+            bind(source: source, sourceProperty: 'data')
+        }
+        def descriptors = binding.propertyDescriptors.sort { it.name }
+        binding = binding.bind(target)
+
+        expect:
+        that binding, instanceOf(ItemBinding)
+        that descriptors*.name, equalTo(['prop1','prop2','prop3'])
+        that descriptors*.propertyType, equalTo([String, Integer, Object])
+        that descriptors*.defaultValue, equalTo( [null]*3)
+        def values = (1..3).collect { target.itemDataSource.getItemProperty('prop'+it).value }
+        that values, equalTo((1..3).collect { source.data."prop$it" })
+    }
+
+    def "it binds to a @Bindable and re-binds on change"() {
+
+        given:
+        def source = new TestModel()
+        FieldGroup target = new FieldGroup()
+        def binding = builder.build {
+            bind(source: source, sourceProperty: 'data')
+        }
+        def descriptors = binding.propertyDescriptors.sort { it.name }
+        binding = binding.bind(target)
+        source.data = new TestBean(prop1: 'p1', prop2: 1, prop3: new Object())
+
+        expect:
+        that binding, instanceOf(ItemBinding)
+        that descriptors*.name, equalTo(['prop1','prop2','prop3'])
+        that descriptors*.propertyType, equalTo([String, Integer, Object])
+        that descriptors*.defaultValue, equalTo( [null]*3)
+        def values = (1..3).collect { target.itemDataSource.getItemProperty('prop'+it).value }
+        that values, equalTo((1..3).collect { source.data."prop$it" })
     }
 }

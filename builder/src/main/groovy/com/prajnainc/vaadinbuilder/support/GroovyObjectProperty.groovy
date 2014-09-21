@@ -18,6 +18,7 @@ package com.prajnainc.vaadinbuilder.support
 import com.prajnainc.vaadinbuilder.VaadinBuilderException
 import com.vaadin.data.Property
 import com.vaadin.data.util.AbstractProperty
+import org.codehaus.groovy.runtime.typehandling.GroovyCastException
 
 /**
  * GroovyObjectProperty
@@ -32,30 +33,45 @@ class GroovyObjectProperty extends AbstractProperty {
     private setter
     private String readOnlyMessage
 
-    public GroovyObjectProperty(GroovyObject instance,String name,readOnly=false) {
-        def metaProperty = instance.metaClass.getMetaProperty(name)
-        if(!metaProperty) throw new VaadinBuilderException("$instance has no property '$name'")
+    public GroovyObjectProperty(GroovyObject instance, GroovyObjectPropertyDescriptor descriptor, readOnly=false) {
+        assert descriptor.name != null
 
-        this.type = metaProperty.type
-        this.getter = {-> instance.getProperty(name)}
+        def metaProperty = instance.metaClass.getMetaProperty(descriptor.name)
+        if(!metaProperty) {
+            throw new VaadinBuilderException("$instance has no property '$descriptor.name'")
+        }
+
+        // Make sure descriptor type (if present) is compatible
+        if(descriptor.propertyType && !metaProperty.type.isAssignableFrom(descriptor.propertyType))  {
+            throw new VaadinBuilderException("Property $descriptor.name of ${instance.class.simpleName} is type incompatible with ${descriptor.propertyType}")
+        }
+
+        // If there is no descriptor type, use the property type.
+        this.type = descriptor.propertyType ?: metaProperty.type
+        this.getter = {-> instance.getProperty(descriptor.name)}
 
         if(!readOnly && metaProperty.setter != null) {
-            this.setter = { newValue -> instance.setProperty(name, newValue) }
+            this.setter = { newValue -> instance.setProperty(descriptor.name, newValue) }
         }
-        this.readOnlyMessage = "$name on $instance is read-only"
 
+        this.readOnlyMessage = "${descriptor.name} on $instance is read-only"
         super.setReadOnly(readOnly || (metaProperty.setter == null))
     }
 
-    public GroovyObjectProperty(Map instance,String name,readOnly=false) {
+    public GroovyObjectProperty(Map instance,GroovyObjectPropertyDescriptor descriptor,readOnly=false) {
 
-        this.type = Object
-        this.getter = {-> instance[name] }
+        this.type = descriptor.propertyType ?: Object
+        this.getter = {-> instance[descriptor.name] }
 
         if(!readOnly) {
-            this.setter = { newValue -> instance[name] = newValue }
+            this.setter = { newValue ->
+                if(!this.type.isAssignableFrom(newValue.getClass())) {
+                    throw new GroovyCastException(newValue,this.type)
+                }
+                instance[descriptor.name] = newValue
+            }
         }
-        this.readOnlyMessage = "$name on $instance is read-only"
+        this.readOnlyMessage = "$descriptor.name on $instance is read-only"
 
         super.setReadOnly(readOnly)
     }

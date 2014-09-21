@@ -30,7 +30,7 @@ import com.vaadin.server.ClientConnector
  * from a source object, connect it to a target component, and react to value changes from the source, propagating
  * these to the UI
  */
-interface DataBinding extends ClientConnector.DetachListener {
+interface DataBinding {
 
     /**
      * Create and activate the binding. The target should be set

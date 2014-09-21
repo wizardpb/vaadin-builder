@@ -18,31 +18,52 @@ package com.prajnainc.vaadinbuilder.samplerapp
 
 import com.prajnainc.vaadinbuilder.ui.BuilderUI
 import com.vaadin.server.BrowserWindowOpener
+import com.vaadin.server.Sizeable
 import com.vaadin.server.VaadinRequest
 import com.vaadin.shared.ui.MarginInfo
 import com.vaadin.ui.Button
+import groovy.beans.Bindable
 
 /**
- * <p>{@link SamplerUI} is the main {@link com.vaadin.ui.UI} for the Sampler app. It implements a Vaadin Buidle rsmapler application that
- * allows textural builder scripts to be entered and built on teh fly, allowing experimentation and exploration of using
- * {@link com.prajnainc.vaadinbuilder.VaadinBuilder}</p>
- * <p>It has a larger text area in which a textual
- * builder definition can be typed, and a 'Build' {@link Button} that opens a new UI (a {@link BuiltUI} that uses that
- * definition to build its content.</p>
  *
  */
 class SamplerUI extends BuilderUI {
 
-    public static SamplerUI instance
+    static class Person {
+        String name
+        String address
+        String city
+        String state
+        String zip
+        Integer age
+
+        public String toString() {
+            return
+"""Name:           $name
+Adddress:       $address
+City:           $city
+State + Zip:    $state $zip
+Age:            $age"""
+        }
+    }
+
+    @Bindable person
 
     @Override
     def getViewDefinition() {
         return {
-            verticalLayout(width: '100%', height: '100%', margin: new MarginInfo(true), spacing: true) {
-                panel(caption: "UI Builder", width: '100%', height: '100%') {
-                    verticalLayout( width: '100%', height: '100%', margin: new MarginInfo(true), spacing: true) {
-                        textArea(caption: 'Build Script',id: 'buildScriptText', width: '100%', height: '100%', expandRatio: 1.0f)
-                        button('Build!', id: 'buildButton')
+            panel(caption: 'Vaadin Builder Sampler') {
+                tabSheet() {
+                    fieldGroup(id: 'personForm', caption: 'Form', dataSource: bind(source: this, sourceProperty: 'person')) {
+                        field('name')
+                        field('address')
+                        field('city')
+                        field('state')
+                        field('zip')
+                        field('age')
+                        horizontalLayout(width: '100%', height: Sizeable.SIZE_UNDEFINED) {
+                            button(id: 'saveButton', caption: 'Save')
+                        }
                     }
                 }
             }
@@ -54,20 +75,13 @@ class SamplerUI extends BuilderUI {
 
         super.init(vaadinRequest)
 
-        Button b = builder.buildButton
+        Button b = builder.saveButton
+        b.addClickListener([buttonClick: {evt ->
+            builder.personForm.commit()
+            println person
+        }] as Button.ClickListener)
 
-        // Create an opener extension
-        BrowserWindowOpener opener = new BrowserWindowOpener(BuiltUI.class);
-        opener.setFeatures("height=200,width=300,resizable");
-
-        // Attach it to a button
-        opener.extend(b);
-
-        instance = this
 
     }
 
-    String getBuildScript() {
-        builder.buildScriptText.value
-    }
 }

@@ -26,28 +26,40 @@ class GroovyBeanItem extends PropertysetItem {
 
     private Object bean
 
-    private static List HIDDEN_PROPERTIES = ['class', 'propertyChangeListeners']
+    private static Set HIDDEN_PROPERTIES = ['class', 'propertyChangeListeners'] as Set
 
-    GroovyBeanItem(GroovyObject groovyBean,Collection<String> properties) {
+    public static List bindablePropertyDescriptorsFor(Object bean) {
+        return bean.metaClass.getProperties().inject([]) { list, it ->
+            // Hide system properties
+            if(!HIDDEN_PROPERTIES.contains(it.name)) {
+                list << new GroovyObjectPropertyDescriptor(name: it.name, propertyType: it.type)
+            }
+            list
+        }
+    }
+
+    GroovyBeanItem(GroovyObject groovyBean,Collection<GroovyObjectPropertyDescriptor> descriptors) {
         this.bean = groovyBean
-        properties.each {
-            addItemProperty(it,new GroovyObjectProperty(groovyBean,it))
+        descriptors.each {
+            addItemProperty(it.name,new GroovyObjectProperty(groovyBean,it))
         }
     }
 
     GroovyBeanItem(GroovyObject groovyBean) {
-        this(groovyBean,groovyBean.metaClass.getProperties()*.name - HIDDEN_PROPERTIES)
+        this(groovyBean,bindablePropertyDescriptorsFor(groovyBean))
     }
 
-    GroovyBeanItem(Map mapBean,Collection<String> properties) {
+    GroovyBeanItem(Map mapBean,Collection<GroovyObjectPropertyDescriptor> descriptors) {
         this.bean = mapBean
-        properties.each {
-            addItemProperty(it,new GroovyObjectProperty(mapBean,it))
+        descriptors.each {
+            addItemProperty(it.name,new GroovyObjectProperty(mapBean,it))
         }
     }
 
     GroovyBeanItem(Map mapBean) {
-        this(mapBean,mapBean.keySet())
+        this(mapBean,mapBean.keySet().inject([]) { list, it ->
+            list << new GroovyObjectPropertyDescriptor(name: it, propertyType: Object)
+        })
     }
 
     public Object getBean() {

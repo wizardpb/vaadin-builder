@@ -17,6 +17,7 @@
  */
 package com.prajnainc.vaadinbuilder.factories
 
+import com.prajnainc.vaadinbuilder.VaadinBuilder
 import com.prajnainc.vaadinbuilder.VaadinBuilderException
 import com.prajnainc.vaadinbuilder.binding.DataBinding
 import com.vaadin.data.fieldgroup.FieldGroup
@@ -40,7 +41,7 @@ import com.vaadin.ui.Layout
 class FieldGroupFactory implements Factory {
 
     /**
-     * Delegate to the layout factory for any other Factory services. This allows the factory to create both the field group and thelayout, and
+     * Delegate to the layout factory for any other Factory services. This allows the factory to create both the field group and the layout, and
      * appear to the builder as a layout factory.
      *
      * Note that the delegate is dynamically updated on every node build in accordance with the layout type required
@@ -66,11 +67,12 @@ class FieldGroupFactory implements Factory {
             builder.setVariable("${id}.fieldGroup",fieldGroup)
         }
 
-        // Save the field group on the layout and return it
-        layout.data = [fieldGroup: fieldGroup]
+        // Save the field group on the layout and return it - initialize it if need be
+        (layout.data ?: (layout.data = [:])).fieldGroup = fieldGroup
         return layout
     }
 
+    @Override
     void onFactoryRegistration(FactoryBuilderSupport builder, String registeredName, String registeredGroupName) {
         // No action - needed to stop a Missing Method call to the delegate
     }

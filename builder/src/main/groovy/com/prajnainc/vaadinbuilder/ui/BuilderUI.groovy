@@ -21,7 +21,9 @@ import com.vaadin.server.VaadinRequest
 import com.vaadin.ui.UI
 
 /**
- * BuilderUI
+ * BuilderUI attaches a {@link VaadinBuilder} and a view definition (in the form that the builder can read} to a Vaadin
+ * {@link UI}, the arranges to builds that view definition into a {@link com.vaadin.ui.Component} tree at init time,
+ * and then attaches to  the UI
  *
  */
 abstract class BuilderUI extends UI {
@@ -29,7 +31,7 @@ abstract class BuilderUI extends UI {
     VaadinBuilder builder
 
     /**
-     * Return the view definition used by teh builder to build the UI. This can be a {@link Closure},
+     * Return the view definition used by the builder to build the UI. This can be a {@link Closure},
      * a {@link Script} or a {@link String}
      *
      * @return
@@ -37,7 +39,7 @@ abstract class BuilderUI extends UI {
     abstract def getViewDefinition();
 
     /**
-     * Initialize myself by building the UI from my view definition, and setting teh result as the content
+     * Initialize myself by building the UI from my view definition, and setting the result as the content
      *
      * @param request
      */

@@ -18,6 +18,7 @@
 package com.prajnainc.vaadinbuilder.binding
 
 import com.prajnainc.vaadinbuilder.support.GroovyBeanItem
+import com.prajnainc.vaadinbuilder.support.GroovyObjectPropertyDescriptor
 import com.vaadin.data.Item
 
 import java.beans.PropertyChangeEvent
@@ -28,14 +29,14 @@ import java.beans.PropertyChangeEvent
  */
 class ItemBinding extends AbstractDataBinding {
 
-    List itemIds
+    List<GroovyObjectPropertyDescriptor> propertyDescriptors = []
 
     @Override
     protected void bindSourceProperty() {
         def value = source.getProperty(sourceProperty)
         Item item = null
         if(value != null) {
-            item = itemIds ? new GroovyBeanItem(value, itemIds) : new GroovyBeanItem(value)
+            item = new GroovyBeanItem(value, propertyDescriptors)
         }
         target.setItemDataSource(item)
     }
