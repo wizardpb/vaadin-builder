@@ -47,6 +47,10 @@ import com.vaadin.ui.DefaultFieldFactory
  *
  *
  */
+
+/*
+ * TODO - validation
+ */
 class FieldFactory extends ComponentFactory {
 
     FieldFactory(Class fieldClass) {
