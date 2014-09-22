@@ -58,13 +58,25 @@ public class ItemBindingSpecification extends Specification {
     def descriptors = [
             new GroovyObjectPropertyDescriptor(name: 'prop1', propertyType: String),
             new GroovyObjectPropertyDescriptor(name: 'prop2', propertyType: String)
-
     ]
 
-    def itemBinding
+    ItemBinding itemBinding
 
     def setup() {
         itemBinding = new ItemBinding(source: new Model(modelProp: new TestBean()),sourceProperty: 'modelProp', propertyDescriptors: descriptors)
+    }
+
+    def "it can return a descriptor for a property name"() {
+        expect:
+        itemBinding.descriptorFor(propName)?.name == result
+
+        where:
+
+        propName    | result
+        'prop1'     | 'prop1'
+        'prop2'     | 'prop2'
+        'noProp'    | null
+
     }
 
     def "it should bind a property containing a Groovy bean"() {

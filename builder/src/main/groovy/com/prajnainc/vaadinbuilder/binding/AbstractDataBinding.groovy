@@ -40,7 +40,6 @@ abstract class AbstractDataBinding implements DataBinding, PropertyChangeListene
     List propertyDescriptors
 
     abstract protected void bindSourceProperty();
-
     abstract protected void bindSource();
 
     @Override
@@ -73,11 +72,29 @@ abstract class AbstractDataBinding implements DataBinding, PropertyChangeListene
         removeChangeListener()
     }
 
+    /**
+     * Return the descriptor for a name, or null if it is not there
+     *
+     * @param propName
+     * @return
+     */
     public GroovyObjectPropertyDescriptor descriptorFor(String propName) {
-        def pd = propertyDescriptors.find { GroovyObjectPropertyDescriptor it ->
-            it.name == propName
-        }
-        return pd
+        // Why we have to use the getter here is unfathomable, but a direct field ref returns a null - always. Go figure.
+        return getPropertyDescriptors().find { it.name == propName }
+    }
+
+    /**
+     * Is the given property unbound? This happens when a source property on a source cannot
+     * provide type information because the model property does not have it (e.g it is declared as 'Object' or 'Map'),
+     * most probably because the model value is going to be a Map
+     *
+     * @param propName
+     * @return
+     */
+    public boolean isUntyped(String propName) {
+        // The property is unbound if it doesn't have a source descriptor, but only if we have a sourceProperty.
+        // Otherwise  it is always bound
+        return (sourceProperty && descriptorFor(propName) == null) || ! sourceProperty
     }
 
     protected addChangeListener() {

@@ -169,7 +169,6 @@ public class FieldGroupFactorySpecification extends BuilderSpecification {
         that itemDataSource.itemPropertyIds as Set, equalTo(['stringProp', 'intProp', 'boolProp'] as Set)
     }
 
-    @NotYetImplemented
     def "it can bind fields to a source with fields of explicit model type"() {
 
         given:

@@ -105,13 +105,17 @@ class VaadinBuilder extends FactoryBuilderSupport {
         switch(bindingValue) {
             case DataBinding:
                 // Store the binding in a Map (which may already exist) on the data property of the node
-                (node.data ?: (node.data = [:])).binding = bindingValue.bind(target); return;
+                (node.data ?: (node.data = [:])).binding = bindingValue.bind(target);
+                return;
             case Property:
-                bindingAttr = validateBinding(target,bindingAttr,bindingValue,'property',[Property.Viewer]); break;
+                bindingAttr = validateBinding(target,bindingAttr,bindingValue,'property',[Property.Viewer]);
+                break;
             case Item:
-                bindingAttr = validateBinding(target,bindingAttr,bindingValue,'item',[Item.Viewer,FieldGroup]); break;
+                bindingAttr = validateBinding(target,bindingAttr,bindingValue,'item',[Item.Viewer,FieldGroup]);
+                break;
             case Container:
-                bindingAttr = validateBinding(target,bindingAttr,bindingValue,'container',[Container.Viewer]); break;
+                bindingAttr = validateBinding(target,bindingAttr,bindingValue,'container',[Container.Viewer]);
+                break;
             default:
                 throw new VaadinBuilderException("Cannot bind value '$bindingValue' of type ${bindingValue.getClass()} to a $bindingAttr")
         }

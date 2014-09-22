@@ -21,6 +21,7 @@ import com.prajnainc.vaadinbuilder.VaadinBuilder
 import com.prajnainc.vaadinbuilder.VaadinBuilderException
 import com.prajnainc.vaadinbuilder.binding.AbstractDataBinding
 import com.prajnainc.vaadinbuilder.binding.DataBinding
+import com.prajnainc.vaadinbuilder.binding.ItemBinding
 import com.prajnainc.vaadinbuilder.support.GroovyObjectPropertyDescriptor
 import com.vaadin.data.Property
 import com.vaadin.data.fieldgroup.FieldGroup
@@ -65,7 +66,7 @@ class FieldFactory extends ComponentFactory {
         AbstractField component = super.newInstance(builder, name, value, attributes)
 
         // Save propName, modelType, fieldGroup and binding for later
-        def modelType = attributes.remove(VaadinBuilder.MODEL_TYPE_ATTR)
+        def modelType = builder.savedAttributes[VaadinBuilder.MODEL_TYPE_ATTR]
 
         if(modelType && !(modelType instanceof Class)) {
             throw new VaadinBuilderException("Model type must be a class")
@@ -89,16 +90,27 @@ class FieldFactory extends ComponentFactory {
 
         if(fieldGroup) {
             assert propName as boolean
-            AbstractDataBinding binding = child.data.binding
+            ItemBinding binding = child.data.binding
 
             // Get the model type from the attributes or the binding if it's there
-            GroovyObjectPropertyDescriptor descriptor = binding?.propertyDescriptors.find { it.name == propName}
+            GroovyObjectPropertyDescriptor descriptor = binding?.descriptorFor(propName)
             Class modelType = child.data.modelType ?: (descriptor?.propertyType ?: Object)
+
+            if(binding?.isUntyped(propName)) {
+                /**
+                 * The binding could, but does not, define the property. Add it, which also includes the
+                 * data source if it's there
+                 */
+                binding.addDescriptor(propName,modelType,null)
+            }
 
             if(!child.converter && !(modelType in [String,Object])) {
                 // We need a converter - look for a default
                 child.setConverter(modelType)
             }
+
+            // At this point, the data source should be null, or have the property defined
+            assert fieldGroup.itemDataSource == null || fieldGroup.itemDataSource .getItemProperty(propName) != null
             fieldGroup.bind(child,propName)
         }
     }
