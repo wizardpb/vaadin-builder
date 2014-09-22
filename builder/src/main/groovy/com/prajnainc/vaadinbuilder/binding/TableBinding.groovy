@@ -41,11 +41,13 @@ class TableBinding extends AbstractDataBinding {
         target.setContainerDataSource(container)
     }
 
-    public void addDescriptor(String propertyId, Class type, Object defaultValue) {
-        propertyDescriptors.add(new GroovyObjectPropertyDescriptor(name:propertyId, propertyType: type, defaultValue: defaultValue))
+    public GroovyObjectPropertyDescriptor addDescriptor(String propertyId, Class type, Object defaultValue) {
+        def descriptor = new GroovyObjectPropertyDescriptor(name: propertyId, propertyType: type, defaultValue: defaultValue)
+        propertyDescriptors.add(descriptor)
         if(target.containerDataSource) {
             target.containerDataSource.addContainerProperty(propertyId,type,defaultValue)
         }
+        return descriptor
     }
 
     @Override

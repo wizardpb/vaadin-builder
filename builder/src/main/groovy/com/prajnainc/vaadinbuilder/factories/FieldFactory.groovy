@@ -92,25 +92,22 @@ class FieldFactory extends ComponentFactory {
             assert propName as boolean
             ItemBinding binding = child.data.binding
 
-            // Get the model type from the attributes or the binding if it's there
-            GroovyObjectPropertyDescriptor descriptor = binding?.descriptorFor(propName)
-            Class modelType = child.data.modelType ?: (descriptor?.propertyType ?: Object)
-
-            if(binding?.isUntyped(propName)) {
-                /**
-                 * The binding could, but does not, define the property. Add it, which also includes the
-                 * data source if it's there
-                 */
-                binding.addDescriptor(propName,modelType,null)
+            def modelType = child.data?.modelType
+            if(binding) {
+                // Get the model type from the attributes, and ensure the descriptor exists. This throws an exception if the types are in conflict
+                GroovyObjectPropertyDescriptor descriptor = binding.ensureDescriptorFor(propName,modelType )
+                modelType = descriptor.propertyType
+            } else {
+                // Extract any type info from the data source. If it's not there, the bind will fail
+                modelType = fieldGroup.itemDataSource?.getItemProperty(propName)?.type
             }
 
-            if(!child.converter && !(modelType in [String,Object])) {
+
+            if(!child.converter && modelType && !(modelType in [String,Object])) {
                 // We need a converter - look for a default
                 child.setConverter(modelType)
             }
 
-            // At this point, the data source should be null, or have the property defined
-            assert fieldGroup.itemDataSource == null || fieldGroup.itemDataSource .getItemProperty(propName) != null
             fieldGroup.bind(child,propName)
         }
     }

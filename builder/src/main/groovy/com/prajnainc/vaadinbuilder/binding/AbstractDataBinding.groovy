@@ -37,7 +37,8 @@ abstract class AbstractDataBinding implements DataBinding, PropertyChangeListene
     def source
     String sourceProperty
     def target
-    List propertyDescriptors
+    List propertyDescriptors = []
+    Boolean unTyped
 
     abstract protected void bindSourceProperty();
     abstract protected void bindSource();
@@ -84,17 +85,35 @@ abstract class AbstractDataBinding implements DataBinding, PropertyChangeListene
     }
 
     /**
-     * Is the given property unbound? This happens when a source property on a source cannot
-     * provide type information because the model property does not have it (e.g it is declared as 'Object' or 'Map'),
-     * most probably because the model value is going to be a Map
+     * Ensure that the descriptor for a property exists, and is compatible with an optional type (defined by a field or column)
      *
      * @param propName
+     * @param fieldType
      * @return
      */
-    public boolean isUntyped(String propName) {
-        // The property is unbound if it doesn't have a source descriptor, but only if we have a sourceProperty.
-        // Otherwise  it is always bound
-        return (sourceProperty && descriptorFor(propName) == null) || ! sourceProperty
+    public GroovyObjectPropertyDescriptor ensureDescriptorFor(String propName, Class fieldType) {
+        def descriptor = descriptorFor(propName)
+        if(unTyped && descriptor == null) {
+            // Add the descriptor with default type if we are untyped and it's not there
+            descriptor = addDescriptor(propName, fieldType ?: Object, null)
+        } else {
+            // Valid descriptor should now be there - validate the type as well
+            if (descriptor == null) {
+                // No typed field
+                throw new VaadinBuilderException("The model does not have a property '$propName'")
+            }
+
+            if (fieldType && descriptor.propertyType) {
+                throw new VaadinBuilderException("The type of the model property '$propName' is multiply defined")
+            }
+        }
+
+        return descriptor
+    }
+
+    protected GroovyObjectPropertyDescriptor addDescriptor(String propName, Class type, Object defaultValue) {
+        // Should never be called
+        assert false
     }
 
     protected addChangeListener() {

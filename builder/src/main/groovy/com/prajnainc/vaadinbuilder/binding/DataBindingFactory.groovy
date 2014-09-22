@@ -42,17 +42,18 @@ class DataBindingFactory implements DataBinding {
     public DataBinding createBinding() {
         assert source != null
         DataBinding binding
-        if(target != null) {
-            // If there is a target, we can create the binding
-            binding = use(BindingCategory) { target.bindTo(source,sourceProperty,propertyDescriptors) }
-        } else {
-            // If there is no target, create any target type information we can, and return ourseleves
-            if(sourceProperty) {
-                Class bindingType = source.metaClass.getMetaProperty(sourceProperty).type
-                propertyDescriptors = GroovyBeanItem.bindablePropertyDescriptorsFor(bindingType)
-            }
-            binding = this
+
+        // Extract any type information
+        if(sourceProperty) {
+            Class bindingType = source.metaClass.getMetaProperty(sourceProperty).type
+            propertyDescriptors = GroovyBeanItem.bindablePropertyDescriptorsFor(bindingType)
         }
+
+        // If there is a target, we can create the binding, otherwise just return ourselves - we will bind later
+        binding = target != null ? use(BindingCategory) {
+            def unTyped = !sourceProperty || sourceProperty && propertyDescriptors.isEmpty()
+            target.bindTo(source,sourceProperty,propertyDescriptors, unTyped)
+        } : this
         return binding
     }
 

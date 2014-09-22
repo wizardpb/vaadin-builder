@@ -149,7 +149,7 @@ public class FieldGroupFactorySpecification extends BuilderSpecification {
 
         expect:
         that itemDataSource, instanceOf(Item)
-        that itemDataSource.itemPropertyIds as Set, equalTo([] as Set)
+        that itemDataSource.itemPropertyIds as Set, equalTo(['stringProp', 'intProp', 'boolProp'] as Set)
         that layout.data.binding, instanceOf(ItemBinding)
         that layout.data.binding.target, sameInstance(fieldGroup)
         that layout.data.binding.source, sameInstance(testModel)
@@ -187,6 +187,22 @@ public class FieldGroupFactorySpecification extends BuilderSpecification {
         that itemDataSource.getItemProperty('stringProp').value, equalTo(testModel.objProp.stringProp)
         that itemDataSource.getItemProperty('intProp').value, equalTo(testModel.objProp.intProp)
         that itemDataSource.getItemProperty('boolProp').value, equalTo(testModel.objProp.boolProp)
+    }
+
+    def "it detects double definition of model type"() {
+
+        when:
+        FormLayout layout = builder.build {
+            fieldGroup('myForm', dataSource: bind(source: testModel, sourceProperty: 'modelProp' )) {
+                textField('stringProp', modelType: String)
+                textField('intProp')
+                checkBox('boolProp')
+            }
+        }
+
+        then:
+        def e = thrown(VaadinBuilderException)
+        e.message == "The type of the model property 'stringProp' is multiply defined"
     }
 
     def "it can bind fields to a source with fields that need converters"() {
