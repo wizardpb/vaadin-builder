@@ -39,7 +39,7 @@ class SamplerUI extends BuilderUI {
         Integer age
 
         public String toString() {
-            return
+            return \
 """Name:           $name
 Adddress:       $address
 City:           $city
@@ -90,7 +90,7 @@ Age:            $age"""
         Button b = builder.saveButton
         b.addClickListener([buttonClick: {evt ->
             builder.personForm.commit()
-            println person
+            println model.person
         }] as Button.ClickListener)
 
 

@@ -60,11 +60,17 @@ class FieldGroupFactory implements Factory {
             throw new VaadinBuilderException("No factory known for layout type '${layout.getClass().name}'")
         }
 
-        // Create the factory and id it
+        // Create the factory and id it if it's there
         def fieldGroup = new FieldGroup()
         def id = attributes.remove('id') ?: value
         if(id != null) {
-            builder.setVariable("${id}.fieldGroup",fieldGroup)
+            builder.setVariable(id,fieldGroup)
+        }
+
+        def layoutId = attributes.remove('layoutId')
+        if(layoutId != null) {
+            // Swap in the layout id as the new id so the builder id's the layout as this value
+            attributes['id'] = layoutId
         }
 
         // Save the field group on the layout and return it - initialize it if need be

@@ -25,6 +25,7 @@ import com.vaadin.data.fieldgroup.FieldGroup
 import com.vaadin.data.util.converter.DefaultConverterFactory
 import com.vaadin.server.VaadinSession
 import com.vaadin.ui.AbsoluteLayout
+import com.vaadin.ui.Form
 import com.vaadin.ui.FormLayout
 import com.vaadin.ui.Label
 import com.vaadin.ui.VerticalLayout
@@ -89,10 +90,22 @@ public class FieldGroupFactorySpecification extends BuilderSpecification {
         builder.build {
             fieldGroup(id: 'myForm')
         }
-        def fieldGroup = builder."myForm.fieldGroup"
+        def fieldGroup = builder.myForm
 
         expect:
         that fieldGroup, instanceOf(FieldGroup)
+    }
+
+    def "it can id the layout"() {
+        given:
+        builder.build {
+            fieldGroup(id: 'myForm', layoutId: 'formLayout')
+        }
+        def fieldGroup = builder.myForm
+        def layout = builder.formLayout
+        expect:
+        that fieldGroup, instanceOf(FieldGroup)
+        that layout, instanceOf(FormLayout)
     }
 
     def "it can specify the layout"() {
@@ -139,7 +152,7 @@ public class FieldGroupFactorySpecification extends BuilderSpecification {
         }
 
         expect:
-        that layout.data.fieldGroup, sameInstance(builder."myForm.fieldGroup")
+        that layout.data.fieldGroup, sameInstance(builder.myForm)
     }
 
     def "it can bind a binding factory"() {
