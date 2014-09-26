@@ -15,6 +15,7 @@
  */
 package com.prajnainc.vaadinbuilder.factories
 
+import com.prajnainc.vaadinbuilder.binding.DataBinding
 import com.vaadin.ui.Component
 
 /**
@@ -53,5 +54,14 @@ class ComponentFactory extends AbstractFactory implements VaadinFactory {
      */
     protected setComponentValue(Component component, value, attributes) {
         if(value instanceof String) component.caption = value
+    }
+
+    @Override
+    void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
+        setChildComponent(builder, parent, child)
+    }
+
+    protected void setChildComponent(FactoryBuilderSupport builder, Object parent, Object child) {
+        // Do nothing by default
     }
 }

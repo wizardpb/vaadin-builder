@@ -16,6 +16,7 @@
 
 package com.prajnainc.vaadinbuilder.factories
 
+import com.prajnainc.vaadinbuilder.VaadinBuilderException
 import com.prajnainc.vaadinbuilder.binding.DataBindingFactory
 
 /**
@@ -36,7 +37,12 @@ class BindFactory extends AbstractFactory implements VaadinFactory {
         def sourceProperty = attributes.remove('sourceProperty')
         def target = attributes.remove('target')
 
+        if(!source) {
+            throw new VaadinBuilderException("No source provided for property $sourceProperty")
+        }
+
         def factory = new DataBindingFactory(target: target, source: source, sourceProperty: sourceProperty)
         return factory.createBinding()
+
     }
 }

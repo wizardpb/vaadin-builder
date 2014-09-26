@@ -20,6 +20,8 @@ import com.prajnainc.vaadinbuilder.binding.DataBindingFactory
 import com.prajnainc.vaadinbuilder.binding.ItemBinding
 import com.vaadin.data.Item
 import com.vaadin.data.fieldgroup.FieldGroup
+import com.vaadin.ui.FormLayout
+import com.vaadin.ui.VerticalLayout
 import groovy.beans.Bindable
 
 import static org.hamcrest.CoreMatchers.*
@@ -155,5 +157,46 @@ public class BindFactorySpecification extends BuilderSpecification {
         that descriptors*.defaultValue, equalTo( [null]*3)
         def values = (1..3).collect { target.itemDataSource.getItemProperty('prop'+it).value }
         that values, equalTo((1..3).collect { source.data."prop$it" })
+    }
+
+    def "it can bind a source to a node target in a single component container"() {
+        given:
+        def source = new TestModel(data: new TestBean())
+        FieldGroup target = new FieldGroup()
+        def panel = builder.build {
+            panel() {
+                fieldGroup(dataSource: bind(source: source, sourceProperty: 'data'))
+            }
+        }
+
+        expect:
+        that panel.content, instanceOf(FormLayout)
+        def fieldGroup = panel.content.data.fieldGroup
+        def binding = panel.content.data.binding
+        that fieldGroup.itemDataSource, notNullValue()
+        that binding, notNullValue()
+        that binding.source, sameInstance(source)
+        that binding.sourceProperty, is('data')
+    }
+
+    def "it can bind a source to a node target in a component container"() {
+        given:
+        def source = new TestModel(data: new TestBean())
+        FieldGroup target = new FieldGroup()
+        VerticalLayout layout = builder.build {
+            verticalLayout() {
+                fieldGroup(dataSource: bind(source: source, sourceProperty: 'data'))
+            }
+        }
+        def child = layout.getComponent(0)
+        
+        expect:
+        that child, instanceOf(FormLayout)
+        def fieldGroup = child.data.fieldGroup
+        def binding = child.data.binding
+        that fieldGroup.itemDataSource, notNullValue()
+        that binding, notNullValue()
+        that binding.source, sameInstance(source)
+        that binding.sourceProperty, is('data')
     }
 }

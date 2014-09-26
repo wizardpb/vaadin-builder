@@ -79,6 +79,10 @@ public class FieldGroupFactorySpecification extends BuilderSpecification {
         VaadinSession.setCurrent(mockSession)
     }
 
+    def cleanup() {
+        VaadinSession.setCurrent(null)
+    }
+
     def "it recognizes the id attribute"() {
 
         given:

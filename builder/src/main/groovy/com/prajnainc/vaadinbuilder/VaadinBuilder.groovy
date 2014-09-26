@@ -51,8 +51,6 @@ class VaadinBuilder extends FactoryBuilderSupport {
     public static final String GENERAL_BINDING_ATTRIBUTE = 'dataSource'
     public static final Set BINDING_ATTRIBUTES = [GENERAL_BINDING_ATTRIBUTE,'propertyDataSource','itemDataSource', 'containerDataSource'] as Set;
 
-    def currentNodeName
-
     VaadinBuilder(boolean init=true) {
         super(init)
         this[DELEGATE_PROPERTY_OBJECT_ID] = DEFAULT_DELEGATE_PROPERTY_OBJECT_ID
@@ -105,7 +103,7 @@ class VaadinBuilder extends FactoryBuilderSupport {
         switch(bindingValue) {
             case DataBinding:
                 // Store the binding in a Map (which may already exist) on the data property of the node
-                (node.data ?: (node.data = [:])).binding = bindingValue.bind(target);
+                ((node.data ?: (node.data = [:])).binding = bindingValue.bind(target));
                 return;
             case Property:
                 bindingAttr = validateBinding(target,bindingAttr,bindingValue,'property',[Property.Viewer]);
@@ -125,6 +123,19 @@ class VaadinBuilder extends FactoryBuilderSupport {
          * node type and binding object type
          */
         target."$bindingAttr" = bindingValue
+    }
+
+    private static void saveAttributesDelegate(builder, attributes, value) {
+        /**
+         * Collect saved attributes and save them on the current context. This is made available to the factories via the builder,
+         * and (because it is saved in the context) is unique to the current node being built
+         */
+        def savedAttributes = [:]
+
+        ATTRIBUTES_TO_SAVE.each {
+            if(attributes.containsKey(it)) savedAttributes[it] = attributes.remove(it)
+        }
+        builder.context.savedAttributes = savedAttributes
     }
 
     private static String validateBinding(def node,String bindingAttr,bindingValue,prefix,List targetClasses) {
@@ -154,6 +165,7 @@ class VaadinBuilder extends FactoryBuilderSupport {
     def registerSupportNodes() {
         addAttributeDelegate(VaadinBuilder.&objectIDAttributeDelegate)
         addAttributeDelegate(VaadinBuilder.&bindingAttributeDelegate)
+        addPreInstantiateDelegate(VaadinBuilder.&saveAttributesDelegate)
     }
 
     def registerSingleComponentFactories() {
@@ -239,36 +251,20 @@ class VaadinBuilder extends FactoryBuilderSupport {
         build(script,loader)
     }
 
-    @Override
-    protected Object dispatchNodeCall(Object name, Object args) {
-        currentNodeName = name
-        return super.dispatchNodeCall(name, args)
-    }
-
-    public Object checkForOneOf(attrList,attributes) {
-        Collection containedAttrs = (attrList as Set).intersect(attributes.keySet())
-        if(containedAttrs.size() > 1) {
-            throw new VaadinBuilderException("${currentNodeName}(): only one of the attributes '${attrList}' may be passed")
-        }
-        if(containedAttrs.size() < 1) {
-            throw new VaadinBuilderException("${currentNodeName}(): one of the attributes '${attrList}' must be preset")
-        }
-        return containedAttrs.first()
-    }
-
-    @Override
-    protected Object createNode(Object name, Map attributes, Object value) {
-        /**
-         * Collect saved attributes and save them on the current context. This is made available to the factories via the builder,
-         * and (because it is saved in the context) is unique to the current node being built
-         */
-        def savedAttributes = [:]
-        ATTRIBUTES_TO_SAVE.each {
-            if(attributes.containsKey(it)) savedAttributes[it] = attributes.remove(it)
-        }
-        context.savedAttributes = savedAttributes
-        return super.createNode(name, attributes, value)
-    }
+//    @Override
+//    protected Object createNode(Object name, Map attributes, Object value) {
+//        /**
+//         * Collect saved attributes and save them on the current context. This is made available to the factories via the builder,
+//         * and (because it is saved in the context) is unique to the current node being built
+//         */
+//        def savedAttributes = [:]
+//
+//        ATTRIBUTES_TO_SAVE.each {
+//            if(attributes.containsKey(it)) savedAttributes[it] = attributes.remove(it)
+//        }
+//        context.savedAttributes = savedAttributes
+//        return super.createNode(name, attributes, value)
+//    }
 
     public Map getSavedAttributes() {
         return context.savedAttributes

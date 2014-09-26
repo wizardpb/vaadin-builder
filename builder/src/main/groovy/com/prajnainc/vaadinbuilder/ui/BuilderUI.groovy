@@ -18,6 +18,7 @@ package com.prajnainc.vaadinbuilder.ui
 
 import com.prajnainc.vaadinbuilder.VaadinBuilder
 import com.vaadin.server.VaadinRequest
+import com.vaadin.ui.Component
 import com.vaadin.ui.UI
 
 /**
@@ -31,12 +32,11 @@ abstract class BuilderUI extends UI {
     VaadinBuilder builder
 
     /**
-     * Return the view definition used by the builder to build the UI. This can be a {@link Closure},
-     * a {@link Script} or a {@link String}
+     * Return the content for this UI. Usually, this invokes the builder on {@link VaadinBuilder} deinition
      *
-     * @return
+     * @return - a Component hierarchy
      */
-    abstract def getViewDefinition();
+    abstract Component buildView();
 
     /**
      * Initialize myself by building the UI from my view definition, and setting the result as the content
@@ -46,7 +46,7 @@ abstract class BuilderUI extends UI {
     @Override
     protected void init(VaadinRequest request) {
         builder = new VaadinBuilder()
-        content = builder.build(viewDefinition)
+        content = buildView()
     }
 
 }

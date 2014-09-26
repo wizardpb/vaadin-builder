@@ -16,6 +16,7 @@
 package com.prajnainc.vaadinbuilder.factories
 
 import com.prajnainc.vaadinbuilder.VaadinBuilder
+import com.prajnainc.vaadinbuilder.binding.DataBinding
 import com.vaadin.ui.AbstractComponentContainer
 import com.vaadin.ui.Component
 import com.vaadin.ui.ComponentContainer
@@ -33,12 +34,16 @@ abstract class ComponentContainerFactory extends ComponentFactory {
     }
 
     @Override
-    void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
+    protected void setChildComponent(FactoryBuilderSupport builder, Object parent, Object child) {
         assert parent instanceof AbstractComponentContainer
         addComponent(builder.childBuilder,parent,child)
         setAlignmentFrom(builder.childBuilder,parent,child)
         setExpandRatioFrom(builder.childBuilder,parent,child)
 
+    }
+
+    protected void setChildComponent(FactoryBuilderSupport builder, Object parent, DataBinding child) {
+        // Data binding don't get added as children
     }
 
     protected void addComponent(VaadinBuilder childBuilder, Component parent, Component child) {

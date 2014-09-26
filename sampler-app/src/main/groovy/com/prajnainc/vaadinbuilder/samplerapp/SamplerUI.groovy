@@ -22,6 +22,7 @@ import com.vaadin.server.Sizeable
 import com.vaadin.server.VaadinRequest
 import com.vaadin.shared.ui.MarginInfo
 import com.vaadin.ui.Button
+import com.vaadin.ui.Component
 import groovy.beans.Bindable
 
 /**
@@ -47,20 +48,31 @@ Age:            $age"""
         }
     }
 
-    @Bindable person
+    static class Model {
+        @Bindable Person person
+    }
+
+    Model model = new Model(person: new Person(
+            name: "Me",
+            address: "1 This Street",
+            city: "Somewhere",
+            state: 'NY',
+            zip: '10000',
+            age: 99
+    ))
 
     @Override
-    def getViewDefinition() {
-        return {
+    Component buildView() {
+        return builder.build {
             panel(caption: 'Vaadin Builder Sampler') {
                 tabSheet() {
-                    fieldGroup(id: 'personForm', caption: 'Form', dataSource: bind(source: this, sourceProperty: 'person')) {
-                        field('name')
-                        field('address')
-                        field('city')
-                        field('state')
-                        field('zip')
-                        field('age')
+                    fieldGroup(id: 'personForm', caption: 'Form', dataSource: bind(source: model, sourceProperty: 'person')) {
+                        textField('name')
+                        textField('address')
+                        textField('city')
+                        textField('state')
+                        textField('zip')
+                        textField('age')
                         horizontalLayout(width: '100%', height: Sizeable.SIZE_UNDEFINED) {
                             button(id: 'saveButton', caption: 'Save')
                         }

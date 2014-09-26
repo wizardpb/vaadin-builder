@@ -15,6 +15,9 @@
  */
 
 package com.prajnainc.vaadinbuilder.factories
+
+import com.prajnainc.vaadinbuilder.binding.DataBinding
+
 /**
  * SingleComponentContainerFactory
  *
@@ -27,8 +30,12 @@ class SingleComponentContainerFactory extends ComponentFactory {
     }
 
     @Override
-    void setChild(FactoryBuilderSupport builder, Object parent, Object child) {
+    protected void setChildComponent(FactoryBuilderSupport builder, Object parent, Object child) {
         parent.setContent(child)
     }
 
+    protected void setChildComponent(FactoryBuilderSupport builder, Object parent, DataBinding child) {
+        assert true
+        // Data binding don't get added as children
+    }
 }
