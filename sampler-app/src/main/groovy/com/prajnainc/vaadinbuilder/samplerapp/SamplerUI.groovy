@@ -17,6 +17,7 @@
 package com.prajnainc.vaadinbuilder.samplerapp
 
 import com.prajnainc.vaadinbuilder.ui.BuilderUI
+import com.vaadin.data.Item
 import com.vaadin.server.BrowserWindowOpener
 import com.vaadin.server.Sizeable
 import com.vaadin.server.VaadinRequest
@@ -39,42 +40,44 @@ class SamplerUI extends BuilderUI {
         Integer age
 
         public String toString() {
-            return \
-"""Name:           $name
-Adddress:       $address
-City:           $city
-State + Zip:    $state $zip
-Age:            $age"""
+            return """name=$name,adddress=$address,city=$city,state=$state,zip=$zip,age=$age"""
         }
     }
 
     static class Model {
-        @Bindable Person person
+        @Bindable Person person = new Person()
     }
 
-    Model model = new Model(person: new Person(
-            name: "Me",
-            address: "1 This Street",
-            city: "Somewhere",
-            state: 'NY',
-            zip: '10000',
-            age: 99
-    ))
+    Model model = new Model()
 
     @Override
     Component buildView() {
         return builder.build {
             panel(caption: 'Vaadin Builder Sampler') {
-                tabSheet() {
-                    fieldGroup(id: 'personForm', caption: 'Form', dataSource: bind(source: model, sourceProperty: 'person')) {
-                        textField('name')
-                        textField('address')
-                        textField('city')
-                        textField('state')
-                        textField('zip')
-                        textField('age')
-                        horizontalLayout(width: '100%', height: Sizeable.SIZE_UNDEFINED) {
-                            button(id: 'saveButton', caption: 'Save')
+                verticalLayout(margin: new MarginInfo(true) ) {
+                    tabSheet() {
+                        horizontalLayout(caption: 'Form & Table', spacing: true, margin: new MarginInfo(true)  ) {
+                            panel(caption: 'Add a Person') {
+                                fieldGroup(id: 'personForm', dataSource: bind(source: model, sourceProperty: 'person')) {
+                                    textField('name')
+                                    textField('address')
+                                    textField('city')
+                                    textField('state')
+                                    textField('zip')
+                                    textField('age')
+                                    horizontalLayout(width: '100%', height: Sizeable.SIZE_UNDEFINED) {
+                                        button(id: 'saveButton', caption: 'Save')
+                                    }
+                                }
+                            }
+                            table(id: 'people') {
+                                tableColumn('name')
+                                tableColumn('address')
+                                tableColumn('city')
+                                tableColumn('state')
+                                tableColumn('zip')
+                                tableColumn('age')
+                            }
                         }
                     }
                 }
@@ -90,10 +93,17 @@ Age:            $age"""
         Button b = builder.saveButton
         b.addClickListener([buttonClick: {evt ->
             builder.personForm.commit()
-            println model.person
+            display(model.person)
+            model.person = new Person()
         }] as Button.ClickListener)
+    }
 
-
+    private void display(Person person) {
+        def table = builder.people
+        Item item = table.getItem(table.addItem())
+        [ 'name', 'address', 'city', 'state', 'zip', 'age'].each {
+            item.getItemProperty(it).value = person."$it"
+        }
     }
 
 }
