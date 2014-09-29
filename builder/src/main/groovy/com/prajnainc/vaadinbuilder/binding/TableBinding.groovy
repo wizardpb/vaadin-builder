@@ -28,7 +28,7 @@ import java.beans.PropertyChangeEvent
  * TableBinding
  *
  */
-class TableBinding extends AbstractDataBinding {
+class TableBinding extends ContainerBinding {
 
     List<GroovyObjectPropertyDescriptor> propertyDescriptors = []
 
@@ -64,6 +64,62 @@ class TableBinding extends AbstractDataBinding {
     void propertyChange(PropertyChangeEvent evt) {
         if(evt.propertyName == sourceProperty) {
             bind()
+        }
+        super.propertyChange(evt)
+    }
+
+    void propertyChange(ObservableList.ElementEvent evt) {
+        Container dataSource = target.containerDataSource
+        if(evt.source == 'size') return;          // Ignore size change events
+        switch(evt) {
+            case ObservableList.ElementAddedEvent:
+                dataSource.addBean(evt.newValue,evt.index)
+                break;
+            case ObservableList.ElementUpdatedEvent:
+                dataSource.removeItem(evt.oldValue)
+                dataSource.addBean(evt.newValue,evt.index)
+                break;
+            case ObservableList.ElementClearedEvent:
+                dataSource.removeAllItems()
+                break;
+            case ObservableList.ElementRemovedEvent:
+                dataSource.removeItem(evt.oldValue)
+                break;
+            case ObservableList.MultiElementAddedEvent:
+                evt.values.eachWithIndex { bean, offset ->
+                    dataSource.addBean(bean,evt.index+offset)
+                }
+                break;
+            case ObservableList.MultiElementRemovedEvent:
+                evt.values.each { bean ->
+                    dataSource.removeItem(bean)
+                }
+                break;
+        }
+    }
+
+    void propertyChange(ObservableSet.ElementEvent evt) {
+        if(e.source == 'size') return;          // Ignore size change events
+        switch(evt) {
+            case ObservableSet.ElementAddedEvent:
+                dataSource.addBean(evt.newValue)
+                break;
+            case ObservableSet.ElementClearedEvent:
+                dataSource.removeAllItems()
+                break;
+            case ObservableSet.ElementRemovedEvent:
+                dataSource.removeItem(evt.oldValue)
+                break;
+            case ObservableSet.MultiElementAddedEvent:
+                evt.values.eachWithIndex { bean ->
+                    dataSource.addBean(bean)
+                }
+                break;
+            case ObservableSet.MultiElementRemovedEvent:
+                evt.values.each { bean ->
+                    dataSource.removeItem(bean)
+                }
+                break;
         }
     }
 }

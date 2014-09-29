@@ -61,10 +61,6 @@ public class FieldGroupFactorySpecification extends BuilderSpecification {
         boolean boolProp = true
     }
 
-//    def mockSession = Stub(VaadinSession) {
-//        getConverterFactory() >> (new DefaultConverterFactory())
-//    }
-
     static class TestModel {
         @Bindable TestObject modelProp = new TestObject()
         @Bindable objProp = [stringProp: 'string', intProp: 1, boolProp: true]

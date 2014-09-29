@@ -34,8 +34,7 @@ import com.vaadin.data.util.filter.UnsupportedFilterException
  * added dynamically.
  *
  */
-class GroovyBeanContainer extends AbstractInMemoryContainer<Object,Object, GroovyBeanItem>
-implements BeanContainer
+class GroovyBeanContainer extends AbstractInMemoryContainer<Object,Object, GroovyBeanItem> implements BeanContainer
 {
 
     /**
@@ -93,7 +92,7 @@ implements BeanContainer
     }
 
     @Override
-    Item addBenAt(int index, Object bean) {
+    Item addBeanAt(int index, Object bean) {
         return internalAddItemAt(index,bean,createItem(bean),true)
     }
 
@@ -158,9 +157,33 @@ implements BeanContainer
         return itemRemoved
     }
 
+    @Override
+    boolean removeAllItems() throws UnsupportedOperationException {
+        int origSize = size();
+
+        internalRemoveAllItems();
+
+        // TODO - implement listener removal
+        // detach listeners from all Items
+//        for (Item item : itemIdsToItem.values()) {
+//            removeAllValueChangeListeners(item);
+//        }
+        itemIdsToItem.clear();
+
+        // fire event only if the visible view changed, regardless of whether
+        // filtered out items were removed or not
+        if (origSize != 0) {
+            fireItemSetChange();
+        }
+
+        return true;
+    }
+
     private GroovyBeanItem createItem(bean) {
         return new GroovyBeanItem(bean,model.values())
     }
+
+
 }
 
 

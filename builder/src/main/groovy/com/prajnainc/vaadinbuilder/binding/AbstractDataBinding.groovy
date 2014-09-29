@@ -19,7 +19,6 @@ package com.prajnainc.vaadinbuilder.binding
 
 import com.prajnainc.vaadinbuilder.VaadinBuilderException
 import com.prajnainc.vaadinbuilder.support.GroovyObjectPropertyDescriptor
-import com.vaadin.server.ClientConnector
 
 import java.beans.PropertyChangeListener
 
@@ -43,6 +42,28 @@ abstract class AbstractDataBinding implements DataBinding, PropertyChangeListene
     abstract protected void bindSourceProperty();
     abstract protected void bindSource();
 
+    public Boolean isBindingToProperty() {
+        return sourceProperty != null
+    }
+
+    /**
+     * Return the type of the bound source property, or the source itself.
+     *
+     * @return - the Class of the source property
+     */
+    public Class getSourceType() {
+        return isBindingToProperty() ? source.metaClass.getMetaProperty(sourceProperty)?.getType() : source.getClass()
+    }
+
+    /**
+     * Get the value of the bound property
+     *
+     * @return - the Object value
+     */
+    public Object getSourceValue() {
+        return isBindingToProperty() ? source.getProperty(sourceProperty) : source
+    }
+
     @Override
     DataBinding bind(Object target) {
         this.target = target
@@ -54,13 +75,13 @@ abstract class AbstractDataBinding implements DataBinding, PropertyChangeListene
         assert target != null; assert source != null
 
         // If there is a source property, bind it as a property on a model object ...
-        if(sourceProperty) {
-            if(source.metaClass.getMetaProperty(sourceProperty) == null) {
+        if(isBindingToProperty()) {
+            if(getSourceType() == null) {
                 throw new VaadinBuilderException("Source $source has no property $sourceProperty")
             }
 
             bindSourceProperty()
-            addChangeListener()
+            addChangeListeners()
         } else {
             // .. otherwise bind the source object directly, as a bean
             bindSource()
@@ -70,7 +91,7 @@ abstract class AbstractDataBinding implements DataBinding, PropertyChangeListene
 
     @Override
     void unbind() {
-        removeChangeListener()
+        removeChangeListeners()
     }
 
     /**
@@ -116,7 +137,7 @@ abstract class AbstractDataBinding implements DataBinding, PropertyChangeListene
         assert false
     }
 
-    protected addChangeListener() {
+    protected void addChangeListeners() {
         def addListenerMethod = source.metaClass.getMetaMethod("addPropertyChangeListener",[sourceProperty,this] as Object[])
         if(addListenerMethod == null) {
             throw new VaadinBuilderException("Cannot add listener to ${source}.$sourceProperty as it is not a Bindable property")
@@ -124,7 +145,7 @@ abstract class AbstractDataBinding implements DataBinding, PropertyChangeListene
         source.addPropertyChangeListener(sourceProperty,this)
     }
 
-    protected removeChangeListener() {
+    protected void removeChangeListeners() {
         source.removePropertyChangeListener(sourceProperty,this)
     }
 

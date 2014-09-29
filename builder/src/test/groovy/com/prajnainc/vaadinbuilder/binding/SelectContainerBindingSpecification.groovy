@@ -70,9 +70,57 @@ public class SelectContainerBindingSpecification extends Specification {
 
         given:
         def ComboBox target = new ComboBox()
-        new SelectContainerBinding(source: 1..5).bind(target)
+        new SelectContainerBinding(source: 1..5 as List).bind(target)
 
         expect:
         that target.containerDataSource.itemIds, equalTo(1..5 as List)
+    }
+
+    def "it adds when the source property contents is observable and adds"() {
+        given:
+        def model = new Model(modelProp: new ObservableList(1..5 as ArrayList))
+        def ComboBox target = new ComboBox()
+        new SelectContainerBinding(source: model, sourceProperty: 'modelProp').bind(target)
+        model.modelProp.add(6)
+
+        expect:
+        that target.containerDataSource, instanceOf(IndexedContainer)
+        that target.containerDataSource.itemIds, equalTo(1..6 as List)
+    }
+
+    def "it adds when the source contents is observable and adds"() {
+        given:
+        def model = new ObservableList(1..5 as ArrayList)
+        def ComboBox target = new ComboBox()
+        new SelectContainerBinding(source: model).bind(target)
+        model.add(6)
+
+        expect:
+        that target.containerDataSource, instanceOf(IndexedContainer)
+        that target.containerDataSource.itemIds, equalTo(1..6 as List)
+    }
+
+    def "it removes when the source property contents is observable and changes"() {
+        given:
+        def model = new Model(modelProp: new ObservableList(1..5 as ArrayList))
+        def ComboBox target = new ComboBox()
+        new SelectContainerBinding(source: model, sourceProperty: 'modelProp').bind(target)
+        model.modelProp.remove(3)
+
+        expect:
+        that target.containerDataSource, instanceOf(IndexedContainer)
+        that target.containerDataSource.itemIds, equalTo([1,2,3,5])
+    }
+
+    def "it removes when the source contents is observable and changes"() {
+        given:
+        def model = new ObservableList(1..5 as ArrayList)
+        def ComboBox target = new ComboBox()
+        new SelectContainerBinding(source: model).bind(target)
+        model.remove(3)
+
+        expect:
+        that target.containerDataSource, instanceOf(IndexedContainer)
+        that target.containerDataSource.itemIds, equalTo([1,2,3,5])
     }
 }

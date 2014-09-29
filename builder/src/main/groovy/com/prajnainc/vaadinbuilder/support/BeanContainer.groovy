@@ -78,6 +78,6 @@ public interface BeanContainer {
      *
      * @return - the {@link Item} wrapping the object
      */
-    public Item addBenAt(int index, Object bean);
+    public Item addBeanAt(int index, Object bean);
 
 }

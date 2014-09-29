@@ -17,6 +17,9 @@
  */
 package com.prajnainc.vaadinbuilder.binding
 
+import com.prajnainc.vaadinbuilder.support.GroovyBeanContainer
+import com.vaadin.data.Container
+
 import java.beans.PropertyChangeEvent
 
 /**
@@ -25,20 +28,46 @@ import java.beans.PropertyChangeEvent
  * in an appropriate {@link com.vaadin.data.Container}
  *
  */
-class ContainerBinding extends AbstractDataBinding {
+abstract class ContainerBinding extends AbstractDataBinding {
 
-    @Override
-    protected void bindSourceProperty() {
-
-    }
 
     @Override
     protected void bindSource() {
-
+        addCollectionListener(sourceValue)
     }
 
+    /**
+     * Add collection change listeners if the source is a collection
+     *
+     */
+    @Override
+    protected void addChangeListeners() {
+        super.addChangeListeners()
+        if(isBindingToProperty() && (isObservable(sourceType) || isObservable(sourceValue.getClass()))) {
+            addCollectionListener(sourceValue)
+        }
+    }
+
+    protected void addCollectionListener(Collection observable) {
+        if(isObservable(observable.getClass())) {
+            observable.addPropertyChangeListener(this)
+        }
+    }
+
+    protected void removeCollectionListener(Collection observable) {
+        if(isObservable(observable.getClass())) {
+            observable.addPropertyChangeListener(this)
+        }
+    }
+
+    protected Boolean isObservable(Class cls) {
+        return cls in [ObservableList,ObservableSet]
+    }
+    
     @Override
     void propertyChange(PropertyChangeEvent evt) {
-
+        // The source value has changed - remove old listener, they will haev been already added by the new bind
+        removeCollectionListener(evt.oldValue)
     }
+
 }
