@@ -58,26 +58,31 @@ class TableBinding extends ContainerBinding {
     @Override
     protected void bindSource() {
         bindData(source)
+        super.bindSource()
     }
 
     @Override
     void propertyChange(PropertyChangeEvent evt) {
-        if(evt.propertyName == sourceProperty) {
-            bind()
-        }
-        super.propertyChange(evt)
+        collectionPropertyChange(evt)
     }
 
-    void propertyChange(ObservableList.ElementEvent evt) {
+    void collectionPropertyChange(PropertyChangeEvent evt) {
+        if(evt.propertyName == sourceProperty) {
+            bind()
+            super.propertyChange(evt)
+        }
+    }
+
+    void collectionPropertyChange(ObservableList.ElementEvent evt) {
         Container dataSource = target.containerDataSource
         if(evt.source == 'size') return;          // Ignore size change events
         switch(evt) {
             case ObservableList.ElementAddedEvent:
-                dataSource.addBean(evt.newValue,evt.index)
+                dataSource.addBeanAt(evt.index,evt.newValue)
                 break;
             case ObservableList.ElementUpdatedEvent:
                 dataSource.removeItem(evt.oldValue)
-                dataSource.addBean(evt.newValue,evt.index)
+                dataSource.addBeanAt(evt.index,evt.newValue)
                 break;
             case ObservableList.ElementClearedEvent:
                 dataSource.removeAllItems()
@@ -87,7 +92,7 @@ class TableBinding extends ContainerBinding {
                 break;
             case ObservableList.MultiElementAddedEvent:
                 evt.values.eachWithIndex { bean, offset ->
-                    dataSource.addBean(bean,evt.index+offset)
+                    dataSource.addBeanAt(evt.index+offset,bean)
                 }
                 break;
             case ObservableList.MultiElementRemovedEvent:
@@ -98,7 +103,7 @@ class TableBinding extends ContainerBinding {
         }
     }
 
-    void propertyChange(ObservableSet.ElementEvent evt) {
+    void collectionPropertyChange(ObservableSet.ElementEvent evt) {
         if(e.source == 'size') return;          // Ignore size change events
         switch(evt) {
             case ObservableSet.ElementAddedEvent:

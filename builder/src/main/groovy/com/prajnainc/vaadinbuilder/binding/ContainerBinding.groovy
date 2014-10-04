@@ -66,7 +66,7 @@ abstract class ContainerBinding extends AbstractDataBinding {
     
     @Override
     void propertyChange(PropertyChangeEvent evt) {
-        // The source value has changed - remove old listener, they will haev been already added by the new bind
+        // The source value has changed - remove old listener, they will have been already added by the new bind
         removeCollectionListener(evt.oldValue)
     }
 
