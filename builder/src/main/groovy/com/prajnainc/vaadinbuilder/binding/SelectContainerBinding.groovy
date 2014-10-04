@@ -29,6 +29,8 @@ import java.beans.PropertyChangeEvent;
  */
 class SelectContainerBinding extends ContainerBinding {
 
+    // TODO - make the container type variable? Limitation of IndexedContainer item id uniqueness?
+
     @Override
     protected void bindSourceProperty() {
         Container container = new IndexedContainer((source.getProperty(sourceProperty) ?: []) as List)
@@ -58,7 +60,7 @@ class SelectContainerBinding extends ContainerBinding {
 
     private void addItem(value, int index) {
         if(index < target.containerDataSource.size()){
-            target.containerDataSource.addItemAt(value,index)
+            target.containerDataSource.addItemAt(index,value)
         } else {
             target.containerDataSource.addItem(value)
         }
@@ -82,8 +84,24 @@ class SelectContainerBinding extends ContainerBinding {
                 dataSource.removeItem(evt.oldValue)
                 break;
             case ObservableList.MultiElementAddedEvent:
-                evt.values.eachWithIndex { item, offset ->
-                    addItem(item,evt.index+offset)
+                /**
+                 * Since the indicated add index from an add and addAt operation at the end of the
+                 * list is the same, it is not possible to tell what the operation was. However,
+                 * we need to know this, because the operation to add the items will be different
+                 * for each case.
+                 *
+                 * Until {@link ObservableList} is fixed, this is the only way to tell. If the operation
+                 * was an 'add', the last element in the collection will be the last element in the added values
+                 */
+                def wasAddOp = getSourceValue().last() == evt.values.last()
+                if(wasAddOp) {
+                    evt.values.each{ item ->
+                        target.containerDataSource.addItem(item)
+                    }
+                } else {
+                    evt.values.eachWithIndex { item, offset ->
+                        addItem(item, evt.index + offset)
+                    }
                 }
                 break;
             case ObservableList.MultiElementRemovedEvent:
@@ -96,7 +114,7 @@ class SelectContainerBinding extends ContainerBinding {
 
     void collectionPropertyChange(ObservableSet.ElementEvent evt) {
         Container dataSource = target.containerDataSource
-        if(e.source == 'size') return;          // Ignore size change events
+        if(evt.source == 'size') return;          // Ignore size change events
         switch(evt) {
             case ObservableSet.ElementAddedEvent:
                 dataSource.addItem(evt.newValue)
@@ -108,7 +126,7 @@ class SelectContainerBinding extends ContainerBinding {
                 dataSource.removeItem(evt.oldValue)
                 break;
             case ObservableSet.MultiElementAddedEvent:
-                evt.values.eachWithIndex { bean ->
+                evt.values.each { bean ->
                     dataSource.addItem(bean)
                 }
                 break;

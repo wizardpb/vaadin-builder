@@ -76,51 +76,54 @@ public class SelectContainerBindingSpecification extends Specification {
         that target.containerDataSource.itemIds, equalTo(1..5 as List)
     }
 
-    def "it adds when the source property contents is observable and adds"() {
-        given:
-        def model = new Model(modelProp: new ObservableList(1..5 as ArrayList))
-        def ComboBox target = new ComboBox()
-        new SelectContainerBinding(source: model, sourceProperty: 'modelProp').bind(target)
-        model.modelProp.add(6)
-
+    def "it updates the target when an observable source value changes"() {
         expect:
-        that target.containerDataSource, instanceOf(IndexedContainer)
-        that target.containerDataSource.itemIds, equalTo(1..6 as List)
-    }
-
-    def "it adds when the source contents is observable and adds"() {
-        given:
-        def model = new ObservableList(1..5 as ArrayList)
         def ComboBox target = new ComboBox()
         new SelectContainerBinding(source: model).bind(target)
-        model.add(6)
+        model."$op"(*params)
+        target.containerDataSource.itemIds == itemIds
 
-        expect:
-        that target.containerDataSource, instanceOf(IndexedContainer)
-        that target.containerDataSource.itemIds, equalTo(1..6 as List)
+        where:
+
+        model                                       | op           | params        | itemIds
+        new ObservableList('a'..'e' as ArrayList)   | "add"        | ['f']         | 'a'..'f' as List
+        new ObservableList('a'..'e' as ArrayList)   | "add"        | [1,'f']       | ['a','f','b','c','d','e']
+        new ObservableList('a'..'e' as ArrayList)   | "set"        | [1,'f']       | ['a','f','c','d','e']
+        new ObservableList('a'..'e' as ArrayList)   | "remove"     | [3]           | ['a','b','c','e']
+        new ObservableList('a'..'e' as ArrayList)   | "remove"     | ['d']         | ['a','b','c','e']
+        new ObservableList('a'..'e' as ArrayList)   | "addAll"     | ['f','g']     | 'a'..'g' as List
+        new ObservableList('a'..'e' as ArrayList)   | "addAll"     | [1,['f','g']] | ['a','f','g','b','c','d','e']
+        new ObservableList('a'..'e' as ArrayList)   | "removeAll"  | ['d','e']     | ['a','b','c']
+        new ObservableSet('a'..'e' as Set)          | "add"        | ['f']         | 'a'..'f' as List
+        new ObservableSet('a'..'e' as Set)          | "remove"     | ['d']         | ['a','b','c','e']
+        new ObservableSet('a'..'e' as Set)          | "addAll"     | ['f','g']     | 'a'..'g' as List
+        new ObservableSet('a'..'e' as Set)          | "removeAll"  | ['d','e']     | ['a','b','c']
+        new ObservableSet('a'..'e' as Set)          | "retainAll"  | ['d','e']     | ['d','e']
     }
 
-    def "it removes when the source property contents is observable and changes"() {
-        given:
-        def model = new Model(modelProp: new ObservableList(1..5 as ArrayList))
+    def "it updates the target when an observable source property value changes"() {
+        expect:
+        def model = new Model(modelProp: propertyValue)
         def ComboBox target = new ComboBox()
         new SelectContainerBinding(source: model, sourceProperty: 'modelProp').bind(target)
-        model.modelProp.remove(3)
+        model.modelProp."$op"(*params)
+        target.containerDataSource.itemIds == itemIds
 
-        expect:
-        that target.containerDataSource, instanceOf(IndexedContainer)
-        that target.containerDataSource.itemIds, equalTo([1,2,3,5])
-    }
+        where:
 
-    def "it removes when the source contents is observable and changes"() {
-        given:
-        def model = new ObservableList(1..5 as ArrayList)
-        def ComboBox target = new ComboBox()
-        new SelectContainerBinding(source: model).bind(target)
-        model.remove(3)
-
-        expect:
-        that target.containerDataSource, instanceOf(IndexedContainer)
-        that target.containerDataSource.itemIds, equalTo([1,2,3,5])
+        propertyValue                               | op           | params        | itemIds
+        new ObservableList('a'..'e' as ArrayList)   | "add"        | ['f']         | 'a'..'f' as ArrayList
+        new ObservableList('a'..'e' as ArrayList)   | "add"        | [1,'f']       | ['a','f','b','c','d','e']
+        new ObservableList('a'..'e' as ArrayList)   | "set"        | [1,'f']       | ['a','f','c','d','e']
+        new ObservableList('a'..'e' as ArrayList)   | "remove"     | [3]           | ['a','b','c','e']
+        new ObservableList('a'..'e' as ArrayList)   | "remove"     | ['d']         | ['a','b','c','e']
+        new ObservableList('a'..'e' as ArrayList)   | "addAll"     | ['f','g']     | 'a'..'g' as ArrayList
+        new ObservableList('a'..'e' as ArrayList)   | "addAll"     | [1,['f','g']] | ['a','f','g','b','c','d','e']
+        new ObservableList('a'..'e' as ArrayList)   | "removeAll"  | ['d','e']     | ['a','b','c']
+        new ObservableSet('a'..'e' as Set)          | "add"        | ['f']         | 'a'..'f' as ArrayList
+        new ObservableSet('a'..'e' as Set)          | "remove"     | ['d']         | ['a','b','c','e']
+        new ObservableSet('a'..'e' as Set)          | "addAll"     | ['f','g']     | 'a'..'g' as ArrayList
+        new ObservableSet('a'..'e' as Set)          | "removeAll"  | ['d','e']     | ['a','b','c']
+        new ObservableSet('a'..'e' as Set)          | "retainAll"  | ['d','e']     | ['d','e']
     }
 }
