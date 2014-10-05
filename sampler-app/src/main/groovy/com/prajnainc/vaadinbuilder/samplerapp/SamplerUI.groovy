@@ -66,7 +66,11 @@ class SamplerUI extends BuilderUI {
                                     textField('zip')
                                     textField('age')
                                     horizontalLayout(width: '100%', height: Sizeable.SIZE_UNDEFINED) {
-                                        button(id: 'saveButton', caption: 'Save')
+                                        button(id: 'saveButton', caption: 'Save', onClick: { evt ->
+                                            builder.personForm.commit()
+                                            display(model.person)
+                                            model.person = new Person()
+                                        } )
                                     }
                                 }
                             }
@@ -83,19 +87,6 @@ class SamplerUI extends BuilderUI {
                 }
             }
         }
-    }
-
-    @Override
-    protected void init(VaadinRequest vaadinRequest) {
-
-        super.init(vaadinRequest)
-
-        Button b = builder.saveButton
-        b.addClickListener([buttonClick: {evt ->
-            builder.personForm.commit()
-            display(model.person)
-            model.person = new Person()
-        }] as Button.ClickListener)
     }
 
     private void display(Person person) {
