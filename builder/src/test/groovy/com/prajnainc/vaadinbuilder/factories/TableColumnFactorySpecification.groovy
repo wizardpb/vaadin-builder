@@ -72,7 +72,7 @@ public class TableColumnFactorySpecification extends BuilderSpecification {
 
         Table table = builder.build {
             table(id: 'table') {
-                tableColumn('column1',type: Date)
+                tableColumn('column1',modelType: Date)
             }
         }
 
@@ -86,7 +86,7 @@ public class TableColumnFactorySpecification extends BuilderSpecification {
         def dataSource =  new IndexedContainer()
         Table table = builder.build {
             table(id: 'table', containerDataSource: dataSource) {
-                tableColumn('column1',type: Date)
+                tableColumn('column1',modelType: Date)
             }
         }
 

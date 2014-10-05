@@ -17,6 +17,7 @@
  */
 package com.prajnainc.vaadinbuilder.factories
 
+import com.prajnainc.vaadinbuilder.VaadinBuilder
 import com.prajnainc.vaadinbuilder.VaadinBuilderException
 import com.prajnainc.vaadinbuilder.binding.TableBinding
 import com.vaadin.server.Resource
@@ -35,7 +36,10 @@ class TableColumnFactory extends AbstractFactory implements VaadinFactory {
 
     @Override
     Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
-        return [value: value, attributes: attributes]
+        return [
+                value: value,
+                attributes: attributes+[modelType: builder.savedAttributes[VaadinBuilder.MODEL_TYPE_ATTR]]
+        ]
     }
 
     @Override
@@ -53,7 +57,7 @@ class TableColumnFactory extends AbstractFactory implements VaadinFactory {
         }
         String header = attributes.header ?: propertyId
         Resource icon = attributes.icon
-        Class type = attributes.type ?: Object
+        Class type = attributes.modelType ?: Object
         def defaultValue = attributes.defaultValue
 
         // Builder saves general attribute 'alignment' here
