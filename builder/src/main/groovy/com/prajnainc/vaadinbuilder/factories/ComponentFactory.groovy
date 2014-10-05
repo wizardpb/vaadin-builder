@@ -25,7 +25,7 @@ import com.vaadin.ui.Component
  * TODO - make attribute saving dynamic, and parent class dependent (use attribute delegate - one per set of attributes)
  */
 
-class ComponentFactory extends AbstractFactory implements VaadinFactory {
+class ComponentFactory extends AbstractFactory {
 
     Class componentClass
 

@@ -24,7 +24,7 @@ import com.prajnainc.vaadinbuilder.binding.DataBindingFactory
  *
  *
  */
-class BindFactory extends AbstractFactory implements VaadinFactory {
+class BindFactory extends AbstractFactory {
 
     Map getSavedAttributes() {
         return [:]

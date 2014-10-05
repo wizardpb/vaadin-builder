@@ -32,7 +32,7 @@ import com.vaadin.ui.Table
  *
  *
  */
-class TableColumnFactory extends AbstractFactory implements VaadinFactory {
+class TableColumnFactory extends AbstractFactory {
 
     @Override
     Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
