@@ -83,7 +83,7 @@ class ComponentFactory extends AbstractFactory {
      *
      */
     public void attachListeners(Component component,Map attributes) {
-        getEventTable().each { attr, eventDefinition->
+        EventDefinitions.definitionsFor(component.getClass()).each { attr, eventDefinition->
             if(attributes.containsKey(attr)) {
                 def action = attributes.remove(attr)
                 def proxy = [(eventDefinition.listenerMethod): action].asType(eventDefinition.listenerClass)
@@ -93,12 +93,4 @@ class ComponentFactory extends AbstractFactory {
         }
     }
 
-    /**
-     * Return an event description map for this factory. Default is an empty map, indicating no events are expected
-     *
-     * @return - an event description Map
-     */
-    protected Map getEventTable() {
-        return EventDefinitions.EVENT_TABLE[componentClass] ?: [:]
-    }
 }

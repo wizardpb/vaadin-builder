@@ -19,6 +19,7 @@ package com.prajnainc.vaadinbuilder.binding
 
 import com.prajnainc.vaadinbuilder.VaadinBuilderException
 import com.prajnainc.vaadinbuilder.support.GroovyObjectPropertyDescriptor
+import com.vaadin.server.ClientConnector
 
 import java.beans.PropertyChangeListener
 
@@ -137,12 +138,21 @@ abstract class AbstractDataBinding implements DataBinding, PropertyChangeListene
         assert false
     }
 
+    /**
+     * Add all necessary change listeners to keep the target updated when the source changes in any way. All bindings
+     * need a listener to re-bind when the source property changes.
+     *
+     * We also add a detach listener to unbind the binding when the UI detaches
+     */
     protected void addChangeListeners() {
         def addListenerMethod = source.metaClass.getMetaMethod("addPropertyChangeListener",[sourceProperty,this] as Object[])
         if(addListenerMethod == null) {
             throw new VaadinBuilderException("Cannot add listener to ${source}.$sourceProperty as it is not a Bindable property")
         }
         source.addPropertyChangeListener(sourceProperty,this)
+        if(target instanceof ClientConnector) {
+            target.addDetachListener([detach: { evt -> unbind() }] as ClientConnector.DetachListener)
+        }
     }
 
     protected void removeChangeListeners() {

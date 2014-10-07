@@ -19,14 +19,18 @@ package com.prajnainc.vaadinbuilder.factories
 
 import com.prajnainc.vaadinbuilder.BuilderSpecification
 import com.vaadin.event.FieldEvents
-import com.vaadin.ui.Button;
+import com.vaadin.event.MouseEvents
+import com.vaadin.ui.Button
+import com.vaadin.ui.Window;
 import spock.lang.*
 import static org.hamcrest.CoreMatchers.*
 import static spock.util.matcher.HamcrestSupport.*
 
+import static com.vaadin.ui.HasComponents.*
+
 public class EventDefinitionSpecification extends BuilderSpecification {
 
-    def "a Button can define event actions"() {
+    def "a Button can define all it's event actions"() {
         expect:
         def fired = null
         Button button = builder.build {
@@ -43,5 +47,48 @@ public class EventDefinitionSpecification extends BuilderSpecification {
         'onClick'   | Button.ClickEvent      | { it.fireClick() }
         'onBlur'    | FieldEvents.BlurEvent  | { it.@focusBlurRpc.blur() }
         'onFocus'   | FieldEvents.FocusEvent | { it.@focusBlurRpc.focus() }
+    }
+
+    def "a Panel can define all it's event actions"() {
+        expect:
+        def fired = null
+        def component = builder.build {
+            panel('Test',(method): { evt ->
+                fired = evt
+            })
+        }
+        fireAction.call(component) == null
+        fired.getClass() == event
+        fired.source.is(component)
+
+        where:
+        method              | event                         | fireAction
+        'onClick'           | MouseEvents.ClickEvent        | { it.@rpc.click(null)  }
+        'onComponentAttach' | ComponentAttachEvent          | { it.fireComponentAttachEvent(null) }
+        'onComponentDetach' | ComponentDetachEvent          | { it.fireComponentDetachEvent(null) }
+
+    }
+
+    def "a Window can define all it's event actions"() {
+        expect:
+        def fired = null
+        def component = builder.build {
+            window('Test',(method): { evt ->
+                fired = evt
+            })
+        }
+        fireAction.call(component) == null
+        fired.getClass() == event
+        fired.source.is(component)
+
+        where:
+        method              | event                         | fireAction
+        'onClose'           | Window.CloseEvent             | { it.fireClose() }
+        'onResize'          | Window.ResizeEvent            | { it.fireResize() }
+        'onModeChange'      | Window.WindowModeChangeEvent  | { it.fireWindowWindowModeChange() }
+        'onClick'           | MouseEvents.ClickEvent        | { it.@rpc.click(null)  }
+        'onComponentAttach' | ComponentAttachEvent          | { it.fireComponentAttachEvent(null) }
+        'onComponentDetach' | ComponentDetachEvent          | { it.fireComponentDetachEvent(null) }
+
     }
 }
