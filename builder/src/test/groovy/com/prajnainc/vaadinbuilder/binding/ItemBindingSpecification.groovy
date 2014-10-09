@@ -63,7 +63,9 @@ public class ItemBindingSpecification extends Specification {
     ItemBinding itemBinding
 
     def setup() {
-        itemBinding = new ItemBinding(source: new Model(modelProp: new TestBean()),sourceProperty: 'modelProp', propertyDescriptors: descriptors)
+        itemBinding = new ItemBinding(
+            source: new Model(modelProp: new TestBean()),
+            sourceProperty: 'modelProp', propertyDescriptors: descriptors)
     }
 
     def "it can return a descriptor for a property name"() {

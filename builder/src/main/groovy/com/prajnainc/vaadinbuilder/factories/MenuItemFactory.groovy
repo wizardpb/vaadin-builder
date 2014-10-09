@@ -22,8 +22,8 @@ import com.vaadin.ui.MenuBar.MenuItem
 
 /**
  *
- * <p>A {@link MenuItemFactory} creates and adds {@link MenuItem}s to a {@link MenuBar}. This departs from the normal pattern of
- * creating a component then separately adding it, since {@link MenuBar} and (@link MenuItem} do
+ * <p>A {@link MenuItemFactory} creates and adds {@link MenuItem}s to a {@link MenuBar}. This departs from the normal
+ * pattern of creating a component then separately adding it, since {@link MenuBar} and (@link MenuItem} do
  * not possess methods to do this. Instead, they create and add the items in a single action. The
  * factory must therefore create and add in {@link Factory#newInstance}. It gets the parent from
  * the builder to do this.</p>
@@ -39,7 +39,9 @@ class MenuItemFactory extends ComponentFactory {
     }
 
     @Override
-    Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
+    Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes)
+        throws InstantiationException, IllegalAccessException
+    {
         def parent = builder.getCurrent()
         def menuItem = null
         if(name == 'separator') {

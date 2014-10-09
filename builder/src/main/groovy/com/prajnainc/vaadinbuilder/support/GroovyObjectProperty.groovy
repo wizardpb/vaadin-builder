@@ -43,7 +43,9 @@ class GroovyObjectProperty extends AbstractProperty {
 
         // Make sure descriptor type (if present) is compatible
         if(descriptor.propertyType && !metaProperty.type.isAssignableFrom(descriptor.propertyType))  {
-            throw new VaadinBuilderException("Property $descriptor.name of ${instance.class.simpleName} is type incompatible with ${descriptor.propertyType}")
+            throw new VaadinBuilderException(
+                "Property $descriptor.name of ${instance.class.simpleName} is type incompatible " +
+                    "with ${descriptor.propertyType}")
         }
 
         // If there is no descriptor type, use the property type.

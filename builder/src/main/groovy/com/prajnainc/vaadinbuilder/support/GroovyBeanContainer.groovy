@@ -103,7 +103,9 @@ class GroovyBeanContainer extends AbstractInMemoryContainer<Object,Object, Groov
     }
 
     @Override
-    boolean addContainerProperty(Object propertyId, Class<?> type, Object defaultValue) throws UnsupportedOperationException {
+    boolean addContainerProperty(Object propertyId, Class<?> type, Object defaultValue)
+        throws UnsupportedOperationException
+    {
 
         if(!propertyId instanceof String) {
             throw new UnsupportedOperationException("Groovy container property ids must be Strings")

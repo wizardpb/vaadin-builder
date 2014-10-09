@@ -54,7 +54,9 @@ class ItemBinding extends AbstractDataBinding {
 
     public GroovyObjectPropertyDescriptor addDescriptor(String propName, Class type, Object defaultValue) {
         assert descriptorFor(propName) == null
-        def descriptor = new GroovyObjectPropertyDescriptor(name: propName, propertyType: type, defaultValue: defaultValue)
+        def descriptor = new GroovyObjectPropertyDescriptor(
+            name: propName, propertyType: type, defaultValue: defaultValue
+        )
         propertyDescriptors.add(descriptor)
         def dataSource = target?.itemDataSource
         if(dataSource) {

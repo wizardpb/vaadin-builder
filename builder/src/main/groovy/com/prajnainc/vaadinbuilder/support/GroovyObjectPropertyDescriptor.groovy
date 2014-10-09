@@ -21,10 +21,10 @@ import com.vaadin.data.Property
 import com.vaadin.data.util.VaadinPropertyDescriptor
 
 /**
- * GroovyObjectPropertyDescriptor is an implementation of {@link VaadinPropertyDescriptor} for describing Groovy properties. Flexible enought to
- * deal with property emulation on {@link Map}s. Also adds a specificiation for default values, which makes
- * it able to completely describe {@link GroovyBeanContainer} properties. Default values are only used
- * when dynamically adding properties to a {@link Map} bean that does not already contain that property.
+ * GroovyObjectPropertyDescriptor is an implementation of {@link VaadinPropertyDescriptor} for describing Groovy
+ * properties. Flexible enought to deal with property emulation on {@link Map}s. Also adds a specificiation for
+ * default values, which makes it able to completely describe {@link GroovyBeanContainer} properties. Default values
+ * are only used when dynamically adding properties to a {@link Map} bean that does not already contain that property.
  *
  */
 class GroovyObjectPropertyDescriptor implements VaadinPropertyDescriptor<Object> {

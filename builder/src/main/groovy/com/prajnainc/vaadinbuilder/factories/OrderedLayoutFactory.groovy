@@ -40,7 +40,10 @@ class OrderedLayoutFactory extends LayoutFactory {
             try {
                 ratio = ratioValue as Float
             } catch (GroovyCastException e) {
-                throw new VaadinBuilderException("The ${ratioValue.getClass().simpleName} value '$ratioValue' cannot be converted to an expand ration. It must be a number", e)
+                throw new VaadinBuilderException(
+                    "The ${ratioValue.getClass().simpleName} value '$ratioValue' cannot be converted to an expand " +
+                        "ratio. It must be a number",
+                    e)
             }
             assert parent instanceof AbstractOrderedLayout
             parent.setExpandRatio(child, ratio)

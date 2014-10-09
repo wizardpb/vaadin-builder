@@ -14,9 +14,22 @@
  *    limitations under the License.
  */
 apply plugin: 'groovy'
+apply plugin: 'codenarc'
 
 repositories {
     mavenCentral()
+}
+
+codenarc {
+    toolVersion = "0.21"
+}
+
+codenarcMain {
+    configFile = rootProject.file("src/rulesets/allRules.groovy")
+}
+
+codenarcTest {
+    configFile = rootProject.file("src/rulesets/allRules.groovy")
 }
 
 version='0.1.0'

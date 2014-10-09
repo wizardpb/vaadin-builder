@@ -37,37 +37,52 @@ import com.vaadin.ui.Table
  */
 class BindingCategory {
 
-    static DataBinding bindTo(Item.Viewer self, Object source, String sourceProperty, List propertyDescriptors, Boolean unTyped) {
+    static DataBinding bindTo(
+        Item.Viewer self, Object source, String sourceProperty, List propertyDescriptors, Boolean unTyped
+    ) {
         new ItemBinding(
                 target: self, source: source, sourceProperty: sourceProperty,
                 propertyDescriptors: propertyDescriptors,unTyped: unTyped
         )     
     }
 
-    static DataBinding bindTo(FieldGroup self, Object source, String sourceProperty, List propertyDescriptors, Boolean unTyped) {
+    static DataBinding bindTo(
+        FieldGroup self, Object source, String sourceProperty, List propertyDescriptors, Boolean unTyped
+    ) {
         new ItemBinding(
                 target: self, source: source, sourceProperty: sourceProperty,
                 propertyDescriptors: propertyDescriptors, unTyped: unTyped
         )
     }
 
-    static DataBinding bindTo(Property.Viewer self, Object source, String sourceProperty, List propertyDescriptors, Boolean unTyped) {
-        new PropertyBinding(target: self, source: source, sourceProperty: sourceProperty, propertyDescriptors: propertyDescriptors, unTyped: unTyped)
+    static DataBinding bindTo(
+        Property.Viewer self, Object source, String sourceProperty, List propertyDescriptors, Boolean unTyped
+    ) {
+        new PropertyBinding(
+            target: self, source: source, sourceProperty: sourceProperty,
+            propertyDescriptors: propertyDescriptors, unTyped: unTyped)
+
     }
 
-    static DataBinding bindTo(AbstractSelect self, Object source, String sourceProperty, List propertyDescriptors, Boolean unTyped) {
+    static DataBinding bindTo(
+        AbstractSelect self, Object source, String sourceProperty, List propertyDescriptors, Boolean unTyped
+    ) {
         new SelectContainerBinding(target: self, source: source, sourceProperty: sourceProperty,
                 propertyDescriptors: propertyDescriptors, unTyped: unTyped
         )
     }
 
-    static DataBinding bindTo(Table self, Object source, String sourceProperty, List propertyDescriptors, Boolean unTyped) {
+    static DataBinding bindTo(
+        Table self, Object source, String sourceProperty, List propertyDescriptors, Boolean unTyped
+    ) {
         new TableBinding(target: self, source: source, sourceProperty: sourceProperty,
                 propertyDescriptors: propertyDescriptors, unTyped: unTyped
         )
     }
 
-    static DataBinding bindTo(Object self, Object source, String sourceProperty, List propertyDescriptors, Boolean unTyped) {
+    static DataBinding bindTo(
+        Object self, Object source, String sourceProperty, List propertyDescriptors, Boolean unTyped
+    ) {
         throw new VaadinBuilderException("Cannot create a binding for target $self")
     }
 }

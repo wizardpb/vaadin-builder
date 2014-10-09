@@ -31,7 +31,8 @@ class BindFactory extends AbstractFactory {
     }
 
     @Override
-    Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
+    Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes)
+        throws InstantiationException, IllegalAccessException {
 
         def source = attributes.remove('source');
         def sourceProperty = attributes.remove('sourceProperty')

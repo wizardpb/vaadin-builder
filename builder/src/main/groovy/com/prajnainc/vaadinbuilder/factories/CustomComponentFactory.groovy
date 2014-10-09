@@ -31,7 +31,9 @@ class CustomComponentFactory extends FieldFactory {
     }
 
     @Override
-    Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
+    Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes)
+        throws InstantiationException, IllegalAccessException
+    {
         componentClass = attributes.remove('class')
         if(componentClass == null) {
             throw new VaadinBuilderException("No class specified for custom field")

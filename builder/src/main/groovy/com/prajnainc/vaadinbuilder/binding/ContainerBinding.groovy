@@ -23,9 +23,9 @@ import com.vaadin.data.Container
 import java.beans.PropertyChangeEvent
 
 /**
- * A {@link ContainerBinding} binds a data source for a {@link com.vaadin.data.Container.Viewer}. It treats the souce value
- * as a {@link Collection} of values that are treated as objects to be bound as {@link com.vaadin.data.Item}s, and wraps them
- * in an appropriate {@link com.vaadin.data.Container}
+ * A {@link ContainerBinding} binds a data source for a {@link com.vaadin.data.Container.Viewer}. It treats the
+ * source value as a {@link Collection} of values that are treated as objects to be bound as  {@link com.vaadin.data
+ * .Item}s, and wraps them in an appropriate {@link com.vaadin.data.Container}
  *
  */
 abstract class ContainerBinding extends AbstractDataBinding {

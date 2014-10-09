@@ -35,14 +35,18 @@ class TableBinding extends ContainerBinding {
     private bindData(Object data) {
         Container container = new GroovyBeanContainer(propertyDescriptors)
         if(!(data == null || data instanceof Collection)) {
-            throw new VaadinBuilderException("The value of $sourceProperty of $source must be a Collection to bind to $target")
+            throw new VaadinBuilderException(
+                "The value of $sourceProperty of $source must be a Collection to bind to $target"
+            )
         }
         container.addAll((data == null ? [] : data))
         target.setContainerDataSource(container)
     }
 
     public GroovyObjectPropertyDescriptor addDescriptor(String propertyId, Class type, Object defaultValue) {
-        def descriptor = new GroovyObjectPropertyDescriptor(name: propertyId, propertyType: type, defaultValue: defaultValue)
+        def descriptor = new GroovyObjectPropertyDescriptor(
+            name: propertyId, propertyType: type, defaultValue: defaultValue
+        )
         propertyDescriptors.add(descriptor)
         if(target.containerDataSource) {
             target.containerDataSource.addContainerProperty(propertyId,type,defaultValue)

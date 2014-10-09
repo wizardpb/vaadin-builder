@@ -34,11 +34,11 @@ class VaadinBuilder extends FactoryBuilderSupport {
     /**
      * Attributes saved for use by a parent component, usually a {@link com.vaadin.ui.Layout}
      */
-    public final static String EXPAND_RATIO_ATTR    = 'expandRatio'         // Expand ration for OrderedLayouts
-    public final static String ALIGNMENT_ATTR       = 'alignment'           // Component alignment in layout cell
-    public final static String GRID_POSITION_ATTR   = 'position'            // position in GridLayout
-    public final static String GRID_SPAN_ATTR       = 'span'                // Span of cells in GridLayout
-    public final static String MODEL_TYPE_ATTR      = 'modelType'           // The type (class) of a Property, Item or Container binding
+    public final static String EXPAND_RATIO_ATTR    = 'expandRatio' // Expand ration for OrderedLayouts
+    public final static String ALIGNMENT_ATTR       = 'alignment'   // Component alignment in layout cell
+    public final static String GRID_POSITION_ATTR   = 'position'    // position in GridLayout
+    public final static String GRID_SPAN_ATTR       = 'span'        // Span of cells in GridLayout
+    public final static String MODEL_TYPE_ATTR      = 'modelType'   // The type of a Property, Item or Container binding
 
     private static final ATTRIBUTES_TO_SAVE = [
             EXPAND_RATIO_ATTR, ALIGNMENT_ATTR,
@@ -46,10 +46,12 @@ class VaadinBuilder extends FactoryBuilderSupport {
             MODEL_TYPE_ATTR
     ]
 
-    public static final String DELEGATE_PROPERTY_OBJECT_ID = "_delegateProperty:id";
-    public static final String DEFAULT_DELEGATE_PROPERTY_OBJECT_ID = "id";
+    public static final String DELEGATE_PROPERTY_OBJECT_ID = '_delegateProperty:id'
+    public static final String DEFAULT_DELEGATE_PROPERTY_OBJECT_ID = 'id'
     public static final String GENERAL_BINDING_ATTRIBUTE = 'dataSource'
-    public static final Set BINDING_ATTRIBUTES = [GENERAL_BINDING_ATTRIBUTE,'propertyDataSource','itemDataSource', 'containerDataSource'] as Set;
+    public static final Set BINDING_ATTRIBUTES = [
+        GENERAL_BINDING_ATTRIBUTE,'propertyDataSource','itemDataSource', 'containerDataSource'
+    ] as Set
 
     VaadinBuilder(boolean init=true) {
         super(init)
@@ -57,25 +59,27 @@ class VaadinBuilder extends FactoryBuilderSupport {
     }
 
     public static objectIDAttributeDelegate(def builder, def node, def attributes) {
-        def idAttr = builder.getAt(DELEGATE_PROPERTY_OBJECT_ID) ?: DEFAULT_DELEGATE_PROPERTY_OBJECT_ID
+        def idAttr = builder[DELEGATE_PROPERTY_OBJECT_ID] ?: DEFAULT_DELEGATE_PROPERTY_OBJECT_ID
         def theID = attributes.remove(idAttr)
         if (theID) {
             builder.setVariable(theID, node)
-            if(node instanceof Component && !node.id) node.id = theID
+            if (node instanceof Component && !node.id) { node.id = theID }
         }
     }
 
     /**
-     * An attribute delegate that implements binding to sources defined as {@link BindFactory} values for specific
-     * Vaadin data source attributes on a node definition. This is the case when a node is bound using the 'bind' construct
-     * as the value of one of the attributes 'dataSource', 'properyDataSource', 'itemDataSource' or 'containerDataSource' e.g.
-     * <code> fieldGroup(id: 'myGroup', dataSource: bind(source: someModel, sourceProperty: 'modelProeprty')) {
+     * <p>An attribute delegate that implements binding to sources defined as {@link BindFactory} values for specific
+     * Vaadin data source attributes on a node definition. This is the case when a node is bound using the 'bind'
+     * construct as the value of one of the attributes 'dataSource', 'properyDataSource', 'itemDataSource' or
+     * 'containerDataSource' e.g.
+     * <code>
+     * fieldGroup(id: 'myGroup', dataSource: bind(source: someModel, sourceProperty: 'modelProperty')) {
      * ...
-     * }</code>
+     * }</code></p>
      *
-     * <p>This delegate handles such patterns in a generic way, leveraging the BindFactories ability to correctly create and set
-     * data binding objects ({@link com.vaadin.data.Item}, {@link com.vaadin.data.Property} or {@link com.vaadin.data.Container})
-     * of the correct type and value for the source and target</p>
+     * <p>This delegate handles such patterns in a generic way, leveraging the BindFactories ability to correctly
+     * and set data binding objects ({@link com.vaadin.data.Item}, {@link com.vaadin.data.Property} or
+     * {@link com.vaadin.data.Container})<p> of the correct type and value for the source and target</p>
      *
      * @param builder
      * @param node
@@ -115,20 +119,22 @@ class VaadinBuilder extends FactoryBuilderSupport {
                 bindingAttr = validateBinding(target,bindingAttr,bindingValue,'container',[Container.Viewer]);
                 break;
             default:
-                throw new VaadinBuilderException("Cannot bind value '$bindingValue' of type ${bindingValue.getClass()} to a $bindingAttr")
+                throw new VaadinBuilderException(
+                    "Cannot bind value '$bindingValue' of type ${bindingValue.getClass()} to a $bindingAttr"
+                )
         }
 
         /*
-         * Bind actual data binding objects directly. At this point, bindingAttr should be the correct property name for the
-         * node type and binding object type
+         * Bind actual data binding objects directly. At this point, bindingAttr should be the correct property name
+         * for the node type and binding object type
          */
         target."$bindingAttr" = bindingValue
     }
 
     private static void saveAttributesDelegate(builder, attributes, value) {
         /**
-         * Collect saved attributes and save them on the current context. This is made available to the factories via the builder,
-         * and (because it is saved in the context) is unique to the current node being built
+         * Collect saved attributes and save them on the current context. This is made available to the factories via
+         * the builder, and (because it is saved in the context) is unique to the current node being built
          */
         def savedAttributes = [:]
 
@@ -250,21 +256,6 @@ class VaadinBuilder extends FactoryBuilderSupport {
         loader = loader instanceof GroovyClassLoader ? loader : new GroovyClassLoader(loader)
         build(script,loader)
     }
-
-//    @Override
-//    protected Object createNode(Object name, Map attributes, Object value) {
-//        /**
-//         * Collect saved attributes and save them on the current context. This is made available to the factories via the builder,
-//         * and (because it is saved in the context) is unique to the current node being built
-//         */
-//        def savedAttributes = [:]
-//
-//        ATTRIBUTES_TO_SAVE.each {
-//            if(attributes.containsKey(it)) savedAttributes[it] = attributes.remove(it)
-//        }
-//        context.savedAttributes = savedAttributes
-//        return super.createNode(name, attributes, value)
-//    }
 
     public Map getSavedAttributes() {
         return context.savedAttributes

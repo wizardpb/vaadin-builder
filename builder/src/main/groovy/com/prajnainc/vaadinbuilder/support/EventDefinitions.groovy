@@ -42,13 +42,14 @@ import static com.vaadin.ui.HasComponents.*
  * to map node attributes to the event handlers that will eventually handle them. For each interface, we define a
  * tuple that defines the listener class for the event of that interface, along with the method that is called on the
  * listener when the event is received, and the method that adds the listener to the component class. This is then
- * indexed by the node attribute that defines the closure that should ultimately be called. Thus, given a node attribute,
- * we can create a proxy listener that calls the given closure when the component fires the event.</p>
+ * indexed by the node attribute that defines the closure that should ultimately be called. Thus,
+ * given a node attribute, we can create a proxy listener that calls the given closure when the component
+ * fires the event.</p>
  *
- * <p>The only remaining tasks is to find out which attributes are valid for the {@link com.vaadin.ui.Component} in question. We
- * can do this concisely by having a table that links event interfaces to the node attributes (and hence definition tuples)
- * that they support. By then iterating over a Components class and interface hierarchy, we can collect all possible event
- * notifiers for that class, and hence the set of possible node attributes allowed</p>
+ * <p>The only remaining tasks is to find out which attributes are valid for the {@link com.vaadin.ui.Component} in
+ * question. We can do this concisely by having a table that links event interfaces to the node attributes (and hence
+ * definition tuples) that they support. By then iterating over a Components class and interface hierarchy,
+ * we can collect all possible event notifiers for that class, and hence the set of possible node attributes allowed</p>
  *
  */
 @Singleton
@@ -56,26 +57,41 @@ class EventDefinitions {
 
     final private static Map EVENT_TABLE = [
         (FieldEvents.FocusNotifier): [
-            'onFocus':      [listenerClass: FieldEvents.FocusListener, listenerMethod: 'focus', attachMethod: 'addFocusListener'],
+            'onFocus':  [
+                listenerClass: FieldEvents.FocusListener, listenerMethod: 'focus', attachMethod: 'addFocusListener'],
         ],
         (FieldEvents.BlurNotifier): [
-            'onBlur':       [listenerClass: FieldEvents.BlurListener, listenerMethod: 'blur', attachMethod: 'addBlurListener'],
+            'onBlur': [
+                listenerClass: FieldEvents.BlurListener, listenerMethod: 'blur', attachMethod: 'addBlurListener'],
         ],
-        (ComponentAttachDetachNotifier) : [
-            'onComponentAttach': [listenerClass: ComponentAttachListener, listenerMethod: 'componentAttachedToContainer', attachWith: 'addComponentAttachListener'],
-            'onComponentDetach': [listenerClass: ComponentDetachListener, listenerMethod: 'componentDetachedFromContainer', attachWith: 'addComponentDetachListener'],
+        (ComponentAttachDetachNotifier): [
+            'onComponentAttach': [
+                listenerClass: ComponentAttachListener,
+                listenerMethod: 'componentAttachedToContainer',
+                attachWith: 'addComponentAttachListener'],
+            'onComponentDetach': [
+                listenerClass: ComponentDetachListener,
+                listenerMethod: 'componentDetachedFromContainer',
+                attachWith: 'addComponentDetachListener'],
         ],
-        (Button) : [
-            'onClick':      [listenerClass: Button.ClickListener, listenerMethod: 'buttonClick', attachWith: 'addClickListener'],
+        (Button): [
+            'onClick': [
+                listenerClass: Button.ClickListener, listenerMethod: 'buttonClick', attachWith: 'addClickListener'],
         ],
         (Panel) : [
-            'onClick':      [listenerClass: MouseEvents.ClickListener, listenerMethod: 'click', attachWith: 'addClickListener'],
+            'onClick': [
+                listenerClass: MouseEvents.ClickListener, listenerMethod: 'click', attachWith: 'addClickListener'],
         ],
         (Window) : [
-            'onClose':      [listenerClass: Window.CloseListener, listenerMethod: 'windowClose', attachWith: 'addCloseListener'],
-            'onResize':     [listenerClass: Window.ResizeListener, listenerMethod: 'windowResized', attachWith: 'addResizeListener'],
-            'onModeChange': [listenerClass: Window.WindowModeChangeListener, listenerMethod: 'windowModeChanged', attachWith: 'addWindowModeChangeListener'],
-         ]
+            'onClose': [
+                listenerClass: Window.CloseListener, listenerMethod: 'windowClose', attachWith: 'addCloseListener'],
+            'onResize': [
+                listenerClass: Window.ResizeListener, listenerMethod: 'windowResized', attachWith: 'addResizeListener'],
+            'onModeChange': [
+                listenerClass: Window.WindowModeChangeListener,
+                listenerMethod: 'windowModeChanged',
+                attachWith: 'addWindowModeChangeListener'],
+        ]
     ]
 
     /**

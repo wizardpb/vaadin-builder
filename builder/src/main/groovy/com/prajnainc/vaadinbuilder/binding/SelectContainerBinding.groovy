@@ -21,10 +21,11 @@ import com.vaadin.data.util.IndexedContainer
 
 import java.beans.PropertyChangeEvent;
 /**
- * A {@link SelectContainerBinding} implements a binding between a {@link Collection} of items to be displayed in a {@link com.vaadin.ui.AbstractSelect }
- * object.
- * <p>
- * It converts a list of objects into an {@link com.vaadin.data.util.IndexedContainer} whose item IDs are the objects themselves.
+ * A {@link SelectContainerBinding} implements a binding between a {@link Collection} of items to be displayed in a
+ * {@link com.vaadin.ui.AbstractSelect } object. <p>
+ *
+ * <p>It converts a list of objects into an {@link com.vaadin.data.util.IndexedContainer} whose item IDs are the
+ * objects themselves.
  *
  */
 class SelectContainerBinding extends ContainerBinding {
@@ -47,7 +48,10 @@ class SelectContainerBinding extends ContainerBinding {
 
     @Override
     void propertyChange(PropertyChangeEvent evt) {
-        // Only Groovy can do multi-method dispatch, so all property changes come here, and are fed to a local implementation
+        /**
+         * Only Groovy can do multi-method dispatch, so all property changes come here, and are fed to a local
+         * implementation
+         */
         collectionPropertyChange(evt)
     }
 

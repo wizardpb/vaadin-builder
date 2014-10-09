@@ -21,8 +21,9 @@ import com.prajnainc.vaadinbuilder.VaadinBuilderException
 import com.vaadin.ui.Component
 
 /**
- * DefaultFieldFactory is a {@link FieldFactory} that builds a {@link com.vaadin.ui.Field} using the default field type for
- * the type of the model value being displayed. It simply delegates to the {@link com.vaadin.data.fieldgroup.FieldGroup#buildAndBind(java.lang.String, java.lang.Object, java.lang.Class)} method
+ * DefaultFieldFactory is a {@link FieldFactory} that builds a {@link com.vaadin.ui.Field} using the default field
+ * type for the type of the model value being displayed. It simply delegates to the {@link com.vaadin.data.fieldgroup
+ * .FieldGroup#buildAndBind(java.lang.String, java.lang.Object, java.lang.Class)} method
  *
  *
  */
@@ -33,7 +34,9 @@ class DefaultFieldFactory extends FieldFactory {
     }
 
     @Override
-    Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
+    Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes)
+        throws InstantiationException, IllegalAccessException
+    {
 
         def fieldGroup = findFieldGroupContainer((Component)builder.current)?.data?.fieldGroup
 

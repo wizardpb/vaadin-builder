@@ -21,7 +21,8 @@ import com.vaadin.ui.Component
 
 /**
  *
- * A {@link Factory} that creates instances of a Vaadin {@link Component}s. It is the base class for most other component factories
+ * A {@link Factory} that creates instances of a Vaadin {@link Component}s. It is the base class for most other
+ * component factories
  *
  * TODO - make attribute saving dynamic, and parent class dependent (use attribute delegate - one per set of attributes)
  */
@@ -35,7 +36,9 @@ class ComponentFactory extends AbstractFactory {
     }
 
     @Override
-    Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
+    Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes)
+        throws InstantiationException, IllegalAccessException
+    {
         def component
         if(componentClass.isAssignableFrom(value.getClass())) {
             component = value
@@ -78,6 +81,7 @@ class ComponentFactory extends AbstractFactory {
      * </ul>
      * <p>The table is keyed by the name of a node attribute that will contain an action closure to call when the
      * event fires</p>
+     *
      * <p>Using this information, the method extracts any event definition that matches a node attribute, and constructs
      * a listener proxy that will call the action closure when the event fires</p>
      *

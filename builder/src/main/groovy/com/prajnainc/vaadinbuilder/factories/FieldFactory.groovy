@@ -32,17 +32,19 @@ import com.vaadin.ui.Component
 import com.vaadin.ui.DefaultFieldFactory
 
 /**
- * <p>A {@link FieldFactory} builds fields of explicit types, given by the node name that was used to invoke the builder. If there is
- * a field group in the enclosing component hierarchy (an instance of {@link FieldGroup},
- * it will use that to bind the field to a {@link Property} of the appropriate type (supplied by the field group), and whose property Id is
- * the value argument passed to the builder. This Property will then be bound to a Groovy property of that same name on the model type contained in the
- * {@link FieldGroup}. See {@link FieldGroupFactory} and {@link com.prajnainc.vaadinbuilder.binding.DataBinding} for details of how {@link FieldGroup} nodes
+ * <p>A {@link FieldFactory} builds fields of explicit types, given by the node name that was used to invoke the
+ * builder. If there is a field group in the enclosing component hierarchy (an instance of {@link FieldGroup},
+ * it will use that to bind the field to a {@link Property} of the appropriate type (supplied by the field group),
+ * and whose property Id is the value argument passed to the builder. This Property will then be bound to a Groovy
+ * property of that same name on the model type contained in the {@link FieldGroup}. See {@link FieldGroupFactory}
+ * and {@link com.prajnainc.vaadinbuilder.binding.DataBinding} for details of how {@link FieldGroup} nodes
  * can be bound to data sources</p>
  *
  * <p>fieldGroup nodes can be nested, with fields binding to the most locally-enclosing group.</p>
  *
- * <p>If there is no {@link FieldGroup}, the field will be attached to a lone {@link Property} of the type given by an explicit 'dataType' attribute, or {@link Object} if
- * that is not supplied, again with a property Id given by the nodes value argument</p>
+ * <p>If there is no {@link FieldGroup}, the field will be attached to a lone {@link Property} of the type given by
+ * an explicit 'dataType' attribute, or {@link Object} if that is not supplied, again with a property Id given by the
+ * nodes value argument</p>
  *
  *
  *
@@ -58,7 +60,9 @@ class FieldFactory extends ComponentFactory {
     }
 
     @Override
-    Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
+    Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes)
+        throws InstantiationException, IllegalAccessException
+    {
 
         AbstractComponent container = findFieldGroupContainer(builder.getCurrent())
         FieldGroup fieldGroup = container?.data?.fieldGroup
@@ -98,7 +102,8 @@ class FieldFactory extends ComponentFactory {
 
             def modelType = child.data?.modelType
             if(binding) {
-                // Get the model type from the attributes, and ensure the descriptor exists. This throws an exception if the types are in conflict
+                // Get the model type from the attributes, and ensure the descriptor exists. This throws an exception
+                // if the types are in conflict
                 GroovyObjectPropertyDescriptor descriptor = binding.ensureDescriptorFor(propName,modelType )
                 modelType = descriptor.propertyType
             } else {
@@ -124,7 +129,9 @@ class FieldFactory extends ComponentFactory {
      */
     @Override
     protected setComponentValue(Component component, value, attributes) {
-        return super.setComponentValue(component, value != null ? DefaultFieldFactory.createCaptionByPropertyId(value) : value, attributes)
+        return super.setComponentValue(component,
+            value != null ? DefaultFieldFactory.createCaptionByPropertyId(value) : value, attributes
+        )
     }
 
     protected AbstractComponent findFieldGroupContainer(Component currentComponent) {

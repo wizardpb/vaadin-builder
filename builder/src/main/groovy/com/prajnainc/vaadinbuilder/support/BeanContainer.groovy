@@ -59,8 +59,9 @@ public interface BeanContainer {
     public Item addBean(Object bean);
 
     /**
-     * Add an item after a given item id, as for {@link BeanContainer#addBean(java.lang.Object)} . This implies the implementing {@ink Container}
-     * implements {@link com.vaadin.data.Container.Ordered}, and it should throw an {@link UnsupportedOperationException} if it does not.
+     * Add an item after a given item id, as for {@link BeanContainer#addBean(java.lang.Object)}. This implies the
+     * implementing {@ink Container} implements {@link com.vaadin.data.Container.Ordered},
+     * and it should throw an {@link UnsupportedOperationException} if it does not.
      *
      * @param itemId - the id object
      * @param bean - the object to wrap
@@ -71,7 +72,8 @@ public interface BeanContainer {
 
     /**
      * Add an {@link Item} for the object at a given index. This implies the implementing {@ink Container}
-     * implements {@link com.vaadin.data.Container.Indexed}, and it should throw an {@link UnsupportedOperationException} if it does not.
+     * implements {@link com.vaadin.data.Container.Indexed}, and it should throw an {@link
+     * UnsupportedOperationException} if it does not.
      *
      * @param index - item index
      * @param bean - the object to wrap

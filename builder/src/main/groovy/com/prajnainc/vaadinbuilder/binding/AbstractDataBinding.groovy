@@ -24,12 +24,14 @@ import com.vaadin.server.ClientConnector
 import java.beans.PropertyChangeListener
 
 /**
- * <p>{@link AbstractDataBinding{ is a base class for all {@link DataBinding} classes. It decides how to bind the source and optional soure property,
- * and implement the detach listener to unbind ourselves when our target component detaches from the UI</p>
+ * <p>{@link AbstractDataBinding{ is a base class for all {@link DataBinding} classes. It decides how to bind the source
+ * and optional soure property, and implement the detach listener to unbind ourselves when our target component detaches
+ * from the UI</p>
  *
- * <p>If the sourceProperty is present, the binding is assumed to be against that property on the source object. In that case, if the
- * property is {@link @Bindable}, a {@link PropertyChangeListener} is set up to update the binding when the property changes. If the source property
- * is null, then the source is treated as the (static) bound value, and is bound to the target directly</p>
+ * <p>If the sourceProperty is present, the binding is assumed to be against that property on the source object.
+ * In that case, if the property is {@link @Bindable}, a {@link PropertyChangeListener} is set up to update the binding
+ * when the property changes. If the source property is null, then the source is treated as the (static) bound value,
+ * and is bound to the target directly</p>
  *
  */
 abstract class AbstractDataBinding implements DataBinding, PropertyChangeListener {
@@ -102,12 +104,13 @@ abstract class AbstractDataBinding implements DataBinding, PropertyChangeListene
      * @return
      */
     public GroovyObjectPropertyDescriptor descriptorFor(String propName) {
-        // Why we have to use the getter here is unfathomable, but a direct field ref returns a null - always. Go figure.
+        // Why we have to use the getter here is unfathomable, but a direct field ref returns a null. Go figure.
         return getPropertyDescriptors().find { it.name == propName }
     }
 
     /**
-     * Ensure that the descriptor for a property exists, and is compatible with an optional type (defined by a field or column)
+     * Ensure that the descriptor for a property exists, and is compatible with an optional type
+     * (defined by a field or column)
      *
      * @param propName
      * @param fieldType
@@ -145,9 +148,13 @@ abstract class AbstractDataBinding implements DataBinding, PropertyChangeListene
      * We also add a detach listener to unbind the binding when the UI detaches
      */
     protected void addChangeListeners() {
-        def addListenerMethod = source.metaClass.getMetaMethod("addPropertyChangeListener",[sourceProperty,this] as Object[])
+        def addListenerMethod = source.metaClass.getMetaMethod(
+            "addPropertyChangeListener",[sourceProperty,this] as Object[]
+        )
         if(addListenerMethod == null) {
-            throw new VaadinBuilderException("Cannot add listener to ${source}.$sourceProperty as it is not a Bindable property")
+            throw new VaadinBuilderException(
+                "Cannot add listener to ${source}.$sourceProperty as it is not a Bindable property"
+            )
         }
         source.addPropertyChangeListener(sourceProperty,this)
         if(target instanceof ClientConnector) {

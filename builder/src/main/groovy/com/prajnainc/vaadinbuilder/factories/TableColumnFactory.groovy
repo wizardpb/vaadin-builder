@@ -26,16 +26,19 @@ import com.vaadin.ui.Table
 
 /**
  * A {@link TableColumnFactory} creates table columns within a table. The implementation does not create components
- * as most other factories ({@link Factory}) do, as columns are not represented as separate {@link com.vaadin.ui.Component}s.
- * <p>
- * Instead, the factory adds property ids to the parent table, including setting header, icon and alignment, etc.
+ * as most other factories ({@link Factory}) do, as columns are not represented as separate {@link com.vaadin.ui
+ * .Component}s. <p>
+ *
+ * <p>Instead, the factory adds property ids to the parent table, including setting header, icon and alignment, etc.</p>
  *
  *
  */
 class TableColumnFactory extends AbstractFactory {
 
     @Override
-    Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
+    Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes)
+        throws InstantiationException, IllegalAccessException
+    {
         return [
                 value: value,
                 attributes: attributes+[modelType: builder.savedAttributes[VaadinBuilder.MODEL_TYPE_ATTR]]
