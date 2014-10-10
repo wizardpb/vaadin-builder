@@ -17,13 +17,19 @@
  */
 package com.prajnainc.vaadinbuilder.support
 
-import com.vaadin.event.FieldEvents
 import com.vaadin.event.MouseEvents
+import com.vaadin.ui.Component
+import com.vaadin.ui.Table
 import com.vaadin.ui.Button
 import com.vaadin.ui.Panel
 import com.vaadin.ui.Window
+import groovy.transform.Immutable
 
 import static com.vaadin.ui.HasComponents.*
+import static com.vaadin.event.FieldEvents.*
+import static com.vaadin.ui.Window.*
+import static com.vaadin.event.ItemClickEvent.*
+import static com.vaadin.ui.Table.*
 
 /**
  * <p>EventDefinitions is a {@link Singleton} class that defines and manages event handling listeners
@@ -53,42 +59,73 @@ import static com.vaadin.ui.HasComponents.*
 @Singleton
 class EventDefinitions {
 
+    /**
+     * A definition of an Vaadin event. It holds information about how to add a listener for an event, and
+     * generates default names for the listener and attach methods. These follow the regular naming rules
+     * implemented by Vaadin.
+     */
+    static class EventDefinition {
+
+        public EventDefinition(Class listenerClass, String listenerMethod=null, String attachMethod=null) {
+            this.listenerClass = listenerClass
+            this.listenerMethod = listenerMethod ?: listenerClass.simpleName.replace('Listener','').toLowerCase()
+            this.attachMethod = attachMethod ?: 'add'+listenerClass.simpleName
+        }
+
+        private Class listenerClass
+        private String listenerMethod
+        private String attachMethod
+
+        public Class getListenerClass() {
+            return listenerClass
+        }
+
+        public String getListenerMethod() {
+            return listenerMethod
+        }
+
+        public String getAttachMethod() {
+            return attachMethod
+        }
+
+        public void attach(Map attrs, Closure action) {
+            def component = attrs.to
+            assert component instanceof Component
+            def proxy = [(listenerMethod): action].asType(listenerClass)
+            component."$attachMethod"(proxy)
+        }
+    }
+
     final private static Map EVENT_TABLE = [
-        (FieldEvents.FocusNotifier): [
-            'onFocus':  [
-                listenerClass: FieldEvents.FocusListener, listenerMethod: 'focus', attachMethod: 'addFocusListener'],
+        (FocusNotifier): [
+            'onFocus': new EventDefinition(FocusListener)
         ],
-        (FieldEvents.BlurNotifier): [
-            'onBlur': [
-                listenerClass: FieldEvents.BlurListener, listenerMethod: 'blur', attachMethod: 'addBlurListener'],
+        (BlurNotifier): [
+            'onBlur': new EventDefinition(BlurListener)
         ],
         (ComponentAttachDetachNotifier): [
-            'onComponentAttach': [
-                listenerClass: ComponentAttachListener,
-                listenerMethod: 'componentAttachedToContainer',
-                attachWith: 'addComponentAttachListener'],
-            'onComponentDetach': [
-                listenerClass: ComponentDetachListener,
-                listenerMethod: 'componentDetachedFromContainer',
-                attachWith: 'addComponentDetachListener'],
+            'onComponentAttach': new EventDefinition(ComponentAttachListener, 'componentAttachedToContainer'),
+            'onComponentDetach': new EventDefinition(ComponentDetachListener, 'componentDetachedFromContainer'),
         ],
         (Button): [
-            'onClick': [
-                listenerClass: Button.ClickListener, listenerMethod: 'buttonClick', attachWith: 'addClickListener'],
+            'onClick': new EventDefinition(Button.ClickListener, 'buttonClick'),
         ],
-        (Panel) : [
-            'onClick': [
-                listenerClass: MouseEvents.ClickListener, listenerMethod: 'click', attachWith: 'addClickListener'],
+        (Panel): [
+            'onClick': new EventDefinition(MouseEvents.ClickListener, 'click'),
         ],
-        (Window) : [
-            'onClose': [
-                listenerClass: Window.CloseListener, listenerMethod: 'windowClose', attachWith: 'addCloseListener'],
-            'onResize': [
-                listenerClass: Window.ResizeListener, listenerMethod: 'windowResized', attachWith: 'addResizeListener'],
-            'onModeChange': [
-                listenerClass: Window.WindowModeChangeListener,
-                listenerMethod: 'windowModeChanged',
-                attachWith: 'addWindowModeChangeListener'],
+        (Window): [
+            'onClose': new EventDefinition(CloseListener, 'windowClose'),
+            'onResize': new EventDefinition(ResizeListener, 'windowResized'),
+            'onModeChange': new EventDefinition(WindowModeChangeListener, 'windowModeChanged'),
+        ],
+        (ItemClickNotifier): [
+            onItemClick: new EventDefinition(ItemClickListener),
+        ],
+        (Table): [
+            onHeaderClick:new EventDefinition(HeaderClickListener),
+            onFooterClick:new EventDefinition(FooterClickListener),
+            onColumnResize: new EventDefinition(ColumnResizeListener),
+            onColumnReorder: new EventDefinition(ColumnReorderListener),
         ]
     ]
 

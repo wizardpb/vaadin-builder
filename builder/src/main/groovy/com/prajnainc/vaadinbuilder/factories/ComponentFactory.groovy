@@ -16,6 +16,7 @@
 package com.prajnainc.vaadinbuilder.factories
 
 import com.prajnainc.vaadinbuilder.support.EventDefinitions
+import com.prajnainc.vaadinbuilder.support.EventDefinitions.EventDefinition
 import com.vaadin.ui.Component
 
 /**
@@ -86,12 +87,10 @@ class ComponentFactory extends AbstractFactory {
      *
      */
     public void attachListeners(Component component, Map attributes) {
-        EventDefinitions.definitionsFor(component.getClass()).each { attr, eventDefinition->
+        EventDefinitions.definitionsFor(component.getClass()).each { String attr, EventDefinition eventDefinition ->
             if(attributes.containsKey(attr)) {
                 def action = attributes.remove(attr)
-                def proxy = [(eventDefinition.listenerMethod): action].asType(eventDefinition.listenerClass)
-                def method = eventDefinition.attachWith?: 'addListener'
-                component."$method"(proxy)
+                eventDefinition.attach(action, to: component)
             }
         }
     }
