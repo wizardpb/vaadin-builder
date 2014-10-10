@@ -23,13 +23,12 @@ import com.vaadin.ui.Table
 import com.vaadin.ui.Button
 import com.vaadin.ui.Panel
 import com.vaadin.ui.Window
-import groovy.transform.Immutable
 
-import static com.vaadin.ui.HasComponents.*
 import static com.vaadin.event.FieldEvents.*
 import static com.vaadin.ui.Window.*
 import static com.vaadin.event.ItemClickEvent.*
 import static com.vaadin.ui.Table.*
+import static com.vaadin.ui.HasComponents.*
 
 /**
  * <p>EventDefinitions is a {@link Singleton} class that defines and manages event handling listeners
@@ -67,8 +66,15 @@ class EventDefinitions {
     static class EventDefinition {
 
         public EventDefinition(Class listenerClass, String listenerMethod=null, String attachMethod=null) {
+            /**
+             * Default listener method for a istener class is the name of the class minus the ' Listener',
+             * with the first letter lower case e.g 'ItemClickListener' gets 'itemClick'
+             */
+            def defaultListenerMethod =  listenerClass.simpleName.replace('Listener','')
+            defaultListenerMethod = defaultListenerMethod[0].toLowerCase()+defaultListenerMethod[1..-1]
+
             this.listenerClass = listenerClass
-            this.listenerMethod = listenerMethod ?: listenerClass.simpleName.replace('Listener','').toLowerCase()
+            this.listenerMethod = listenerMethod ?: defaultListenerMethod
             this.attachMethod = attachMethod ?: 'add'+listenerClass.simpleName
         }
 
