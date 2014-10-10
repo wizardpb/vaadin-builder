@@ -17,6 +17,7 @@
 package com.prajnainc.vaadinbuilder.samplerapp
 
 import com.prajnainc.vaadinbuilder.ui.BuilderUI
+import com.vaadin.annotations.Push
 import com.vaadin.data.Item
 import com.vaadin.server.BrowserWindowOpener
 import com.vaadin.server.Sizeable
@@ -29,15 +30,16 @@ import groovy.beans.Bindable
 /**
  *
  */
+//@Push
 class SamplerUI extends BuilderUI {
 
     static class Person {
-        String name
-        String address
-        String city
-        String state
-        String zip
-        Integer age
+        String name = 'Someone'
+        String address = 'Somewhere'
+        String city = 'Some City'
+        String state = 'A State'
+        String zip = '99999'
+        Integer age = 0
 
         public String toString() {
             return """name=$name, adddress=$address, city=$city, state=$state, zip=$zip, age=$age"""
@@ -50,13 +52,15 @@ class SamplerUI extends BuilderUI {
 
     Model model = new Model()
 
+    final public static List TEST_ITEMS = (1..5).collect { 'Item '+it }
+
     @Override
     Component buildView() {
         return builder.build {
             panel(caption: 'Vaadin Builder Sampler') {
                 verticalLayout(margin: new MarginInfo(true) ) {
                     tabSheet() {
-                        horizontalLayout(caption: 'Form & Table', spacing: true, margin: new MarginInfo(true)  ) {
+                        horizontalLayout(caption: 'Form & Table', spacing: true, margin: new MarginInfo(true)) {
                             panel(caption: 'Add a Person') {
                                 fieldGroup(id: 'personForm', dataSource: bind(source: model, sourceProperty: 'person')) {
                                     textField('name')
@@ -82,6 +86,14 @@ class SamplerUI extends BuilderUI {
                                 tableColumn('zip')
                                 tableColumn('age')
                             }
+                        }
+                        horizontalLayout(caption: 'Direct Component Binding', spacing: true, margin: new MarginInfo(true)) {
+                            comboBox(
+                                id: 'selector',
+                                caption: 'Select an item', immediate: true,
+                                dataSource:  bind(source: TEST_ITEMS))
+                            textField(id: 'display', caption: 'Selected Value:',
+                                dataSource: bind(source: builder.selector))
                         }
                     }
                 }

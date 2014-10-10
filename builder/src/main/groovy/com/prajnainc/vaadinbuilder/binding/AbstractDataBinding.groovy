@@ -19,6 +19,7 @@ package com.prajnainc.vaadinbuilder.binding
 
 import com.prajnainc.vaadinbuilder.VaadinBuilderException
 import com.prajnainc.vaadinbuilder.support.GroovyObjectPropertyDescriptor
+import com.vaadin.data.Property
 import com.vaadin.server.ClientConnector
 
 import java.beans.PropertyChangeListener

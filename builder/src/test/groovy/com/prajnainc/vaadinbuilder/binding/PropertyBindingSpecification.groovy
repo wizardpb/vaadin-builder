@@ -18,6 +18,7 @@
 package com.prajnainc.vaadinbuilder.binding
 
 import com.prajnainc.vaadinbuilder.support.GroovyObjectProperty
+import com.vaadin.ui.Label
 import com.vaadin.ui.TextField
 import groovy.beans.Bindable
 import spock.lang.Specification
@@ -69,7 +70,26 @@ public class PropertyBindingSpecification extends Specification {
         that target.value, equalTo("newValue")
     }
 
-    def "it can bind a source directly"() {
+    def "it can bind a constant source of type Property"() {
+        given:
+        def TextField target = new TextField()
+        new PropertyBinding(source: new Label('Label value')).bind(target)
+
+        expect:
+        target.value == 'Label value'
+    }
+
+    def "it can bind a source property of type Property"() {
+        given:
+        def model = new Model(modelProp: new Label('Label value'))
+        def TextField target = new TextField()
+        new PropertyBinding(source: model, sourceProperty: 'modelProp').bind(target)
+
+        expect:
+        that target.value, equalTo("Label value")
+    }
+
+    def "it can bind a constant source value"() {
 
         given:
         def TextField target = new TextField()
