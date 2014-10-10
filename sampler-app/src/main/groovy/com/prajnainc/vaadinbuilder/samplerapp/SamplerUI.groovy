@@ -60,7 +60,9 @@ class SamplerUI extends BuilderUI {
             panel(caption: 'Vaadin Builder Sampler') {
                 verticalLayout(margin: new MarginInfo(true) ) {
                     tabSheet() {
-                        horizontalLayout(caption: 'Form & Table', spacing: true, margin: new MarginInfo(true)) {
+                        horizontalLayout(caption: 'Form & Table',
+                            spacing: true, margin: new MarginInfo(true)
+                        ) {
                             panel(caption: 'Add a Person') {
                                 fieldGroup(id: 'personForm', dataSource: bind(source: model, sourceProperty: 'person')) {
                                     textField('name')
@@ -69,7 +71,7 @@ class SamplerUI extends BuilderUI {
                                     textField('state')
                                     textField('zip')
                                     textField('age')
-                                    horizontalLayout(width: '100%', height: Sizeable.SIZE_UNDEFINED) {
+                                    horizontalLayout(height: Sizeable.SIZE_UNDEFINED) {
                                         button(id: 'saveButton', caption: 'Save', onClick: { evt ->
                                             builder.personForm.commit()
                                             display(model.person)
@@ -87,11 +89,15 @@ class SamplerUI extends BuilderUI {
                                 tableColumn('age')
                             }
                         }
-                        horizontalLayout(caption: 'Direct Component Binding', spacing: true, margin: new MarginInfo(true)) {
+                        horizontalLayout(caption: 'Direct Component Binding',
+                            spacing: true, margin: new MarginInfo(true)
+                        ) {
                             comboBox(
                                 id: 'selector',
                                 caption: 'Select an item', immediate: true,
-                                dataSource:  bind(source: TEST_ITEMS))
+                                dataSource:  bind(source: TEST_ITEMS),
+                                value: TEST_ITEMS[0]
+                            )
                             textField(id: 'display', caption: 'Selected Value:',
                                 dataSource: bind(source: builder.selector))
                         }

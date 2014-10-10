@@ -3,6 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
+
     <servlet>
         <servlet-name>VaadinApplicationServlet</servlet-name>
         <servlet-class>com.vaadin.server.VaadinServlet</servlet-class>
@@ -10,15 +11,8 @@
             <param-name>UI</param-name>
             <param-value>com.prajnainc.vaadinbuilder.samplerapp.SamplerUI</param-value>
         </init-param>
-
-        <!-- Enable server push -->
-        <init-param>
-            <param-name>pushmode</param-name>
-            <param-value>automatic</param-value>
-        </init-param>
-        <async-supported>true</async-supported>
-
     </servlet>
+
     <servlet-mapping>
         <servlet-name>VaadinApplicationServlet</servlet-name>
         <url-pattern>/*</url-pattern>
