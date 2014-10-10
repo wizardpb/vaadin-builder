@@ -116,7 +116,7 @@ class EventDefinitions {
             definitions = definitions + (EVENT_TABLE[cls] ?: [:])
             // Then add definitions for any of it's interfaces or super-interfaces.
             // Use a Set to collect to remove duplicates
-            def allInterfaces = cls.getInterfaces().inject(new HashSet<Class>()) { sum, iFace ->
+            def allInterfaces = cls.getInterfaces().inject([] as Set) { sum, iFace ->
                 sum.add(iFace); sum.addAll(iFace.getInterfaces()); sum
             }
             allInterfaces.each { iFace ->

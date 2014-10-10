@@ -17,6 +17,7 @@
  */
 package com.prajnainc.vaadinbuilder.factories
 
+import com.prajnainc.vaadinbuilder.VaadinBuilder
 import com.prajnainc.vaadinbuilder.VaadinBuilderException
 import com.prajnainc.vaadinbuilder.binding.DataBinding
 import com.vaadin.data.fieldgroup.FieldGroup
@@ -67,7 +68,7 @@ class FieldGroupFactory implements Factory {
 
         // Create the factory and id it if it's there
         def fieldGroup = new FieldGroup()
-        def id = attributes.remove('id') ?: value
+        def id = attributes.remove(VaadinBuilder.DEFAULT_DELEGATE_PROPERTY_OBJECT_ID) ?: value
         if(id != null) {
             builder.setVariable(id, fieldGroup)
         }
@@ -75,7 +76,7 @@ class FieldGroupFactory implements Factory {
         def layoutId = attributes.remove('layoutId')
         if(layoutId != null) {
             // Swap in the layout id as the new id so the builder id's the layout as this value
-            attributes['id'] = layoutId
+            attributes[VaadinBuilder.DEFAULT_DELEGATE_PROPERTY_OBJECT_ID] = layoutId
         }
 
         // Save the field group on the layout and return it - initialize it if need be

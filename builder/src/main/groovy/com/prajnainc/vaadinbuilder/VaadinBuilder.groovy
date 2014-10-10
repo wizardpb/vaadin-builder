@@ -40,6 +40,9 @@ class VaadinBuilder extends FactoryBuilderSupport {
     public final static String GRID_SPAN_ATTR       = 'span'        // Span of cells in GridLayout
     public final static String MODEL_TYPE_ATTR      = 'modelType'   // The type of a Property, Item or Container binding
 
+    // Common Vaadin attributes
+    public final static String CAPTION_ATTR         = 'caption'
+    
     private static final ATTRIBUTES_TO_SAVE = [
             EXPAND_RATIO_ATTR, ALIGNMENT_ATTR,
             GRID_POSITION_ATTR, GRID_SPAN_ATTR,

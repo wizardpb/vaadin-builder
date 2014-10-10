@@ -17,6 +17,7 @@
  */
 package com.prajnainc.vaadinbuilder.factories
 
+import com.prajnainc.vaadinbuilder.VaadinBuilder
 import com.prajnainc.vaadinbuilder.VaadinBuilderException
 import com.vaadin.ui.Component
 
@@ -46,8 +47,8 @@ class DefaultFieldFactory extends FieldFactory {
 
         def component
 
-        if(attributes.containsKey('caption')) {
-            def caption = attributes.remove('caption')
+        if(attributes.containsKey(VaadinBuilder.CAPTION_ATTR)) {
+            def caption = attributes.remove(VaadinBuilder.CAPTION_ATTR)
             component = fieldGroup.buildAndBind(caption, value)
         } else {
             component = fieldGroup.buildAndBind(value)

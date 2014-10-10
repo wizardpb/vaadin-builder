@@ -42,11 +42,11 @@ class MenuItemFactory extends ComponentFactory {
     Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes)
         throws InstantiationException, IllegalAccessException
     {
-        def parent = builder.getCurrent()
+        def parent = builder.current
         def menuItem = null
         if(name == 'separator') {
             if(parent instanceof MenuBar) {
-                throw new VaadinBuilderException("Cannot add separators to a menu bar")
+                throw new VaadinBuilderException('Cannot add separators to a menu bar')
             }
             parent.addSeparator()
         } else {

@@ -79,7 +79,7 @@ class TableBinding extends ContainerBinding {
 
     void collectionPropertyChange(ObservableList.ElementEvent evt) {
         Container dataSource = target.containerDataSource
-        if(evt.source == 'size') return;          // Ignore size change events
+        if(evt.source == ObservableList.SIZE_PROPERTY) return;          // Ignore size change events
         switch(evt) {
             case ObservableList.ElementAddedEvent:
                 dataSource.addBeanAt(evt.index, evt.newValue)
@@ -108,7 +108,7 @@ class TableBinding extends ContainerBinding {
     }
 
     void collectionPropertyChange(ObservableSet.ElementEvent evt) {
-        if(e.source == 'size') return;          // Ignore size change events
+        if(e.source == ObservableList.SIZE_PROPERTY) return;          // Ignore size change events
         switch(evt) {
             case ObservableSet.ElementAddedEvent:
                 dataSource.addBean(evt.newValue)

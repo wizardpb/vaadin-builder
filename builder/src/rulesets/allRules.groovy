@@ -32,7 +32,7 @@ ruleset {
     EmptyForStatement
     EmptyIfStatement
     EmptyInstanceInitializer
-    EmptyMethod
+//    EmptyMethod
     EmptyStaticInitializer
     EmptySwitchStatement
     EmptySynchronizedStatement
@@ -294,7 +294,7 @@ ruleset {
     ClassName
     ClassNameSameAsFilename
     ConfusingMethodName
-    FactoryMethodName
+//    FactoryMethodName
     FieldName
     InterfaceName
     MethodName
@@ -380,11 +380,11 @@ ruleset {
 
     // rulesets/unused.xml
     UnusedArray
-    UnusedMethodParameter
+//    UnusedMethodParameter
     UnusedObject
     UnusedPrivateField
     UnusedPrivateMethod
-    UnusedPrivateMethodParameter
+//    UnusedPrivateMethodParameter
     UnusedVariable
 
 

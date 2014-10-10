@@ -79,9 +79,6 @@ class GridLayoutFactory extends LayoutFactory {
             }
         }
 
-        assert result.isEmpty() || result.size() == 2
-        assert result.every { it instanceof Integer }
-
         return result
     }
 }

@@ -13,7 +13,6 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-
 package com.prajnainc.vaadinbuilder.factories
 
 import com.prajnainc.vaadinbuilder.binding.DataBinding
@@ -35,7 +34,6 @@ class SingleComponentContainerFactory extends ComponentFactory {
     }
 
     protected void setChildComponent(FactoryBuilderSupport builder, Object parent, DataBinding child) {
-        assert true
         // Data binding don't get added as children
     }
 }

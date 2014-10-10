@@ -26,7 +26,7 @@ class GroovyBeanItem extends PropertysetItem {
 
     private Object bean
 
-    private static Set HIDDEN_PROPERTIES = ['class', 'propertyChangeListeners'] as Set
+    final private static Set HIDDEN_PROPERTIES = ['class', 'propertyChangeListeners'] as Set
 
     public static List bindablePropertyDescriptorsFor(Object bean) {
         return bean.metaClass.getProperties().inject([]) { list, it ->

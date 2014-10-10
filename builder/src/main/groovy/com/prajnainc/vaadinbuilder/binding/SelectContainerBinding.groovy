@@ -71,7 +71,7 @@ class SelectContainerBinding extends ContainerBinding {
     }
 
     void collectionPropertyChange(ObservableList.ElementEvent evt) {
-        if(evt.source == 'size') return;          // Ignore size change events
+        if(evt.source == ObservableList.SIZE_PROPERTY) return;          // Ignore size change events
         IndexedContainer dataSource = target.containerDataSource
         switch(evt) {
             case ObservableList.ElementAddedEvent:
@@ -118,7 +118,7 @@ class SelectContainerBinding extends ContainerBinding {
 
     void collectionPropertyChange(ObservableSet.ElementEvent evt) {
         Container dataSource = target.containerDataSource
-        if(evt.source == 'size') return;          // Ignore size change events
+        if(evt.source == ObservableList.SIZE_PROPERTY) return;          // Ignore size change events
         switch(evt) {
             case ObservableSet.ElementAddedEvent:
                 dataSource.addItem(evt.newValue)
