@@ -19,10 +19,12 @@ package com.prajnainc.vaadinbuilder.binding
 
 import com.prajnainc.vaadinbuilder.support.GroovyBeanContainer
 import com.vaadin.ui.Table
-import groovy.beans.Bindable;
-import spock.lang.*
-import static org.hamcrest.CoreMatchers.*
-import static spock.util.matcher.HamcrestSupport.*
+import groovy.beans.Bindable
+import spock.lang.Specification
+
+import static org.hamcrest.CoreMatchers.equalTo
+import static org.hamcrest.CoreMatchers.instanceOf
+import static spock.util.matcher.HamcrestSupport.that
 
 public class TableBindingSpecification extends Specification {
 
@@ -50,7 +52,7 @@ public class TableBindingSpecification extends Specification {
         def data = (1..5).collect { [data: it]}
         def model = new Model(modelProp: data)
         def Table target = new Table()
-        new TableBinding(source: model, sourceProperty: 'modelProp',target: target).bind()
+        new TableBinding(source: model, sourceProperty: 'modelProp', target: target).bind()
 
         expect:
         that target.containerDataSource, instanceOf(GroovyBeanContainer)
@@ -116,7 +118,7 @@ public class TableBindingSpecification extends Specification {
 
         expect:
         that target.containerDataSource, instanceOf(GroovyBeanContainer)
-        that target.containerDataSource.itemIds, equalTo([1,2,4,5].collect{[data: it]})
+        that target.containerDataSource.itemIds, equalTo([1, 2, 4, 5].collect{[data: it]})
     }
 
     def "it removes when the source contents is observable and changes"() {
@@ -129,6 +131,6 @@ public class TableBindingSpecification extends Specification {
 
         expect:
         that target.containerDataSource, instanceOf(GroovyBeanContainer)
-        that target.containerDataSource.itemIds, equalTo([1,2,4,5].collect{[data: it]})
+        that target.containerDataSource.itemIds, equalTo([1, 2, 4, 5].collect{[data: it]})
     }
 }

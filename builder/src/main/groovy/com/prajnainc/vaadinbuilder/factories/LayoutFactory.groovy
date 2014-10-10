@@ -39,7 +39,7 @@ class LayoutFactory extends ComponentContainerFactory {
         if(context.savedAttributes.containsKey(VaadinBuilder.ALIGNMENT_ATTR)) {
             def alignment = context.savedAttributes[VaadinBuilder.ALIGNMENT_ATTR]
             assert parent instanceof AbstractLayout
-            parent.setComponentAlignment(child,createAlignment(alignment))
+            parent.setComponentAlignment(child, createAlignment(alignment))
         }
     }
 

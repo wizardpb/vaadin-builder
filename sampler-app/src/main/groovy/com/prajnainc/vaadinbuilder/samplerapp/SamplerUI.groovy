@@ -40,7 +40,7 @@ class SamplerUI extends BuilderUI {
         Integer age
 
         public String toString() {
-            return """name=$name,adddress=$address,city=$city,state=$state,zip=$zip,age=$age"""
+            return """name=$name, adddress=$address, city=$city, state=$state, zip=$zip, age=$age"""
         }
     }
 

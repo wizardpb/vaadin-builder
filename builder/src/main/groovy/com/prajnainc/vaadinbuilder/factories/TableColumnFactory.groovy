@@ -21,7 +21,6 @@ import com.prajnainc.vaadinbuilder.VaadinBuilder
 import com.prajnainc.vaadinbuilder.VaadinBuilderException
 import com.prajnainc.vaadinbuilder.binding.TableBinding
 import com.vaadin.server.Resource
-import com.vaadin.ui.Alignment
 import com.vaadin.ui.Table
 
 /**
@@ -69,15 +68,15 @@ class TableColumnFactory extends AbstractFactory {
         // If the data is bound, add it to the binding so we retain it across re-binds
         TableBinding binding = table.data?.binding
         if(binding) {
-            binding.addDescriptor(propertyId,type,defaultValue)  // This also adds it as a container property
+            binding.addDescriptor(propertyId, type, defaultValue)  // This also adds it as a container property
 
             // Set the column properties
-            table.setColumnHeader(propertyId,header)
-            table.setColumnIcon(propertyId,icon)
-            table.setColumnAlignment(propertyId,alignment)
+            table.setColumnHeader(propertyId, header)
+            table.setColumnIcon(propertyId, icon)
+            table.setColumnAlignment(propertyId, alignment)
         } else {
             // Just add it to the table directly
-            table.addContainerProperty(propertyId,type,null,header,icon,alignment)
+            table.addContainerProperty(propertyId, type, null, header, icon, alignment)
         }
     }
 }

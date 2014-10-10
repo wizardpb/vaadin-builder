@@ -17,12 +17,12 @@
  */
 package com.prajnainc.vaadinbuilder.support
 
-import com.vaadin.data.Item;
-import spock.lang.*
+import com.vaadin.data.Item
+import spock.lang.Specification
 
-import static org.junit.Assert.*
 import static org.hamcrest.CoreMatchers.*
-import static spock.util.matcher.HamcrestSupport.*
+import static org.junit.Assert.assertThat
+import static spock.util.matcher.HamcrestSupport.that
 
 public class GroovyBeanContainerSpecification extends Specification {
 
@@ -58,7 +58,7 @@ public class GroovyBeanContainerSpecification extends Specification {
         def container = new GroovyBeanContainer(descriptors)
 
         expect:
-        that container.containerPropertyIds, equalTo(['prop1','prop2','prop3'] as Set)
+        that container.containerPropertyIds, equalTo(['prop1', 'prop2', 'prop3'] as Set)
     }
 
     def "it can add an object as an item"() {
@@ -69,7 +69,7 @@ public class GroovyBeanContainerSpecification extends Specification {
 
         expect:
         that container.size(), equalTo(1)
-        that container.getItem(bean),sameInstance(item)
+        that container.getItem(bean), sameInstance(item)
         that item.getItemProperty('prop1').value, equalTo('prop1')
         that item.getItemProperty('prop2').value, equalTo(2)
         that item.getItemProperty('prop3').value, nullValue()
@@ -102,10 +102,10 @@ public class GroovyBeanContainerSpecification extends Specification {
         def result = container.removeItem(beans[2])
 
         expect:
-        that result,is(true)
-        that container.size(),is(3)
-        that container.getItem(beans[2]),nullValue()
-        that container.getItemIds(), is([0,1,3].collect {beans[it]})
+        that result, is(true)
+        that container.size(), is(3)
+        that container.getItem(beans[2]), nullValue()
+        that container.getItemIds(), is([0, 1, 3].collect {beans[it]})
     }
 
     def "it can add container properties"() {
@@ -113,10 +113,10 @@ public class GroovyBeanContainerSpecification extends Specification {
         given:
         container = new GroovyBeanContainer()
         container.addBean(bean)
-        container.addContainerProperty('prop1',String,null)
+        container.addContainerProperty('prop1', String, null)
 
         expect:
-        that container.getContainerPropertyIds() as List,is(['prop1'])
-        that container.getContainerProperty(bean,'prop1').value, is('prop1Value')
+        that container.getContainerPropertyIds() as List, is(['prop1'])
+        that container.getContainerProperty(bean, 'prop1').value, is('prop1Value')
     }
 }

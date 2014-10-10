@@ -15,7 +15,6 @@
  */
 package com.prajnainc.vaadinbuilder.factories
 
-import com.google.gwt.thirdparty.javascript.jscomp.CodingConvention
 import com.prajnainc.vaadinbuilder.BuilderSpecification
 import com.prajnainc.vaadinbuilder.VaadinBuilderException
 import com.prajnainc.vaadinbuilder.binding.DataBindingFactory
@@ -25,14 +24,13 @@ import com.vaadin.data.fieldgroup.FieldGroup
 import com.vaadin.data.util.converter.DefaultConverterFactory
 import com.vaadin.server.VaadinSession
 import com.vaadin.ui.AbsoluteLayout
-import com.vaadin.ui.Form
 import com.vaadin.ui.FormLayout
 import com.vaadin.ui.Label
 import com.vaadin.ui.VerticalLayout
 import groovy.beans.Bindable
-import groovy.transform.NotYetImplemented
 
 import static org.hamcrest.CoreMatchers.*
+import static spock.util.matcher.HamcrestSupport.that
 
 /*
  * Copyright (c) 2014 Prajna Inc.
@@ -51,7 +49,6 @@ import static org.hamcrest.CoreMatchers.*
  *
  *
  */
-import static spock.util.matcher.HamcrestSupport.that
 
 public class FieldGroupFactorySpecification extends BuilderSpecification {
 
@@ -255,7 +252,7 @@ public class FieldGroupFactorySpecification extends BuilderSpecification {
 
         expect:
         that itemDataSource, instanceOf(Item)
-        that itemDataSource.itemPropertyIds as Set, equalTo(['stringProp','intProp','boolProp'] as Set)
+        that itemDataSource.itemPropertyIds as Set, equalTo(['stringProp', 'intProp', 'boolProp'] as Set)
         that itemDataSource.getItemProperty('stringProp').value, equalTo(testModel.modelProp.stringProp)
         that itemDataSource.getItemProperty('intProp').value, equalTo(testModel.modelProp.intProp)
         that itemDataSource.getItemProperty('boolProp').value, equalTo(testModel.modelProp.boolProp)

@@ -60,7 +60,7 @@ class GroovyObjectProperty extends AbstractProperty {
         super.setReadOnly(readOnly || (metaProperty.setter == null))
     }
 
-    public GroovyObjectProperty(Map instance,GroovyObjectPropertyDescriptor descriptor,readOnly=false) {
+    public GroovyObjectProperty(Map instance, GroovyObjectPropertyDescriptor descriptor, readOnly=false) {
 
         this.type = descriptor.propertyType ?: Object
         this.getter = {-> instance[descriptor.name] }
@@ -68,7 +68,7 @@ class GroovyObjectProperty extends AbstractProperty {
         if(!readOnly) {
             this.setter = { newValue ->
                 if(!this.type.isAssignableFrom(newValue.getClass())) {
-                    throw new GroovyCastException(newValue,this.type)
+                    throw new GroovyCastException(newValue, this.type)
                 }
                 instance[descriptor.name] = newValue
             }

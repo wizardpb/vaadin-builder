@@ -52,7 +52,7 @@ class MenuItemFactory extends ComponentFactory {
         } else {
             def icon = attributes.remove('icon')
             def action = attributes.remove('action')
-            menuItem = parent.addItem(value,icon,new MenuItemCommand(action: action))
+            menuItem = parent.addItem(value, icon, new MenuItemCommand(action: action))
         }
         return menuItem
     }

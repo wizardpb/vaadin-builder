@@ -1,8 +1,9 @@
 package com.prajnainc.vaadinbuilder.support
 
-import com.vaadin.ui.Button
 import com.vaadin.ui.VerticalLayout
-import org.junit.Test;/*
+import org.junit.Test
+
+/*
  * Copyright (c) 2014 Prajna Inc.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");

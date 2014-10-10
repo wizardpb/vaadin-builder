@@ -15,7 +15,6 @@
  */
 package com.prajnainc.vaadinbuilder.factories
 
-import com.prajnainc.vaadinbuilder.binding.DataBinding
 import com.prajnainc.vaadinbuilder.support.EventDefinitions
 import com.vaadin.ui.Component
 
@@ -46,7 +45,7 @@ class ComponentFactory extends AbstractFactory {
             component = componentClass.newInstance()
             setComponentValue(component, value, attributes)
         }
-        attachListeners(component,attributes)
+        attachListeners(component, attributes)
         return component
     }
 
@@ -86,7 +85,7 @@ class ComponentFactory extends AbstractFactory {
      * a listener proxy that will call the action closure when the event fires</p>
      *
      */
-    public void attachListeners(Component component,Map attributes) {
+    public void attachListeners(Component component, Map attributes) {
         EventDefinitions.definitionsFor(component.getClass()).each { attr, eventDefinition->
             if(attributes.containsKey(attr)) {
                 def action = attributes.remove(attr)

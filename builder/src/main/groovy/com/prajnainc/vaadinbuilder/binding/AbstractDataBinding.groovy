@@ -149,21 +149,21 @@ abstract class AbstractDataBinding implements DataBinding, PropertyChangeListene
      */
     protected void addChangeListeners() {
         def addListenerMethod = source.metaClass.getMetaMethod(
-            "addPropertyChangeListener",[sourceProperty,this] as Object[]
+            "addPropertyChangeListener", [sourceProperty, this] as Object[]
         )
         if(addListenerMethod == null) {
             throw new VaadinBuilderException(
                 "Cannot add listener to ${source}.$sourceProperty as it is not a Bindable property"
             )
         }
-        source.addPropertyChangeListener(sourceProperty,this)
+        source.addPropertyChangeListener(sourceProperty, this)
         if(target instanceof ClientConnector) {
             target.addDetachListener([detach: { evt -> unbind() }] as ClientConnector.DetachListener)
         }
     }
 
     protected void removeChangeListeners() {
-        source.removePropertyChangeListener(sourceProperty,this)
+        source.removePropertyChangeListener(sourceProperty, this)
     }
 
 }

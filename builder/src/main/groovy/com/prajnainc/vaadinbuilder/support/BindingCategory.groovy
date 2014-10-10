@@ -18,11 +18,7 @@
 package com.prajnainc.vaadinbuilder.support
 
 import com.prajnainc.vaadinbuilder.VaadinBuilderException
-import com.prajnainc.vaadinbuilder.binding.DataBinding
-import com.prajnainc.vaadinbuilder.binding.ItemBinding
-import com.prajnainc.vaadinbuilder.binding.PropertyBinding
-import com.prajnainc.vaadinbuilder.binding.SelectContainerBinding
-import com.prajnainc.vaadinbuilder.binding.TableBinding
+import com.prajnainc.vaadinbuilder.binding.*
 import com.vaadin.data.Item
 import com.vaadin.data.Property
 import com.vaadin.data.fieldgroup.FieldGroup
@@ -42,7 +38,7 @@ class BindingCategory {
     ) {
         new ItemBinding(
                 target: self, source: source, sourceProperty: sourceProperty,
-                propertyDescriptors: propertyDescriptors,unTyped: unTyped
+                propertyDescriptors: propertyDescriptors, unTyped: unTyped
         )     
     }
 

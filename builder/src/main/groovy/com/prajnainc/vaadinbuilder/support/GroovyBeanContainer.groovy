@@ -20,9 +20,8 @@ package com.prajnainc.vaadinbuilder.support
 import com.vaadin.data.Container
 import com.vaadin.data.Item
 import com.vaadin.data.Property
-import com.vaadin.data.util.*
-import com.vaadin.data.util.filter.SimpleStringFilter
-import com.vaadin.data.util.filter.UnsupportedFilterException
+import com.vaadin.data.util.AbstractBeanContainer
+import com.vaadin.data.util.AbstractInMemoryContainer
 
 /**
  * GroovyBeanContainer
@@ -34,15 +33,15 @@ import com.vaadin.data.util.filter.UnsupportedFilterException
  * added dynamically.
  *
  */
-class GroovyBeanContainer extends AbstractInMemoryContainer<Object,Object, GroovyBeanItem> implements BeanContainer
+class GroovyBeanContainer extends AbstractInMemoryContainer<Object, Object, GroovyBeanItem> implements BeanContainer
 {
 
     /**
      * Link property ids to their description
      */
-    Map<String,GroovyObjectPropertyDescriptor> model
+    Map<String, GroovyObjectPropertyDescriptor> model
 
-    Map<Object,Item> itemIdsToItem
+    Map<Object, Item> itemIdsToItem
 
     GroovyBeanContainer() {
         this.model = [:]
@@ -83,17 +82,17 @@ class GroovyBeanContainer extends AbstractInMemoryContainer<Object,Object, Groov
 
     @Override
     Item addBean(Object bean) {
-        return internalAddItemAtEnd(bean, createItem(bean),true)
+        return internalAddItemAtEnd(bean, createItem(bean), true)
     }
 
     @Override
     Item addBeanAfter(Object itemId, Object bean) {
-        return internalAddItemAfter(itemId,bean,createItem(bean),true)
+        return internalAddItemAfter(itemId, bean, createItem(bean), true)
     }
 
     @Override
     Item addBeanAt(int index, Object bean) {
-        return internalAddItemAt(index,bean,createItem(bean),true)
+        return internalAddItemAt(index, bean, createItem(bean), true)
     }
 
     @Override
@@ -122,7 +121,7 @@ class GroovyBeanContainer extends AbstractInMemoryContainer<Object,Object, Groov
         }
 
         def propertyDescriptor = new GroovyObjectPropertyDescriptor(
-                name: propertyId,propertyType: type, defaultValue: defaultValue
+                name: propertyId, propertyType: type, defaultValue: defaultValue
         )
 
         model.put(propertyId, propertyDescriptor);
@@ -182,7 +181,7 @@ class GroovyBeanContainer extends AbstractInMemoryContainer<Object,Object, Groov
     }
 
     private GroovyBeanItem createItem(bean) {
-        return new GroovyBeanItem(bean,model.values())
+        return new GroovyBeanItem(bean, model.values())
     }
 
 

@@ -19,14 +19,11 @@ package com.prajnainc.vaadinbuilder.factories
 
 import com.prajnainc.vaadinbuilder.VaadinBuilder
 import com.prajnainc.vaadinbuilder.VaadinBuilderException
-import com.prajnainc.vaadinbuilder.binding.AbstractDataBinding
-import com.prajnainc.vaadinbuilder.binding.DataBinding
 import com.prajnainc.vaadinbuilder.binding.ItemBinding
 import com.prajnainc.vaadinbuilder.support.GroovyObjectPropertyDescriptor
 import com.vaadin.data.Property
 import com.vaadin.data.fieldgroup.FieldGroup
 import com.vaadin.ui.AbstractComponent
-import com.vaadin.ui.AbstractComponentContainer
 import com.vaadin.ui.AbstractField
 import com.vaadin.ui.Component
 import com.vaadin.ui.DefaultFieldFactory
@@ -104,7 +101,7 @@ class FieldFactory extends ComponentFactory {
             if(binding) {
                 // Get the model type from the attributes, and ensure the descriptor exists. This throws an exception
                 // if the types are in conflict
-                GroovyObjectPropertyDescriptor descriptor = binding.ensureDescriptorFor(propName,modelType )
+                GroovyObjectPropertyDescriptor descriptor = binding.ensureDescriptorFor(propName, modelType )
                 modelType = descriptor.propertyType
             } else {
                 // Extract any type info from the data source. If it's not there, the bind will fail
@@ -112,12 +109,12 @@ class FieldFactory extends ComponentFactory {
             }
 
 
-            if(!child.converter && modelType && !(modelType in [String,Object])) {
+            if(!child.converter && modelType && !(modelType in [String, Object])) {
                 // We need a converter - look for a default
                 child.setConverter(modelType)
             }
 
-            fieldGroup.bind(child,propName)
+            fieldGroup.bind(child, propName)
         }
     }
 /**

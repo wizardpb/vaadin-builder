@@ -49,7 +49,7 @@ class TableBinding extends ContainerBinding {
         )
         propertyDescriptors.add(descriptor)
         if(target.containerDataSource) {
-            target.containerDataSource.addContainerProperty(propertyId,type,defaultValue)
+            target.containerDataSource.addContainerProperty(propertyId, type, defaultValue)
         }
         return descriptor
     }
@@ -82,11 +82,11 @@ class TableBinding extends ContainerBinding {
         if(evt.source == 'size') return;          // Ignore size change events
         switch(evt) {
             case ObservableList.ElementAddedEvent:
-                dataSource.addBeanAt(evt.index,evt.newValue)
+                dataSource.addBeanAt(evt.index, evt.newValue)
                 break;
             case ObservableList.ElementUpdatedEvent:
                 dataSource.removeItem(evt.oldValue)
-                dataSource.addBeanAt(evt.index,evt.newValue)
+                dataSource.addBeanAt(evt.index, evt.newValue)
                 break;
             case ObservableList.ElementClearedEvent:
                 dataSource.removeAllItems()
@@ -96,7 +96,7 @@ class TableBinding extends ContainerBinding {
                 break;
             case ObservableList.MultiElementAddedEvent:
                 evt.values.eachWithIndex { bean, offset ->
-                    dataSource.addBeanAt(evt.index+offset,bean)
+                    dataSource.addBeanAt(evt.index+offset, bean)
                 }
                 break;
             case ObservableList.MultiElementRemovedEvent:

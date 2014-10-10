@@ -64,7 +64,7 @@ class SelectContainerBinding extends ContainerBinding {
 
     private void addItem(value, int index) {
         if(index < target.containerDataSource.size()){
-            target.containerDataSource.addItemAt(index,value)
+            target.containerDataSource.addItemAt(index, value)
         } else {
             target.containerDataSource.addItem(value)
         }
@@ -75,11 +75,11 @@ class SelectContainerBinding extends ContainerBinding {
         IndexedContainer dataSource = target.containerDataSource
         switch(evt) {
             case ObservableList.ElementAddedEvent:
-                addItem(evt.newValue,evt.index)
+                addItem(evt.newValue, evt.index)
                 break;
             case ObservableList.ElementUpdatedEvent:
                 dataSource.removeItem(evt.oldValue)
-                addItem(evt.newValue,evt.index)
+                addItem(evt.newValue, evt.index)
                 break;
             case ObservableList.ElementClearedEvent:
                 dataSource.removeAllItems()

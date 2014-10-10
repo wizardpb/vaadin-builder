@@ -19,10 +19,12 @@ package com.prajnainc.vaadinbuilder.binding
 
 import com.prajnainc.vaadinbuilder.support.GroovyObjectProperty
 import com.vaadin.ui.TextField
-import groovy.beans.Bindable;
-import spock.lang.*
-import static org.hamcrest.CoreMatchers.*
-import static spock.util.matcher.HamcrestSupport.*
+import groovy.beans.Bindable
+import spock.lang.Specification
+
+import static org.hamcrest.CoreMatchers.equalTo
+import static org.hamcrest.CoreMatchers.instanceOf
+import static spock.util.matcher.HamcrestSupport.that
 
 public class PropertyBindingSpecification extends Specification {
 
@@ -48,7 +50,7 @@ public class PropertyBindingSpecification extends Specification {
         given:
         def model = new Model(modelProp: 'modelValue')
         def TextField target = new TextField()
-        new PropertyBinding(source: model, sourceProperty: 'modelProp',target: target).bind()
+        new PropertyBinding(source: model, sourceProperty: 'modelProp', target: target).bind()
 
         expect:
         that target.propertyDataSource, instanceOf(GroovyObjectProperty)

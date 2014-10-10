@@ -20,8 +20,6 @@ package com.prajnainc.vaadinbuilder.binding
 import com.vaadin.data.Container
 import com.vaadin.data.Item
 import com.vaadin.data.Property
-import com.vaadin.server.ClientConnector
-
 
 /**
  * A {@link DataBinding} instance is responsible for binding a data source to a UI {@link com.vaadin.ui.Component} such

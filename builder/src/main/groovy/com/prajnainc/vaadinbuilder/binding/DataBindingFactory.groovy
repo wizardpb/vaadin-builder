@@ -17,14 +17,8 @@
  */
 package com.prajnainc.vaadinbuilder.binding
 
-import com.prajnainc.vaadinbuilder.VaadinBuilderException
 import com.prajnainc.vaadinbuilder.support.BindingCategory
 import com.prajnainc.vaadinbuilder.support.GroovyBeanItem
-import com.vaadin.data.Item
-import com.vaadin.data.Property
-import com.vaadin.data.fieldgroup.FieldGroup
-import com.vaadin.server.ClientConnector
-import com.vaadin.ui.Component
 
 /**
  * A {@link DataBindingFactory} creates bindings for later binding to a target.
@@ -52,7 +46,7 @@ class DataBindingFactory implements DataBinding {
         // If there is a target, we can create the binding, otherwise just return ourselves - we will bind later
         binding = target != null ? use(BindingCategory) {
             def unTyped = !sourceProperty || sourceProperty && propertyDescriptors.isEmpty()
-            target.bindTo(source,sourceProperty,propertyDescriptors, unTyped)
+            target.bindTo(source, sourceProperty, propertyDescriptors, unTyped)
         } : this
         return binding
     }

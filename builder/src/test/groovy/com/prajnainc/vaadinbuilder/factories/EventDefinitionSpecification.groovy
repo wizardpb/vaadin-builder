@@ -21,12 +21,10 @@ import com.prajnainc.vaadinbuilder.BuilderSpecification
 import com.vaadin.event.FieldEvents
 import com.vaadin.event.MouseEvents
 import com.vaadin.ui.Button
-import com.vaadin.ui.Window;
-import spock.lang.*
-import static org.hamcrest.CoreMatchers.*
-import static spock.util.matcher.HamcrestSupport.*
+import com.vaadin.ui.Window
 
-import static com.vaadin.ui.HasComponents.*
+import static com.vaadin.ui.HasComponents.ComponentAttachEvent
+import static com.vaadin.ui.HasComponents.ComponentDetachEvent
 
 public class EventDefinitionSpecification extends BuilderSpecification {
 
@@ -34,7 +32,7 @@ public class EventDefinitionSpecification extends BuilderSpecification {
         expect:
         def fired = null
         Button button = builder.build {
-            button('Click Me',(method): { evt ->
+            button('Click Me', (method): { evt ->
                 fired = evt
             })
         }
@@ -53,7 +51,7 @@ public class EventDefinitionSpecification extends BuilderSpecification {
         expect:
         def fired = null
         def component = builder.build {
-            panel('Test',(method): { evt ->
+            panel('Test', (method): { evt ->
                 fired = evt
             })
         }
@@ -73,7 +71,7 @@ public class EventDefinitionSpecification extends BuilderSpecification {
         expect:
         def fired = null
         def component = builder.build {
-            window('Test',(method): { evt ->
+            window('Test', (method): { evt ->
                 fired = evt
             })
         }

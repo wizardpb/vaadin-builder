@@ -19,11 +19,10 @@ import com.prajnainc.vaadinbuilder.BuilderSpecification
 import com.prajnainc.vaadinbuilder.VaadinBuilderException
 import com.prajnainc.vaadinbuilder.support.GroovyBeanItem
 import com.vaadin.ui.AbstractField
-import com.vaadin.ui.CheckBox
-import com.vaadin.ui.PopupDateField
 import com.vaadin.ui.TextField
 
 import static org.hamcrest.CoreMatchers.*
+import static spock.util.matcher.HamcrestSupport.that
 
 /*
  * Copyright (c) 2014 Prajna Inc.
@@ -42,7 +41,6 @@ import static org.hamcrest.CoreMatchers.*
  *
  *
  */
-import static spock.util.matcher.HamcrestSupport.that
 
 public class DefaultFieldFactorySpecification extends BuilderSpecification {
 

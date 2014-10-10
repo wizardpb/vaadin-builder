@@ -20,8 +20,6 @@ package com.prajnainc.vaadinbuilder.support
 import com.vaadin.event.FieldEvents
 import com.vaadin.event.MouseEvents
 import com.vaadin.ui.Button
-import com.vaadin.ui.Component
-import com.vaadin.ui.HasComponents
 import com.vaadin.ui.Panel
 import com.vaadin.ui.Window
 

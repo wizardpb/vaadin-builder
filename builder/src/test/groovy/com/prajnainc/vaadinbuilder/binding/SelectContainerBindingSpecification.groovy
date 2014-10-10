@@ -18,10 +18,12 @@ package com.prajnainc.vaadinbuilder.binding
 
 import com.vaadin.data.util.IndexedContainer
 import com.vaadin.ui.ComboBox
-import groovy.beans.Bindable;
-import spock.lang.*
-import static org.hamcrest.CoreMatchers.*
-import static spock.util.matcher.HamcrestSupport.*
+import groovy.beans.Bindable
+import spock.lang.Specification
+
+import static org.hamcrest.CoreMatchers.equalTo
+import static org.hamcrest.CoreMatchers.instanceOf
+import static spock.util.matcher.HamcrestSupport.that
 
 public class SelectContainerBindingSpecification extends Specification {
 
@@ -47,7 +49,7 @@ public class SelectContainerBindingSpecification extends Specification {
         given:
         def model = new Model(modelProp: 1..5)
         def ComboBox target = new ComboBox()
-        new SelectContainerBinding(source: model, sourceProperty: 'modelProp',target: target).bind()
+        new SelectContainerBinding(source: model, sourceProperty: 'modelProp', target: target).bind()
 
         expect:
         that target.containerDataSource, instanceOf(IndexedContainer)
@@ -85,20 +87,20 @@ public class SelectContainerBindingSpecification extends Specification {
 
         where:
 
-        model                                       | op           | params        | itemIds
-        new ObservableList('a'..'e' as ArrayList)   | "add"        | ['f']         | 'a'..'f' as List
-        new ObservableList('a'..'e' as ArrayList)   | "add"        | [1,'f']       | ['a','f','b','c','d','e']
-        new ObservableList('a'..'e' as ArrayList)   | "set"        | [1,'f']       | ['a','f','c','d','e']
-        new ObservableList('a'..'e' as ArrayList)   | "remove"     | [3]           | ['a','b','c','e']
-        new ObservableList('a'..'e' as ArrayList)   | "remove"     | ['d']         | ['a','b','c','e']
-        new ObservableList('a'..'e' as ArrayList)   | "addAll"     | ['f','g']     | 'a'..'g' as List
-        new ObservableList('a'..'e' as ArrayList)   | "addAll"     | [1,['f','g']] | ['a','f','g','b','c','d','e']
-        new ObservableList('a'..'e' as ArrayList)   | "removeAll"  | ['d','e']     | ['a','b','c']
-        new ObservableSet('a'..'e' as Set)          | "add"        | ['f']         | 'a'..'f' as List
-        new ObservableSet('a'..'e' as Set)          | "remove"     | ['d']         | ['a','b','c','e']
-        new ObservableSet('a'..'e' as Set)          | "addAll"     | ['f','g']     | 'a'..'g' as List
-        new ObservableSet('a'..'e' as Set)          | "removeAll"  | ['d','e']     | ['a','b','c']
-        new ObservableSet('a'..'e' as Set)          | "retainAll"  | ['d','e']     | ['d','e']
+        model                                     | op           | params          | itemIds
+        new ObservableList('a'..'e' as ArrayList) | "add"        | ['f']           | 'a'..'f' as List
+        new ObservableList('a'..'e' as ArrayList) | "add"        | [1, 'f']        | ['a', 'f', 'b', 'c', 'd', 'e']
+        new ObservableList('a'..'e' as ArrayList) | "set"        | [1, 'f']        | ['a', 'f', 'c', 'd', 'e']
+        new ObservableList('a'..'e' as ArrayList) | "remove"     | [3]             | ['a', 'b', 'c', 'e']
+        new ObservableList('a'..'e' as ArrayList) | "remove"     | ['d']           | ['a', 'b', 'c', 'e']
+        new ObservableList('a'..'e' as ArrayList) | "addAll"     | ['f', 'g']      | 'a'..'g' as List
+        new ObservableList('a'..'e' as ArrayList) | "addAll"     | [1, ['f', 'g']] | ['a', 'f', 'g', 'b', 'c', 'd', 'e']
+        new ObservableList('a'..'e' as ArrayList) | "removeAll"  | ['d', 'e']      | ['a', 'b', 'c']
+        new ObservableSet('a'..'e' as Set)        | "add"        | ['f']           | 'a'..'f' as List
+        new ObservableSet('a'..'e' as Set)        | "remove"     | ['d']           | ['a', 'b', 'c', 'e']
+        new ObservableSet('a'..'e' as Set)        | "addAll"     | ['f', 'g']      | 'a'..'g' as List
+        new ObservableSet('a'..'e' as Set)        | "removeAll"  | ['d', 'e']      | ['a', 'b', 'c']
+        new ObservableSet('a'..'e' as Set)        | "retainAll"  | ['d', 'e']      | ['d', 'e']
     }
 
     def "it updates the target when an observable source property value changes"() {
@@ -113,17 +115,17 @@ public class SelectContainerBindingSpecification extends Specification {
 
         propertyValue                               | op           | params        | itemIds
         new ObservableList('a'..'e' as ArrayList)   | "add"        | ['f']         | 'a'..'f' as ArrayList
-        new ObservableList('a'..'e' as ArrayList)   | "add"        | [1,'f']       | ['a','f','b','c','d','e']
-        new ObservableList('a'..'e' as ArrayList)   | "set"        | [1,'f']       | ['a','f','c','d','e']
-        new ObservableList('a'..'e' as ArrayList)   | "remove"     | [3]           | ['a','b','c','e']
-        new ObservableList('a'..'e' as ArrayList)   | "remove"     | ['d']         | ['a','b','c','e']
-        new ObservableList('a'..'e' as ArrayList)   | "addAll"     | ['f','g']     | 'a'..'g' as ArrayList
-        new ObservableList('a'..'e' as ArrayList)   | "addAll"     | [1,['f','g']] | ['a','f','g','b','c','d','e']
-        new ObservableList('a'..'e' as ArrayList)   | "removeAll"  | ['d','e']     | ['a','b','c']
+        new ObservableList('a'..'e' as ArrayList)   | "add"        | [1, 'f']       | ['a', 'f', 'b', 'c', 'd', 'e']
+        new ObservableList('a'..'e' as ArrayList)   | "set"        | [1, 'f']       | ['a', 'f', 'c', 'd', 'e']
+        new ObservableList('a'..'e' as ArrayList)   | "remove"     | [3]           | ['a', 'b', 'c', 'e']
+        new ObservableList('a'..'e' as ArrayList)   | "remove"     | ['d']         | ['a', 'b', 'c', 'e']
+        new ObservableList('a'..'e' as ArrayList)   | "addAll"     | ['f', 'g']     | 'a'..'g' as ArrayList
+        new ObservableList('a'..'e' as ArrayList)   | "addAll"     | [1, ['f', 'g']] | ['a', 'f', 'g', 'b', 'c', 'd', 'e']
+        new ObservableList('a'..'e' as ArrayList)   | "removeAll"  | ['d', 'e']     | ['a', 'b', 'c']
         new ObservableSet('a'..'e' as Set)          | "add"        | ['f']         | 'a'..'f' as ArrayList
-        new ObservableSet('a'..'e' as Set)          | "remove"     | ['d']         | ['a','b','c','e']
-        new ObservableSet('a'..'e' as Set)          | "addAll"     | ['f','g']     | 'a'..'g' as ArrayList
-        new ObservableSet('a'..'e' as Set)          | "removeAll"  | ['d','e']     | ['a','b','c']
-        new ObservableSet('a'..'e' as Set)          | "retainAll"  | ['d','e']     | ['d','e']
+        new ObservableSet('a'..'e' as Set)          | "remove"     | ['d']         | ['a', 'b', 'c', 'e']
+        new ObservableSet('a'..'e' as Set)          | "addAll"     | ['f', 'g']     | 'a'..'g' as ArrayList
+        new ObservableSet('a'..'e' as Set)          | "removeAll"  | ['d', 'e']     | ['a', 'b', 'c']
+        new ObservableSet('a'..'e' as Set)          | "retainAll"  | ['d', 'e']     | ['d', 'e']
     }
 }

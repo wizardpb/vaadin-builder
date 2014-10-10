@@ -48,7 +48,7 @@ class DefaultFieldFactory extends FieldFactory {
 
         if(attributes.containsKey('caption')) {
             def caption = attributes.remove('caption')
-            component = fieldGroup.buildAndBind(caption,value)
+            component = fieldGroup.buildAndBind(caption, value)
         } else {
             component = fieldGroup.buildAndBind(value)
         }

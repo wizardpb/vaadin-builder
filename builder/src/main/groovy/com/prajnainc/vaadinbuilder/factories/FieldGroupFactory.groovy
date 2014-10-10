@@ -17,7 +17,6 @@
  */
 package com.prajnainc.vaadinbuilder.factories
 
-import com.prajnainc.vaadinbuilder.VaadinBuilder
 import com.prajnainc.vaadinbuilder.VaadinBuilderException
 import com.prajnainc.vaadinbuilder.binding.DataBinding
 import com.vaadin.data.fieldgroup.FieldGroup
@@ -38,7 +37,7 @@ import com.vaadin.ui.Layout
  * does this using a {@link Delegate}, and resetting the delegate factory dynamically on every node call.</p>
  *
  * <p>The created {@link com.vaadin.data.fieldgroup.FieldGroup} is given an id of "${layoutId}.fieldGroup" and also
- * attached to the data field of the new layout,along with any {@link DataBinding} passed in via the 'itemDataSource'
+ * attached to the data field of the new layout, along with any {@link DataBinding} passed in via the 'itemDataSource'
  * attribute</p>
  *
  */
@@ -70,7 +69,7 @@ class FieldGroupFactory implements Factory {
         def fieldGroup = new FieldGroup()
         def id = attributes.remove('id') ?: value
         if(id != null) {
-            builder.setVariable(id,fieldGroup)
+            builder.setVariable(id, fieldGroup)
         }
 
         def layoutId = attributes.remove('layoutId')

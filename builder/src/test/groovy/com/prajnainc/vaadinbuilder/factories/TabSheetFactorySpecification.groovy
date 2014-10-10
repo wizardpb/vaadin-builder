@@ -19,6 +19,8 @@ import com.prajnainc.vaadinbuilder.BuilderSpecification
 import com.vaadin.ui.Label
 import com.vaadin.ui.TabSheet
 
+import static org.hamcrest.CoreMatchers.equalTo
+
 /*
  * Copyright (c) 2014 Prajna Inc.
  *
@@ -36,7 +38,6 @@ import com.vaadin.ui.TabSheet
  *
  *
  */
-import static org.hamcrest.CoreMatchers.equalTo
 import static org.hamcrest.CoreMatchers.instanceOf
 import static spock.util.matcher.HamcrestSupport.that
 

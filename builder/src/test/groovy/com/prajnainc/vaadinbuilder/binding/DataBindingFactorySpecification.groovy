@@ -17,7 +17,6 @@ package com.prajnainc.vaadinbuilder.binding
 
 import com.prajnainc.vaadinbuilder.VaadinBuilderException
 import com.prajnainc.vaadinbuilder.support.GroovyBeanItem
-import com.vaadin.data.Container
 import com.vaadin.data.Item
 import com.vaadin.data.fieldgroup.FieldGroup
 import com.vaadin.data.util.IndexedContainer
@@ -57,7 +56,7 @@ public class DataBindingFactorySpecification extends Specification {
     def "it can create and bind a Bindable to an Item.Viewer"() {
         when:
 
-        new DataBindingFactory(source: testModel,sourceProperty: 'modelProp').bind(itemViewer)
+        new DataBindingFactory(source: testModel, sourceProperty: 'modelProp').bind(itemViewer)
         testModel.modelProp = [prop1: 'newProp1']
 
         then:
@@ -68,7 +67,7 @@ public class DataBindingFactorySpecification extends Specification {
     def "it can create and bind a Bindable to a FieldGroup"() {
         when:
 
-        new DataBindingFactory(source: testModel,sourceProperty: 'modelProp').bind(fieldGroup)
+        new DataBindingFactory(source: testModel, sourceProperty: 'modelProp').bind(fieldGroup)
         testModel.modelProp = [prop1: 'newProp1']
 
         then:
@@ -80,7 +79,7 @@ public class DataBindingFactorySpecification extends Specification {
     def "it can create and bind a Bindable to an AbstractSelect (ComboBox)"() {
         when:
         testModel.modelProp = 1..5
-        new DataBindingFactory(source: testModel,sourceProperty: 'modelProp').bind(comboBox)
+        new DataBindingFactory(source: testModel, sourceProperty: 'modelProp').bind(comboBox)
         testModel.modelProp = 'a'..'d'
 
         then:
@@ -90,7 +89,7 @@ public class DataBindingFactorySpecification extends Specification {
 
     def "it throws an exception on a Table (temporary)"() {
         when:
-        new DataBindingFactory(source: testModel,sourceProperty: 'modelProp').bind(table)
+        new DataBindingFactory(source: testModel, sourceProperty: 'modelProp').bind(table)
 
         then:
         def e = thrown VaadinBuilderException
@@ -99,7 +98,7 @@ public class DataBindingFactorySpecification extends Specification {
     def "it throws an exception on a non-bindable object"() {
         when:
 
-        new DataBindingFactory(source: testModel,sourceProperty: 'modelProp').bind([:])
+        new DataBindingFactory(source: testModel, sourceProperty: 'modelProp').bind([:])
 
         then:
         def e = thrown VaadinBuilderException

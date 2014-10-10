@@ -59,7 +59,7 @@ public class MenuSpecification extends BuilderSpecification {
         expect:
         that result.items.size(), equalTo(1)
         that result.items.first(), instanceOf(MenuBar.MenuItem)
-        that result.items.first().text,equalTo('File')
+        that result.items.first().text, equalTo('File')
     }
 
     def "it can add menu item hierarchies"() {

@@ -35,7 +35,7 @@ class GridLayoutFactory extends LayoutFactory {
 
     @Override
     protected void addComponent(VaadinBuilder builder, Component parent, Component child) {
-        parent.addComponent(child,*validateArguments(child,builder.context))
+        parent.addComponent(child, *validateArguments(child, builder.context))
 
     }
 
@@ -48,14 +48,14 @@ class GridLayoutFactory extends LayoutFactory {
             position = [component.cursorX, component.cursorY]
         }
 
-        position = validateAndCollect(position,['column','row'],VaadinBuilder.GRID_POSITION_ATTR)
-        span = validateAndCollect(span,['columns','rows'],VaadinBuilder.GRID_SPAN_ATTR)
+        position = validateAndCollect(position, ['column', 'row'], VaadinBuilder.GRID_POSITION_ATTR)
+        span = validateAndCollect(span, ['columns', 'rows'], VaadinBuilder.GRID_SPAN_ATTR)
 
         // If there is a span, calculate lower bottom corner coordinates
         return span ? position + [position.first() + span.first() - 1, position.last() + span.last() - 1] : position
     }
 
-    private validateAndCollect(attributeValue,keySet,name) {
+    private validateAndCollect(attributeValue, keySet, name) {
         def result = []
         if(attributeValue != null) {
             switch(attributeValue) {
@@ -75,7 +75,7 @@ class GridLayoutFactory extends LayoutFactory {
             try {
                 result = result.collect { it as Integer }
             } catch(GroovyCastException e) {
-                throw new VaadinBuilderException("$name has an incorrect value type",e)
+                throw new VaadinBuilderException("$name has an incorrect value type", e)
             }
         }
 

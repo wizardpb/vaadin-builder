@@ -49,7 +49,7 @@ public class BindFactorySpecification extends BuilderSpecification {
         }
 
         expect:
-        that binding,instanceOf(DataBindingFactory)
+        that binding, instanceOf(DataBindingFactory)
         that binding.source, sameInstance(source)
 
     }
@@ -65,7 +65,7 @@ public class BindFactorySpecification extends BuilderSpecification {
 
         expect:
         that binding, instanceOf(DataBindingFactory)
-        that descriptors*.name, equalTo(['prop1','prop2','prop3'])
+        that descriptors*.name, equalTo(['prop1', 'prop2', 'prop3'])
         that descriptors*.propertyType, equalTo([String, Integer, Object])
         that descriptors*.defaultValue, equalTo( [null]*3)
     }
@@ -98,7 +98,7 @@ public class BindFactorySpecification extends BuilderSpecification {
 
         expect:
         that target.itemDataSource, instanceOf(Item)
-        that target.itemDataSource.getItemPropertyIds().sort(), equalTo(['prop1','prop2','prop3'])
+        that target.itemDataSource.getItemPropertyIds().sort(), equalTo(['prop1', 'prop2', 'prop3'])
     }
 
     def "it binds a target to a null source property"() {
@@ -113,10 +113,10 @@ public class BindFactorySpecification extends BuilderSpecification {
 
         expect:
         that binding, instanceOf(ItemBinding)
-        that descriptors*.name, equalTo(['prop1','prop2','prop3'])
+        that descriptors*.name, equalTo(['prop1', 'prop2', 'prop3'])
         that descriptors*.propertyType, equalTo([String, Integer, Object])
         that descriptors*.defaultValue, equalTo( [null]*3)
-        that target.itemDataSource,nullValue()
+        that target.itemDataSource, nullValue()
     }
 
     def "it binds a target to a non-null source property"() {
@@ -131,7 +131,7 @@ public class BindFactorySpecification extends BuilderSpecification {
 
         expect:
         that binding, instanceOf(ItemBinding)
-        that descriptors*.name, equalTo(['prop1','prop2','prop3'])
+        that descriptors*.name, equalTo(['prop1', 'prop2', 'prop3'])
         that descriptors*.propertyType, equalTo([String, Integer, Object])
         that descriptors*.defaultValue, equalTo( [null]*3)
         def values = (1..3).collect { target.itemDataSource.getItemProperty('prop'+it).value }
@@ -152,7 +152,7 @@ public class BindFactorySpecification extends BuilderSpecification {
 
         expect:
         that binding, instanceOf(ItemBinding)
-        that descriptors*.name, equalTo(['prop1','prop2','prop3'])
+        that descriptors*.name, equalTo(['prop1', 'prop2', 'prop3'])
         that descriptors*.propertyType, equalTo([String, Integer, Object])
         that descriptors*.defaultValue, equalTo( [null]*3)
         def values = (1..3).collect { target.itemDataSource.getItemProperty('prop'+it).value }

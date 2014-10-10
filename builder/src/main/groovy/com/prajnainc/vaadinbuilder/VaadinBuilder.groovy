@@ -50,7 +50,7 @@ class VaadinBuilder extends FactoryBuilderSupport {
     public static final String DEFAULT_DELEGATE_PROPERTY_OBJECT_ID = 'id'
     public static final String GENERAL_BINDING_ATTRIBUTE = 'dataSource'
     public static final Set BINDING_ATTRIBUTES = [
-        GENERAL_BINDING_ATTRIBUTE,'propertyDataSource','itemDataSource', 'containerDataSource'
+        GENERAL_BINDING_ATTRIBUTE, 'propertyDataSource', 'itemDataSource', 'containerDataSource'
     ] as Set
 
     VaadinBuilder(boolean init=true) {
@@ -110,13 +110,13 @@ class VaadinBuilder extends FactoryBuilderSupport {
                 ((node.data ?: (node.data = [:])).binding = bindingValue.bind(target));
                 return;
             case Property:
-                bindingAttr = validateBinding(target,bindingAttr,bindingValue,'property',[Property.Viewer]);
+                bindingAttr = validateBinding(target, bindingAttr, bindingValue, 'property', [Property.Viewer]);
                 break;
             case Item:
-                bindingAttr = validateBinding(target,bindingAttr,bindingValue,'item',[Item.Viewer,FieldGroup]);
+                bindingAttr = validateBinding(target, bindingAttr, bindingValue, 'item', [Item.Viewer, FieldGroup]);
                 break;
             case Container:
-                bindingAttr = validateBinding(target,bindingAttr,bindingValue,'container',[Container.Viewer]);
+                bindingAttr = validateBinding(target, bindingAttr, bindingValue, 'container', [Container.Viewer]);
                 break;
             default:
                 throw new VaadinBuilderException(
@@ -144,7 +144,7 @@ class VaadinBuilder extends FactoryBuilderSupport {
         builder.context.savedAttributes = savedAttributes
     }
 
-    private static String validateBinding(def node,String bindingAttr,bindingValue,prefix,List targetClasses) {
+    private static String validateBinding(def node, String bindingAttr, bindingValue, prefix, List targetClasses) {
         // The target must be of one of the target classes
         if(!targetClasses.any { Class k -> k.isAssignableFrom(node.getClass()) }) {
             throw new VaadinBuilderException("A $bindingValue cannot be bound to a $node")
@@ -175,23 +175,23 @@ class VaadinBuilder extends FactoryBuilderSupport {
     }
 
     def registerSingleComponentFactories() {
-        registerFactory('panel',new SingleComponentContainerFactory(Panel))
+        registerFactory('panel', new SingleComponentContainerFactory(Panel))
         registerFactory('window', new SingleComponentContainerFactory(Window))
     }
 
     def registerComponentFactories() {
-        registerFactory('label',new LabelFactory())
-        registerFactory('embedded',new ComponentFactory(Embedded))
+        registerFactory('label', new LabelFactory())
+        registerFactory('embedded', new ComponentFactory(Embedded))
         // TODO - ColorPickerGrid
         // TODO - ColorPickerGradient
-        registerFactory('link',new ComponentFactory(Link))
+        registerFactory('link', new ComponentFactory(Link))
         // TODO - PopupView
-        registerFactory('menuBar',new ComponentFactory(MenuBar))
-        registerFactory('menuItem',new MenuItemFactory())
-        registerFactory('customComponent',new CustomComponentFactory()) // CustomComponent
-        registerFactory('upload',new ComponentFactory(Upload))
-        registerFactory('button',new ComponentFactory(Button))
-        registerFactory('calendar',new ComponentFactory(Calendar))
+        registerFactory('menuBar', new ComponentFactory(MenuBar))
+        registerFactory('menuItem', new MenuItemFactory())
+        registerFactory('customComponent', new CustomComponentFactory()) // CustomComponent
+        registerFactory('upload', new ComponentFactory(Upload))
+        registerFactory('button', new ComponentFactory(Button))
+        registerFactory('calendar', new ComponentFactory(Calendar))
         // Abstract classes all taken care of by customComponent
         // AbstractMedia
         // AbstractJavaScriptComponent
@@ -213,32 +213,32 @@ class VaadinBuilder extends FactoryBuilderSupport {
     }
 
     def registerItemFieldFactories() {
-        registerFactory('field',new DefaultFieldFactory())
-        registerFactory('slider',new FieldFactory(Slider))                     // Slider
-        registerFactory('textField',new FieldFactory(TextField))                // TextField
-        registerFactory('textArea',new FieldFactory(TextArea))                  // TextArea
-        registerFactory('passwordField',new FieldFactory(PasswordField))        // PasswordField
+        registerFactory('field', new DefaultFieldFactory())
+        registerFactory('slider', new FieldFactory(Slider))                     // Slider
+        registerFactory('textField', new FieldFactory(TextField))                // TextField
+        registerFactory('textArea', new FieldFactory(TextArea))                  // TextArea
+        registerFactory('passwordField', new FieldFactory(PasswordField))        // PasswordField
         // TODO - ProgressBar - needs threading support, maybe hide/unhide on start ?
-        registerFactory('checkBox',new FieldFactory(CheckBox))                  // CheckBox
-        registerFactory('richTextArea',new FieldFactory(RichTextArea))          // RichTextArea
-        registerFactory('customField',new CustomComponentFactory())                     // CustomField
-        registerFactory('inlineDateField',new FieldFactory(InlineDateField))    // InlineDateField
-        registerFactory('popupDateField',new FieldFactory(PopupDateField))      // PopupDateField
+        registerFactory('checkBox', new FieldFactory(CheckBox))                  // CheckBox
+        registerFactory('richTextArea', new FieldFactory(RichTextArea))          // RichTextArea
+        registerFactory('customField', new CustomComponentFactory())                     // CustomField
+        registerFactory('inlineDateField', new FieldFactory(InlineDateField))    // InlineDateField
+        registerFactory('popupDateField', new FieldFactory(PopupDateField))      // PopupDateField
     }
 
     def registerContainerFieldFactories() {
-        registerFactory('table',new ComponentFactory(Table))
-        registerFactory('tableColumn',new TableColumnFactory())
-        registerFactory('comboBox',new ComponentFactory(ComboBox))
-        registerFactory('twinColumnSelect',new ComponentFactory(TwinColSelect))
-        registerFactory('nativeSelect',new ComponentFactory(NativeSelect))
-        registerFactory('listSelect',new ComponentFactory(ListSelect))
-        registerFactory('optionGroup',new ComponentFactory(OptionGroup))
-        registerFactory('tree',new ComponentFactory(Tree))
+        registerFactory('table', new ComponentFactory(Table))
+        registerFactory('tableColumn', new TableColumnFactory())
+        registerFactory('comboBox', new ComponentFactory(ComboBox))
+        registerFactory('twinColumnSelect', new ComponentFactory(TwinColSelect))
+        registerFactory('nativeSelect', new ComponentFactory(NativeSelect))
+        registerFactory('listSelect', new ComponentFactory(ListSelect))
+        registerFactory('optionGroup', new ComponentFactory(OptionGroup))
+        registerFactory('tree', new ComponentFactory(Tree))
     }
 
     def registerUtilityFactories() {
-        registerFactory('fieldGroup',new FieldGroupFactory())
+        registerFactory('fieldGroup', new FieldGroupFactory())
         registerFactory('bind', new BindFactory())
         // TODO - Converter - how to add to session
         // TODO - Widget
@@ -254,7 +254,7 @@ class VaadinBuilder extends FactoryBuilderSupport {
     public Object build(String script) {
         def loader = getClass().classLoader
         loader = loader instanceof GroovyClassLoader ? loader : new GroovyClassLoader(loader)
-        build(script,loader)
+        build(script, loader)
     }
 
     public Map getSavedAttributes() {

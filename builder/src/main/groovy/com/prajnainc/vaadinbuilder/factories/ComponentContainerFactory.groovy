@@ -36,9 +36,9 @@ abstract class ComponentContainerFactory extends ComponentFactory {
     @Override
     protected void setChildComponent(FactoryBuilderSupport builder, Object parent, Object child) {
         assert parent instanceof AbstractComponentContainer
-        addComponent(builder.childBuilder,parent,child)
-        setAlignmentFrom(builder.childBuilder,parent,child)
-        setExpandRatioFrom(builder.childBuilder,parent,child)
+        addComponent(builder.childBuilder, parent, child)
+        setAlignmentFrom(builder.childBuilder, parent, child)
+        setExpandRatioFrom(builder.childBuilder, parent, child)
 
     }
 

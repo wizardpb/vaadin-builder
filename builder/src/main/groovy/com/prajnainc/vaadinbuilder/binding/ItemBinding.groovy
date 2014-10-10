@@ -60,7 +60,7 @@ class ItemBinding extends AbstractDataBinding {
         propertyDescriptors.add(descriptor)
         def dataSource = target?.itemDataSource
         if(dataSource) {
-            dataSource.addItemProperty(propName,descriptor.createProperty(dataSource.bean))
+            dataSource.addItemProperty(propName, descriptor.createProperty(dataSource.bean))
         }
         return descriptor
     }

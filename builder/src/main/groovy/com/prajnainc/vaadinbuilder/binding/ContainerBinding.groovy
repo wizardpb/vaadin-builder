@@ -17,9 +17,6 @@
  */
 package com.prajnainc.vaadinbuilder.binding
 
-import com.prajnainc.vaadinbuilder.support.GroovyBeanContainer
-import com.vaadin.data.Container
-
 import java.beans.PropertyChangeEvent
 
 /**
@@ -61,7 +58,7 @@ abstract class ContainerBinding extends AbstractDataBinding {
     }
 
     protected Boolean isObservable(Class cls) {
-        return cls in [ObservableList,ObservableSet]
+        return cls in [ObservableList, ObservableSet]
     }
     
     @Override

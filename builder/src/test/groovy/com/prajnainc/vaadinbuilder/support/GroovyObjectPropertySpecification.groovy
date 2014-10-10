@@ -5,12 +5,13 @@ import com.vaadin.data.Property
 import org.codehaus.groovy.runtime.typehandling.GroovyCastException
 import spock.lang.Specification
 
+import static org.hamcrest.CoreMatchers.*
+
 /**
  * GroovyObjectPropertySpecification
  *
  *
  */
-import static org.hamcrest.CoreMatchers.*
 import static spock.util.matcher.HamcrestSupport.that
 
 public class GroovyObjectPropertySpecification extends Specification {
@@ -43,7 +44,7 @@ public class GroovyObjectPropertySpecification extends Specification {
     def "it can read the property"() {
 
        given:
-       def prop = new GroovyObjectProperty(new TestObject(),propertyDescriptors.prop1)
+       def prop = new GroovyObjectProperty(new TestObject(), propertyDescriptors.prop1)
 
        expect:
        that prop.readOnly, is(false)
@@ -54,7 +55,7 @@ public class GroovyObjectPropertySpecification extends Specification {
     def "it can write the property"() {
 
         given:
-        def prop = new GroovyObjectProperty(new TestObject(),propertyDescriptors.prop1)
+        def prop = new GroovyObjectProperty(new TestObject(), propertyDescriptors.prop1)
         prop.value = 'new string'
 
         expect:
@@ -65,7 +66,7 @@ public class GroovyObjectPropertySpecification extends Specification {
     def "it can read the type"() {
         given:
         propertyDescriptors.prop1.propertyType = null
-        def prop = new GroovyObjectProperty(new TestObject(),propertyDescriptors.prop1)
+        def prop = new GroovyObjectProperty(new TestObject(), propertyDescriptors.prop1)
 
         expect:
         that prop.type, equalTo(String)
@@ -73,8 +74,8 @@ public class GroovyObjectPropertySpecification extends Specification {
 
     def "it recognizes read-only properties"() {
         given:
-        def prop1 = new GroovyObjectProperty(new TestObject(),propertyDescriptors.virtualReadOnly)
-        def prop2 = new GroovyObjectProperty(new TestObject(),propertyDescriptors.readOnly)
+        def prop1 = new GroovyObjectProperty(new TestObject(), propertyDescriptors.virtualReadOnly)
+        def prop2 = new GroovyObjectProperty(new TestObject(), propertyDescriptors.readOnly)
 
         expect:
         that prop1.readOnly, is(true)
@@ -83,7 +84,7 @@ public class GroovyObjectPropertySpecification extends Specification {
 
     def "it throws an exception writing read-only"() {
         when:
-        def prop = new GroovyObjectProperty(new TestObject(),propertyDescriptors.prop1,true)
+        def prop = new GroovyObjectProperty(new TestObject(), propertyDescriptors.prop1, true)
         prop.value = ''
 
         then:
@@ -92,7 +93,7 @@ public class GroovyObjectPropertySpecification extends Specification {
 
     def "it can deal with non-existent properties"() {
         when:
-        def prop = new GroovyObjectProperty(new TestObject(),new GroovyObjectPropertyDescriptor(name: 'noProp', propertyType: Object, defaultValue: null))
+        def prop = new GroovyObjectProperty(new TestObject(), new GroovyObjectPropertyDescriptor(name: 'noProp', propertyType: Object, defaultValue: null))
 
         then:
         thrown(VaadinBuilderException)
@@ -101,7 +102,7 @@ public class GroovyObjectPropertySpecification extends Specification {
     def "it notifies ValueChangeListeners when value is set"() {
 
         given:
-        def prop = new GroovyObjectProperty(new TestObject(),propertyDescriptors.prop1)
+        def prop = new GroovyObjectProperty(new TestObject(), propertyDescriptors.prop1)
         def event
         prop.addValueChangeListener([valueChange: {evt -> event = evt}] as Property.ValueChangeListener)
         prop.value = 'updated'
@@ -114,7 +115,7 @@ public class GroovyObjectPropertySpecification extends Specification {
     def "it can read a Map entry as a property"() {
 
         given:
-        def prop = new GroovyObjectProperty([prop1: 'prop1', prop2: 'prop2'],propertyDescriptors.prop1)
+        def prop = new GroovyObjectProperty([prop1: 'prop1', prop2: 'prop2'], propertyDescriptors.prop1)
 
         expect:
         that prop.type, equalTo(String)
@@ -125,7 +126,7 @@ public class GroovyObjectPropertySpecification extends Specification {
 
         given:
         def bean = [prop1: 'prop1', prop2: 'prop2']
-        def prop = new GroovyObjectProperty(bean,propertyDescriptors.prop1)
+        def prop = new GroovyObjectProperty(bean, propertyDescriptors.prop1)
         prop.value = 'new string'
 
         expect:
@@ -136,7 +137,7 @@ public class GroovyObjectPropertySpecification extends Specification {
     def "it can make a Map entry read-only"() {
         when:
         def instance = [prop1: 'prop1']
-        def prop = new GroovyObjectProperty(instance,propertyDescriptors.prop1,true)
+        def prop = new GroovyObjectProperty(instance, propertyDescriptors.prop1, true)
         prop.value = ''
 
         then:
@@ -148,7 +149,7 @@ public class GroovyObjectPropertySpecification extends Specification {
         when:
         def instance = new TestObject()
         propertyDescriptors.prop1.propertyType = Integer
-        def prop = new GroovyObjectProperty(instance,propertyDescriptors.prop1)
+        def prop = new GroovyObjectProperty(instance, propertyDescriptors.prop1)
 
         then:
         def e = thrown(VaadinBuilderException)
@@ -158,7 +159,7 @@ public class GroovyObjectPropertySpecification extends Specification {
     def "it can detect type violations on assignment"() {
         when:
         def instance = [prop1: 'prop1']
-        def prop = new GroovyObjectProperty(instance,propertyDescriptors.prop1)
+        def prop = new GroovyObjectProperty(instance, propertyDescriptors.prop1)
         prop.value = 1
 
         then:

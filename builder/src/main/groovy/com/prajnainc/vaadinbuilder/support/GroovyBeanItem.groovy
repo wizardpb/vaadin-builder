@@ -38,26 +38,26 @@ class GroovyBeanItem extends PropertysetItem {
         }
     }
 
-    GroovyBeanItem(GroovyObject groovyBean,Collection<GroovyObjectPropertyDescriptor> descriptors) {
+    GroovyBeanItem(GroovyObject groovyBean, Collection<GroovyObjectPropertyDescriptor> descriptors) {
         this.bean = groovyBean
         descriptors.each {
-            addItemProperty(it.name,new GroovyObjectProperty(groovyBean,it))
+            addItemProperty(it.name, new GroovyObjectProperty(groovyBean, it))
         }
     }
 
     GroovyBeanItem(GroovyObject groovyBean) {
-        this(groovyBean,bindablePropertyDescriptorsFor(groovyBean))
+        this(groovyBean, bindablePropertyDescriptorsFor(groovyBean))
     }
 
-    GroovyBeanItem(Map mapBean,Collection<GroovyObjectPropertyDescriptor> descriptors) {
+    GroovyBeanItem(Map mapBean, Collection<GroovyObjectPropertyDescriptor> descriptors) {
         this.bean = mapBean
         descriptors.each {
-            addItemProperty(it.name,new GroovyObjectProperty(mapBean,it))
+            addItemProperty(it.name, new GroovyObjectProperty(mapBean, it))
         }
     }
 
     GroovyBeanItem(Map mapBean) {
-        this(mapBean,mapBean.keySet().inject([]) { list, it ->
+        this(mapBean, mapBean.keySet().inject([]) { list, it ->
             list << new GroovyObjectPropertyDescriptor(name: it, propertyType: Object)
         })
     }

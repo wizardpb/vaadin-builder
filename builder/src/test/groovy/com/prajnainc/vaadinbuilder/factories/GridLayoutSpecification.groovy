@@ -57,7 +57,7 @@ public class GridLayoutSpecification extends BuilderSpecification {
         }
 
         expect:
-        that c.getComponent(0,0).value, equalTo('1-1')
+        that c.getComponent(0, 0).value, equalTo('1-1')
     }
 
     def "it allows children to set their alignment"() {
@@ -69,8 +69,8 @@ public class GridLayoutSpecification extends BuilderSpecification {
         }
 
         expect:
-        that c.getComponentAlignment(c.getComponent(0,0)), equalTo(Alignment.BOTTOM_LEFT)
-        that c.getComponentAlignment(c.getComponent(1,0)), equalTo(Alignment.TOP_RIGHT)
+        that c.getComponentAlignment(c.getComponent(0, 0)), equalTo(Alignment.BOTTOM_LEFT)
+        that c.getComponentAlignment(c.getComponent(1, 0)), equalTo(Alignment.TOP_RIGHT)
 
     }
 
@@ -78,16 +78,16 @@ public class GridLayoutSpecification extends BuilderSpecification {
 
         GridLayout c = builder.build {
             gridLayout(columns: 2, rows: 2) {
-                label('0-0', position: [0,0])
-                label('1-1', position: [0,1], span: [2,1])
+                label('0-0', position: [0, 0])
+                label('1-1', position: [0, 1], span: [2, 1])
             }
         }
 
         expect:
-        that c.getComponent(0,0).value, equalTo('0-0')
-        that c.getComponent(1,0), nullValue()
-        that c.getComponent(0,1).value, equalTo('1-1')
-        that c.getComponent(1,1).value, equalTo('1-1')
+        that c.getComponent(0, 0).value, equalTo('0-0')
+        that c.getComponent(1, 0), nullValue()
+        that c.getComponent(0, 1).value, equalTo('1-1')
+        that c.getComponent(1, 1).value, equalTo('1-1')
     }
 
     def "it allows children to set their location and span with Map arguments"() {
@@ -100,9 +100,9 @@ public class GridLayoutSpecification extends BuilderSpecification {
         }
 
         expect:
-        that c.getComponent(0,0).value, equalTo('0-0')
-        that c.getComponent(1,0), nullValue()
-        that c.getComponent(0,1).value, equalTo('1-1')
-        that c.getComponent(1,1).value, equalTo('1-1')
+        that c.getComponent(0, 0).value, equalTo('0-0')
+        that c.getComponent(1, 0), nullValue()
+        that c.getComponent(0, 1).value, equalTo('1-1')
+        that c.getComponent(1, 1).value, equalTo('1-1')
     }
 }

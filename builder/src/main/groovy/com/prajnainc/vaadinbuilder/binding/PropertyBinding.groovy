@@ -17,8 +17,6 @@
  */
 package com.prajnainc.vaadinbuilder.binding
 
-import com.prajnainc.vaadinbuilder.VaadinBuilderException
-import com.prajnainc.vaadinbuilder.support.GroovyObjectProperty
 import com.prajnainc.vaadinbuilder.support.GroovyObjectPropertyDescriptor
 import com.vaadin.data.util.ObjectProperty
 

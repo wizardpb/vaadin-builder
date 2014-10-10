@@ -16,7 +16,6 @@
 package com.prajnainc.vaadinbuilder.factories
 
 import com.prajnainc.vaadinbuilder.BuilderSpecification
-
 import com.vaadin.ui.*
 
 import static org.hamcrest.CoreMatchers.instanceOf

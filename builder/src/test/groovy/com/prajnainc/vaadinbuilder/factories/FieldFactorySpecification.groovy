@@ -18,11 +18,10 @@ package com.prajnainc.vaadinbuilder.factories
 import com.prajnainc.vaadinbuilder.BuilderSpecification
 import com.prajnainc.vaadinbuilder.VaadinBuilderException
 import com.vaadin.data.util.converter.DefaultConverterFactory
-import com.vaadin.data.util.converter.StringToIntegerConverter
 import com.vaadin.server.VaadinSession
 import com.vaadin.ui.*
 
-import static org.hamcrest.CoreMatchers.equalTo
+import static org.hamcrest.CoreMatchers.*
 
 /*
  * Copyright (c) 2014 Prajna Inc.
@@ -41,8 +40,6 @@ import static org.hamcrest.CoreMatchers.equalTo
  *
  *
  */
-import static org.hamcrest.CoreMatchers.instanceOf
-import static org.hamcrest.CoreMatchers.nullValue
 import static spock.util.matcher.HamcrestSupport.that
 
 public class FieldFactorySpecification extends BuilderSpecification {

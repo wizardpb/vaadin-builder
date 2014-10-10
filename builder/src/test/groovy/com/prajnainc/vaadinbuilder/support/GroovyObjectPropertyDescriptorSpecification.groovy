@@ -15,11 +15,12 @@
  *
  *
  */
-package com.prajnainc.vaadinbuilder.support;
+package com.prajnainc.vaadinbuilder.support
 
-import spock.lang.*
+import spock.lang.Specification
+
 import static org.hamcrest.CoreMatchers.*
-import static spock.util.matcher.HamcrestSupport.*
+import static spock.util.matcher.HamcrestSupport.that
 
 public class GroovyObjectPropertyDescriptorSpecification extends Specification {
 

@@ -17,7 +17,6 @@
 package com.prajnainc.vaadinbuilder.support
 
 import com.vaadin.data.Item
-import com.vaadin.data.util.VaadinPropertyDescriptor
 import spock.lang.Specification
 
 import static org.hamcrest.CoreMatchers.equalTo
@@ -45,7 +44,7 @@ public class GroovyBeanItemSpecification extends Specification {
        def item = new GroovyBeanItem(new GroovyBean())
 
        expect:
-       that item.getItemPropertyIds() as Set, equalTo(['objectProp','stringProp','intProp','dummyProp','dummyBool','readOnly'] as Set)
+       that item.getItemPropertyIds() as Set, equalTo(['objectProp', 'stringProp', 'intProp', 'dummyProp', 'dummyBool', 'readOnly'] as Set)
 
     }
 
@@ -54,8 +53,8 @@ public class GroovyBeanItemSpecification extends Specification {
         def item = new GroovyBeanItem(new GroovyBean())
 
         expect:
-        that item.getItemPropertyIds().collectEntries { [it,item.getItemProperty(it)?.type]}, equalTo(
-                [objectProp: Object,stringProp: String,intProp: Integer,dummyProp: Object,dummyBool: boolean, readOnly: Object]
+        that item.getItemPropertyIds().collectEntries { [it, item.getItemProperty(it)?.type]}, equalTo(
+                [objectProp: Object, stringProp: String, intProp: Integer, dummyProp: Object, dummyBool: boolean, readOnly: Object]
         )
 
     }
@@ -105,15 +104,15 @@ public class GroovyBeanItemSpecification extends Specification {
     def "it can specify the properties to bind" () {
 
         given:
-        def item = new GroovyBeanItem(new GroovyBean(),[
+        def item = new GroovyBeanItem(new GroovyBean(), [
                 new GroovyObjectPropertyDescriptor(name: 'objectProp', propertyType: Object),
                 new GroovyObjectPropertyDescriptor(name: 'stringProp', propertyType: String)
         ])
 
         expect:
-        that item.getItemPropertyIds() as List, equalTo(['objectProp','stringProp'])
-        that item.getItemPropertyIds().collectEntries { [it,item.getItemProperty(it)?.type]}, equalTo(
-                [objectProp: Object,stringProp: String]
+        that item.getItemPropertyIds() as List, equalTo(['objectProp', 'stringProp'])
+        that item.getItemPropertyIds().collectEntries { [it, item.getItemProperty(it)?.type]}, equalTo(
+                [objectProp: Object, stringProp: String]
         )
 
     }
@@ -148,8 +147,8 @@ public class GroovyBeanItemSpecification extends Specification {
         ])
 
         expect:
-        that item.getItemPropertyIds().collectEntries { [it,item.getItemProperty(it)?.type]}, equalTo(
-                [objectProp: Map,stringProp: String, intProp: Integer]
+        that item.getItemPropertyIds().collectEntries { [it, item.getItemProperty(it)?.type]}, equalTo(
+                [objectProp: Map, stringProp: String, intProp: Integer]
         )
 
 

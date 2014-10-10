@@ -17,10 +17,6 @@
 package com.prajnainc.vaadinbuilder
 
 import com.vaadin.ui.VerticalLayout
-import org.codehaus.groovy.tools.GroovyClass;
-import spock.lang.*
-import static org.hamcrest.CoreMatchers.*
-import static spock.util.matcher.HamcrestSupport.*
 
 public class VaadinBuilderSpecification extends BuilderSpecification {
 

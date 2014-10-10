@@ -21,6 +21,8 @@ import com.vaadin.data.fieldgroup.FieldGroup
 import groovy.beans.Bindable
 import spock.lang.Specification
 
+import static org.hamcrest.CoreMatchers.equalTo
+
 /*
  * Copyright (c) 2014 Prajna Inc.
  *
@@ -38,7 +40,6 @@ import spock.lang.Specification
  *
  *
  */
-import static org.hamcrest.CoreMatchers.equalTo
 import static org.hamcrest.CoreMatchers.instanceOf
 import static spock.util.matcher.HamcrestSupport.that
 
@@ -89,8 +90,8 @@ public class ItemBindingSpecification extends Specification {
 
         expect:
         that target.itemDataSource, instanceOf(GroovyBeanItem)
-        that target.itemDataSource.itemPropertyIds as Set, equalTo(['prop1','prop2'] as Set)
-        ['prop1','prop2'].every { target.itemDataSource.getItemProperty(it).value == it }
+        that target.itemDataSource.itemPropertyIds as Set, equalTo(['prop1', 'prop2'] as Set)
+        ['prop1', 'prop2'].every { target.itemDataSource.getItemProperty(it).value == it }
     }
 
     def "it should bind a property containing a Map"() {
@@ -102,8 +103,8 @@ public class ItemBindingSpecification extends Specification {
 
         expect:
         that target.itemDataSource, instanceOf(GroovyBeanItem)
-        that target.itemDataSource.itemPropertyIds as Set, equalTo(['prop1','prop2'] as Set)
-        ['prop1','prop2'].every { target.itemDataSource.getItemProperty(it).value == it }
+        that target.itemDataSource.itemPropertyIds as Set, equalTo(['prop1', 'prop2'] as Set)
+        ['prop1', 'prop2'].every { target.itemDataSource.getItemProperty(it).value == it }
     }
 
     def "it can set a target and bind"() {
@@ -115,8 +116,8 @@ public class ItemBindingSpecification extends Specification {
 
         expect:
         that target.itemDataSource, instanceOf(GroovyBeanItem)
-        that target.itemDataSource.itemPropertyIds as Set, equalTo(['prop1','prop2'] as Set)
-        ['prop1','prop2'].every { target.itemDataSource.getItemProperty(it).value == it }
+        that target.itemDataSource.itemPropertyIds as Set, equalTo(['prop1', 'prop2'] as Set)
+        ['prop1', 'prop2'].every { target.itemDataSource.getItemProperty(it).value == it }
     }
 
     def "it can bind a specific set of properties"() {
@@ -137,7 +138,7 @@ public class ItemBindingSpecification extends Specification {
         given:
         def FieldGroup target = new FieldGroup()
         itemBinding.bind(target)
-        itemBinding.source.modelProp = new TestBean(prop1: 'new-prop1',prop2: 'new-prop2')
+        itemBinding.source.modelProp = new TestBean(prop1: 'new-prop1', prop2: 'new-prop2')
         target.itemDataSource.getItemProperty('prop2').value = 'new-prop2'
 
         expect:
@@ -153,7 +154,7 @@ public class ItemBindingSpecification extends Specification {
         new ItemBinding(source: new TestBean()).bind(target)
 
         expect:
-        ['prop1','prop2'].every { target.itemDataSource.getItemProperty(it).value == it }
+        ['prop1', 'prop2'].every { target.itemDataSource.getItemProperty(it).value == it }
     }
 
 }

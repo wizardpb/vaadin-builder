@@ -50,7 +50,7 @@ public class OrderedLayoutSpecification extends BuilderSpecification {
 
         expect:
         c.componentCount == 1
-        that c.getComponent(0),instanceOf(Label)
+        that c.getComponent(0), instanceOf(Label)
         c.getComponent(0).value == 'contained'
 
     }
@@ -62,7 +62,7 @@ public class OrderedLayoutSpecification extends BuilderSpecification {
         def c = builder.build {
             verticalLayout {
                 verticalLayout() {
-                    textField('input',id: 'inputField', columns: 30)
+                    textField('input', id: 'inputField', columns: 30)
                 }
                 button('Commit', id: 'commitButton')
             }
@@ -71,8 +71,8 @@ public class OrderedLayoutSpecification extends BuilderSpecification {
         expect:
         that c, instanceOf(VerticalLayout)
         c.componentCount == 2
-        that c.getComponent(0),instanceOf(VerticalLayout)
-        that c.getComponent(1),instanceOf(Button)
+        that c.getComponent(0), instanceOf(VerticalLayout)
+        that c.getComponent(1), instanceOf(Button)
 
     }
 
