@@ -64,13 +64,20 @@ class SamplerUI extends BuilderUI {
                             spacing: true, margin: new MarginInfo(true)
                         ) {
                             panel(caption: 'Add a Person') {
+                                // Use hroizontal layoust to create a two-column form
                                 fieldGroup(id: 'personForm', dataSource: bind(source: model, sourceProperty: 'person')) {
-                                    textField('name')
-                                    textField('address')
-                                    textField('city')
-                                    textField('state')
-                                    textField('zip')
-                                    textField('age')
+                                    horizontalLayout() {
+                                        verticalLayout(margin: new MarginInfo(true)) {
+                                            textField('name')
+                                            textField('age')
+                                        }
+                                        verticalLayout(margin: new MarginInfo(true)) {
+                                            textField('address')
+                                            textField('city')
+                                            textField('state')
+                                            textField('zip')
+                                        }
+                                    }
                                     horizontalLayout(height: Sizeable.SIZE_UNDEFINED) {
                                         button(id: 'saveButton', caption: 'Save', onClick: { evt ->
                                             builder.personForm.commit()
@@ -92,12 +99,15 @@ class SamplerUI extends BuilderUI {
                         horizontalLayout(caption: 'Direct Component Binding',
                             spacing: true, margin: new MarginInfo(true)
                         ) {
+                            // Create a combo box for selecting items. It's called 'selector'
                             comboBox(
                                 id: 'selector',
                                 caption: 'Select an item', immediate: true,
                                 dataSource:  bind(source: TEST_ITEMS),
                                 value: TEST_ITEMS[0]
                             )
+                            // Create a text field and bind it to this combo box. Because of it's id, it's available on
+                            // teh builder as 'builder.selector'
                             textField(id: 'display', caption: 'Selected Value:',
                                 dataSource: bind(source: builder.selector))
                         }
