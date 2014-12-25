@@ -24,6 +24,7 @@ import com.vaadin.data.util.PropertysetItem
  */
 class GroovyBeanItem extends PropertysetItem {
 
+    @SuppressWarnings('PrivateFieldCouldBeFinal')   // Reset by Groovy Map ctor
     private Object bean
 
     final private static Set HIDDEN_PROPERTIES = ['class', 'propertyChangeListeners'] as Set

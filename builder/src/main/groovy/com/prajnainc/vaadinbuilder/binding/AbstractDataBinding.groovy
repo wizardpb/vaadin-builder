@@ -19,7 +19,6 @@ package com.prajnainc.vaadinbuilder.binding
 
 import com.prajnainc.vaadinbuilder.VaadinBuilderException
 import com.prajnainc.vaadinbuilder.support.GroovyObjectPropertyDescriptor
-import com.vaadin.data.Property
 import com.vaadin.server.ClientConnector
 
 import java.beans.PropertyChangeListener
@@ -138,10 +137,9 @@ abstract class AbstractDataBinding implements DataBinding, PropertyChangeListene
     }
 
     protected GroovyObjectPropertyDescriptor addDescriptor(String propName, Class type, Object defaultValue) {
-        // Should never be called
-        assert false
+        // Default implementation - objects do not need descriptions of their properties
+        throw new UnsupportedOperationException('Descriptors not needed for AbstractSelect components')
     }
-
     /**
      * Add all necessary change listeners to keep the target updated when the source changes in any way. All bindings
      * need a listener to re-bind when the source property changes.

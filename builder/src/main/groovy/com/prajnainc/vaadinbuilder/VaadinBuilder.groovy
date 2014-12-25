@@ -152,13 +152,15 @@ class VaadinBuilder extends FactoryBuilderSupport {
         if(!targetClasses.any { Class k -> k.isAssignableFrom(node.getClass()) }) {
             throw new VaadinBuilderException("A $bindingValue cannot be bound to a $node")
         }
-        if(bindingAttr == GENERAL_BINDING_ATTRIBUTE) {
-            bindingAttr = prefix + bindingAttr.capitalize()
-        }
-        if(node.metaClass.getMetaProperty(bindingAttr) == null) {
+
+        def finalBindingAttr = bindingAttr == GENERAL_BINDING_ATTRIBUTE ?
+            prefix + bindingAttr.capitalize() :
+            bindingAttr
+
+        if(node.metaClass.getMetaProperty(finalBindingAttr) == null) {
             throw new VaadinBuilderException("A $node cannot be bound with $bindingAttr")
         }
-        return bindingAttr
+        return finalBindingAttr
     }
 
     /**

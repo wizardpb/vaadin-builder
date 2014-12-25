@@ -16,6 +16,8 @@
 apply plugin: 'groovy'
 apply plugin: 'codenarc'
 
+buildDir = 'gradleBuild'
+
 repositories {
     mavenCentral()
 }
@@ -30,6 +32,7 @@ codenarcMain {
 
 codenarcTest {
     configFile = rootProject.file("src/rulesets/allRules.groovy")
+    ignoreFailures = true
 }
 
 version='0.1.0'

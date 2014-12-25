@@ -28,10 +28,10 @@ import org.codehaus.groovy.runtime.typehandling.GroovyCastException
  */
 class GroovyObjectProperty extends AbstractProperty {
 
-    private Class type
-    private getter
-    private setter
-    private String readOnlyMessage
+    private final Class type
+    private final getter
+    private final setter
+    private final String readOnlyMessage
 
     public GroovyObjectProperty(GroovyObject instance, GroovyObjectPropertyDescriptor descriptor, readOnly=false) {
         assert descriptor.name != null

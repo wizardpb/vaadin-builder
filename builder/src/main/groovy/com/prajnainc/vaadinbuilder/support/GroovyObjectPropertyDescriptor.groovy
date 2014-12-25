@@ -29,8 +29,9 @@ import com.vaadin.data.util.VaadinPropertyDescriptor
  */
 class GroovyObjectPropertyDescriptor implements VaadinPropertyDescriptor<Object> {
 
-    private String name
+    @SuppressWarnings('PrivateFieldCouldBeFinal')   // Reset by Groovy Map ctor
     private Class propertyType = Object
+    private String name
     private Object defaultValue
 
     // TODO - validate defaultValue type ?

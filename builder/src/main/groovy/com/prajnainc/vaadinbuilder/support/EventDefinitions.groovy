@@ -18,17 +18,14 @@
 package com.prajnainc.vaadinbuilder.support
 
 import com.vaadin.event.MouseEvents
-import com.vaadin.ui.Component
-import com.vaadin.ui.Table
-import com.vaadin.ui.Button
-import com.vaadin.ui.Panel
-import com.vaadin.ui.Window
+import com.vaadin.ui.*
 
 import static com.vaadin.event.FieldEvents.*
-import static com.vaadin.ui.Window.*
-import static com.vaadin.event.ItemClickEvent.*
-import static com.vaadin.ui.Table.*
+import static com.vaadin.event.ItemClickEvent.ItemClickListener
+import static com.vaadin.event.ItemClickEvent.ItemClickNotifier
 import static com.vaadin.ui.HasComponents.*
+import static com.vaadin.ui.Table.*
+import static com.vaadin.ui.Window.*
 
 /**
  * <p>EventDefinitions is a {@link Singleton} class that defines and manages event handling listeners
@@ -65,22 +62,22 @@ class EventDefinitions {
      */
     static class EventDefinition {
 
-        public EventDefinition(Class listenerClass, String listenerMethod=null, String attachMethod=null) {
+        private final Class listenerClass
+        private final String listenerMethod
+        private final String attachMethod
+
+        public EventDefinition(Class listenerClass, String listenerMethod = null, String attachMethod = null) {
             /**
              * Default listener method for a istener class is the name of the class minus the ' Listener',
              * with the first letter lower case e.g 'ItemClickListener' gets 'itemClick'
              */
-            def defaultListenerMethod =  listenerClass.simpleName.replace('Listener','')
-            defaultListenerMethod = defaultListenerMethod[0].toLowerCase()+defaultListenerMethod[1..-1]
+            def defaultListenerMethod = listenerClass.simpleName.replace('Listener', '')
+            defaultListenerMethod = defaultListenerMethod[0].toLowerCase() + defaultListenerMethod[1..-1]
 
             this.listenerClass = listenerClass
             this.listenerMethod = listenerMethod ?: defaultListenerMethod
-            this.attachMethod = attachMethod ?: 'add'+listenerClass.simpleName
+            this.attachMethod = attachMethod ?: 'add' + listenerClass.simpleName
         }
-
-        private Class listenerClass
-        private String listenerMethod
-        private String attachMethod
 
         public Class getListenerClass() {
             return listenerClass
@@ -103,34 +100,34 @@ class EventDefinitions {
     }
 
     final private static Map EVENT_TABLE = [
-        (FocusNotifier): [
+        (FocusNotifier)                : [
             'onFocus': new EventDefinition(FocusListener)
         ],
-        (BlurNotifier): [
+        (BlurNotifier)                 : [
             'onBlur': new EventDefinition(BlurListener)
         ],
         (ComponentAttachDetachNotifier): [
             'onComponentAttach': new EventDefinition(ComponentAttachListener, 'componentAttachedToContainer'),
             'onComponentDetach': new EventDefinition(ComponentDetachListener, 'componentDetachedFromContainer'),
         ],
-        (Button): [
+        (Button)                       : [
             'onClick': new EventDefinition(Button.ClickListener, 'buttonClick'),
         ],
-        (Panel): [
+        (Panel)                        : [
             'onClick': new EventDefinition(MouseEvents.ClickListener, 'click'),
         ],
-        (Window): [
-            'onClose': new EventDefinition(CloseListener, 'windowClose'),
-            'onResize': new EventDefinition(ResizeListener, 'windowResized'),
+        (Window)                       : [
+            'onClose'     : new EventDefinition(CloseListener, 'windowClose'),
+            'onResize'    : new EventDefinition(ResizeListener, 'windowResized'),
             'onModeChange': new EventDefinition(WindowModeChangeListener, 'windowModeChanged'),
         ],
-        (ItemClickNotifier): [
+        (ItemClickNotifier)            : [
             onItemClick: new EventDefinition(ItemClickListener),
         ],
-        (Table): [
-            onHeaderClick:new EventDefinition(HeaderClickListener),
-            onFooterClick:new EventDefinition(FooterClickListener),
-            onColumnResize: new EventDefinition(ColumnResizeListener),
+        (Table)                        : [
+            onHeaderClick  : new EventDefinition(HeaderClickListener),
+            onFooterClick  : new EventDefinition(FooterClickListener),
+            onColumnResize : new EventDefinition(ColumnResizeListener),
             onColumnReorder: new EventDefinition(ColumnReorderListener),
         ]
     ]
@@ -154,7 +151,7 @@ class EventDefinitions {
     public Map getDefinitionsFor(Class componentClass) {
         def definitions = [:]
         // Iterate the superclass chain..
-        for(Class cls = componentClass; cls != Object; cls = cls.getSuperclass()) {
+        for (Class cls = componentClass; cls != Object; cls = cls.getSuperclass()) {
             // Add any definitions for that class..
             definitions = definitions + (EVENT_TABLE[cls] ?: [:])
             // Then add definitions for any of it's interfaces or super-interfaces.
@@ -163,7 +160,7 @@ class EventDefinitions {
                 sum.add(iFace); sum.addAll(iFace.getInterfaces()); sum
             }
             allInterfaces.each { iFace ->
-                definitions =  definitions + (EVENT_TABLE[iFace] ?: [:])
+                definitions = definitions + (EVENT_TABLE[iFace] ?: [:])
             }
         }
         return definitions

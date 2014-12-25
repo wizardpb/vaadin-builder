@@ -242,7 +242,7 @@ ruleset {
     DuplicateImport
     ImportFromSamePackage
     ImportFromSunPackages
-    MisorderedStaticImports
+//    MisorderedStaticImports   - IntelliJ does it differently
 //    NoWildcardImports
     UnnecessaryGroovyImport
     UnusedImport
@@ -332,51 +332,51 @@ ruleset {
     NestedBlockDepth
 
     // rulesets/unnecessary.xml
-    AddEmptyString
-    ConsecutiveLiteralAppends
-    ConsecutiveStringConcatenation
-    UnnecessaryBigDecimalInstantiation
-    UnnecessaryBigIntegerInstantiation
-    UnnecessaryBooleanExpression
-    UnnecessaryBooleanInstantiation
-    UnnecessaryCallForLastElement
-    UnnecessaryCallToSubstring
-    UnnecessaryCast
-    UnnecessaryCatchBlock
-    UnnecessaryCollectCall
-    UnnecessaryCollectionCall
-    UnnecessaryConstructor
-    UnnecessaryDefInFieldDeclaration
-    UnnecessaryDefInMethodDeclaration
-    UnnecessaryDefInVariableDeclaration
-    UnnecessaryDotClass
-    UnnecessaryDoubleInstantiation
-    UnnecessaryElseStatement
-    UnnecessaryFinalOnPrivateMethod
-    UnnecessaryFloatInstantiation
-    UnnecessaryGString
-    UnnecessaryGetter
-    UnnecessaryIfStatement
-    UnnecessaryInstanceOfCheck
-    UnnecessaryInstantiationToGetClass
-    UnnecessaryIntegerInstantiation
-    UnnecessaryLongInstantiation
-    UnnecessaryModOne
-    UnnecessaryNullCheck
-    UnnecessaryNullCheckBeforeInstanceOf
-    UnnecessaryObjectReferences
-    UnnecessaryOverridingMethod
-    UnnecessaryPackageReference
-    UnnecessaryParenthesesForMethodCallWithClosure
-    UnnecessaryPublicModifier
-    UnnecessaryReturnKeyword
-    UnnecessarySelfAssignment
-    UnnecessarySemicolon
-    UnnecessaryStringInstantiation
-    UnnecessarySubstring
-    UnnecessaryTernaryExpression
-    UnnecessaryToString
-    UnnecessaryTransientModifier
+//    AddEmptyString
+//    ConsecutiveLiteralAppends
+//    ConsecutiveStringConcatenation
+//    UnnecessaryBigDecimalInstantiation
+//    UnnecessaryBigIntegerInstantiation
+//    UnnecessaryBooleanExpression
+//    UnnecessaryBooleanInstantiation
+//    UnnecessaryCallForLastElement
+//    UnnecessaryCallToSubstring
+//    UnnecessaryCast
+//    UnnecessaryCatchBlock
+//    UnnecessaryCollectCall
+//    UnnecessaryCollectionCall
+//    UnnecessaryConstructor
+//    UnnecessaryDefInFieldDeclaration
+//    UnnecessaryDefInMethodDeclaration
+//    UnnecessaryDefInVariableDeclaration
+//    UnnecessaryDotClass
+//    UnnecessaryDoubleInstantiation
+//    UnnecessaryElseStatement
+//    UnnecessaryFinalOnPrivateMethod
+//    UnnecessaryFloatInstantiation
+//    UnnecessaryGString
+//    UnnecessaryGetter
+//    UnnecessaryIfStatement
+//    UnnecessaryInstanceOfCheck
+//    UnnecessaryInstantiationToGetClass
+//    UnnecessaryIntegerInstantiation
+//    UnnecessaryLongInstantiation
+//    UnnecessaryModOne
+//    UnnecessaryNullCheck
+//    UnnecessaryNullCheckBeforeInstanceOf
+//    UnnecessaryObjectReferences
+//    UnnecessaryOverridingMethod
+//    UnnecessaryPackageReference
+//    UnnecessaryParenthesesForMethodCallWithClosure
+//    UnnecessaryPublicModifier
+//    UnnecessaryReturnKeyword
+//    UnnecessarySelfAssignment
+//    UnnecessarySemicolon
+//    UnnecessaryStringInstantiation
+//    UnnecessarySubstring
+//    UnnecessaryTernaryExpression
+//    UnnecessaryToString
+//    UnnecessaryTransientModifier
 
     // rulesets/unused.xml
     UnusedArray
