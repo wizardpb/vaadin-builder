@@ -39,15 +39,15 @@ version='0.1.0'
 
 dependencies {
     compile 'org.codehaus.groovy:groovy-all:2.3.6',
-            'com.vaadin:vaadin-client-compiler:7.1.13',
-            'com.vaadin:vaadin-server:7.1.13',
-            'com.vaadin:vaadin-shared:7.1.13'
+            'com.vaadin:vaadin-client-compiler:7.3.9',
+            'com.vaadin:vaadin-server:7.3.9',
+            'com.vaadin:vaadin-shared:7.3.9'
 
-    runtime 'com.vaadin:vaadin-client:7.1.13',
-            'com.vaadin:vaadin-client-compiled:7.1.13',
-            'com.vaadin:vaadin-push:7.1.13',
-            'com.vaadin:vaadin-theme-compiler:7.1.13',
-            'com.vaadin:vaadin-themes:7.1.13'
+    runtime 'com.vaadin:vaadin-client:7.3.9',
+            'com.vaadin:vaadin-client-compiled:7.3.9',
+            'com.vaadin:vaadin-push:7.3.9',
+            'com.vaadin:vaadin-theme-compiler:7.3.9',
+            'com.vaadin:vaadin-themes:7.3.9'
 
     testCompile 'junit:junit:4.11',
                 'cglib:cglib-nodep:2.2',

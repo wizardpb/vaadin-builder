@@ -50,7 +50,7 @@ public class DataBindingFactorySpecification extends Specification {
 
         then:
         1 * property.setPropertyDataSource(_)
-        1 * property.fireValueChange()
+        2 * property.fireValueChange()          // once for the bind, and once for the property update
     }
 
     def "it can create and bind a Bindable to an Item.Viewer"() {

@@ -82,7 +82,7 @@ class VaadinBuilder extends FactoryBuilderSupport {
      *
      * <p>This delegate handles such patterns in a generic way, leveraging the BindFactories ability to correctly
      * and set data binding objects ({@link com.vaadin.data.Item}, {@link com.vaadin.data.Property} or
-     * {@link com.vaadin.data.Container})<p> of the correct type and value for the source and target</p>
+     * {@link com.vaadin.data.Container}) of the correct type and value for the source and target</p>
      *
      * @param builder
      * @param node
