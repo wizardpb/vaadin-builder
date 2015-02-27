@@ -36,6 +36,7 @@ codenarcTest {
 }
 
 version='0.1.0'
+archivesBaseName = 'vaadin-builder'
 
 dependencies {
     compile 'org.codehaus.groovy:groovy-all:2.3.6',
@@ -46,7 +47,6 @@ dependencies {
     runtime 'com.vaadin:vaadin-client:7.3.9',
             'com.vaadin:vaadin-client-compiled:7.3.9',
             'com.vaadin:vaadin-push:7.3.9',
-            'com.vaadin:vaadin-theme-compiler:7.3.9',
             'com.vaadin:vaadin-themes:7.3.9'
 
     testCompile 'junit:junit:4.11',

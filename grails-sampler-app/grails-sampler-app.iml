@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="Spring" name="Spring">
+      <configuration>
+        <fileset id="Grails" name="Grails" removed="false" />
+      </configuration>
+    </facet>
+    <facet type="web" name="GrailsWeb">
+      <configuration>
+        <webroots>
+          <root url="file://$MODULE_DIR$/web-app" relative="/" />
+          <root url="file://$MODULE_DIR$/grails-app/views" relative="/" />
+        </webroots>
+        <sourceRoots />
+      </configuration>
+    </facet>
+  </component>
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/test/unit" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/test/integration" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/grails-app/utils" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/groovy" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/grails-app/i18n" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/grails-app/controllers" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/grails-app/domain" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/grails-app/services" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/grails-app/taglib" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/target/classes" />
+      <excludeFolder url="file://$MODULE_DIR$/target/work/plugin-build-classes" />
+      <excludeFolder url="file://$MODULE_DIR$/target/work/plugin-classes" />
+      <excludeFolder url="file://$MODULE_DIR$/target/work/plugin-provided-classes" />
+      <excludeFolder url="file://$MODULE_DIR$/target/work/resources" />
+      <excludeFolder url="file://$MODULE_DIR$/target/work/scriptCache" />
+      <excludeFolder url="file://$MODULE_DIR$/target/work/tomcat" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="grails-2.4.4" level="application" />
+    <orderEntry type="module-library" exported="">
+      <library name="Grails User Library (grails-sampler-app)">
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/lib" />
+          <root url="jar://$USER_HOME$/.m2/repository/org/javassist/javassist/3.17.1-GA/javassist-3.17.1-GA.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/org/liquibase/liquibase-core/2.0.5/liquibase-core-2.0.5.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/dom4j/dom4j/1.6.1/dom4j-1.6.1.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/org/jboss/logging/jboss-logging-annotations/1.2.0.Beta1/jboss-logging-annotations-1.2.0.Beta1.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/org/hibernate/common/hibernate-commons-annotations/4.0.4.Final/hibernate-commons-annotations-4.0.4.Final.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/org/springframework/spring-orm/4.0.7.RELEASE/spring-orm-4.0.7.RELEASE.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/org/grails/grails-datastore-gorm-plugin-support/3.1.3.RELEASE/grails-datastore-gorm-plugin-support-3.1.3.RELEASE.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/org/grails/grails-datastore-gorm-hibernate-core/3.1.3.RELEASE/grails-datastore-gorm-hibernate-core-3.1.3.RELEASE.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/org/grails/grails-datastore-gorm-hibernate4/3.1.3.RELEASE/grails-datastore-gorm-hibernate4-3.1.3.RELEASE.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/net/sf/ehcache/ehcache-core/2.4.8/ehcache-core-2.4.8.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/org/jboss/jandex/1.1.0.Final/jandex-1.1.0.Final.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/antlr/antlr/2.7.7/antlr-2.7.7.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/org/jboss/spec/javax/transaction/jboss-transaction-api_1.2_spec/1.0.0.Final/jboss-transaction-api_1.2_spec-1.0.0.Final.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/org/hibernate/hibernate-core/4.3.6.Final/hibernate-core-4.3.6.Final.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/org/hibernate/hibernate-ehcache/4.3.6.Final/hibernate-ehcache-4.3.6.Final.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/com/fasterxml/classmate/1.0.0/classmate-1.0.0.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/javax/validation/validation-api/1.1.0.Final/validation-api-1.1.0.Final.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/org/hibernate/hibernate-validator/5.1.1.Final/hibernate-validator-5.1.1.Final.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/org/mozilla/rhino/1.7R4/rhino-1.7R4.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/org/grails/grails-datastore-test-support/1.0.2-grails-2.4/grails-datastore-test-support-1.0.2-grails-2.4.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/cglib/cglib-nodep/2.2.2/cglib-nodep-2.2.2.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/org/apache/tomcat/embed/tomcat-embed-core/7.0.55/tomcat-embed-core-7.0.55.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/org/eclipse/jdt/core/compiler/ecj/3.7.2/ecj-3.7.2.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/org/apache/tomcat/embed/tomcat-embed-websocket/7.0.55/tomcat-embed-websocket-7.0.55.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/org/apache/tomcat/embed/tomcat-embed-logging-log4j/7.0.55/tomcat-embed-logging-log4j-7.0.55.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/org/apache/tomcat/embed/tomcat-embed-el/7.0.55/tomcat-embed-el-7.0.55.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/org/apache/tomcat/embed/tomcat-embed-jasper/7.0.55/tomcat-embed-jasper-7.0.55.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/org/apache/tomcat/tomcat-catalina-ant/7.0.55/tomcat-catalina-ant-7.0.55.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/org/eclipse/jetty/jetty-security/8.1.12.v20130726/jetty-security-8.1.12.v20130726.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/org/eclipse/jetty/jetty-servlet/8.1.12.v20130726/jetty-servlet-8.1.12.v20130726.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/org/eclipse/jetty/jetty-xml/8.1.12.v20130726/jetty-xml-8.1.12.v20130726.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/org/eclipse/jetty/jetty-webapp/8.1.12.v20130726/jetty-webapp-8.1.12.v20130726.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/org/eclipse/jetty/orbit/javax.activation/1.1.0.v201105071233/javax.activation-1.1.0.v201105071233.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/org/eclipse/jetty/orbit/javax.mail.glassfish/1.4.1.v201005082020/javax.mail.glassfish-1.4.1.v201005082020.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/org/eclipse/jetty/orbit/javax.servlet/3.0.0.v201112011016/javax.servlet-3.0.0.v201112011016.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/org/eclipse/jetty/jetty-server/8.1.12.v20130726/jetty-server-8.1.12.v20130726.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/org/apache/httpcomponents/httpclient/4.3.1/httpclient-4.3.1.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/org/apache/james/apache-mime4j/0.6/apache-mime4j-0.6.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/org/apache/commons/commons-lang3/3.1/commons-lang3-3.1.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/org/jdesktop/swing-worker/1.1/swing-worker-1.1.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/org/eclipse/jetty/jetty-util/8.1.12.v20130726/jetty-util-8.1.12.v20130726.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/org/eclipse/jetty/jetty-io/8.1.12.v20130726/jetty-io-8.1.12.v20130726.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/org/eclipse/jetty/jetty-http/8.1.12.v20130726/jetty-http-8.1.12.v20130726.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/org/eclipse/jetty/jetty-client/8.1.12.v20130726/jetty-client-8.1.12.v20130726.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/org/eclipse/jetty/jetty-continuation/8.1.12.v20130726/jetty-continuation-8.1.12.v20130726.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/org/eclipse/jetty/jetty-servlets/8.1.12.v20130726/jetty-servlets-8.1.12.v20130726.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/org/eclipse/jetty/jetty-jndi/8.1.12.v20130726/jetty-jndi-8.1.12.v20130726.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/org/eclipse/jetty/orbit/javax.transaction/1.1.1.v201105210645/javax.transaction-1.1.1.v201105210645.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/org/eclipse/jetty/jetty-plus/8.1.12.v20130726/jetty-plus-8.1.12.v20130726.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/org/eclipse/jetty/jetty-annotations/8.1.12.v20130726/jetty-annotations-8.1.12.v20130726.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/ant/ant-launcher/1.6.5/ant-launcher-1.6.5.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/net/sourceforge/cssparser/cssparser/0.9.11/cssparser-0.9.11.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/ant/ant/1.6.5/ant-1.6.5.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/commons-logging/commons-logging/1.1.3/commons-logging-1.1.3.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/commons-collections/commons-collections/3.1/commons-collections-3.1.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/com/vaadin/vaadin-sass-compiler/0.9.10/vaadin-sass-compiler-0.9.10.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/com/vaadin/vaadin-client-compiler/7.3.9/vaadin-client-compiler-7.3.9.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/com/vaadin/external/slf4j/vaadin-slf4j-jdk14/1.6.1/vaadin-slf4j-jdk14-1.6.1.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/com/vaadin/external/atmosphere/atmosphere-runtime/2.1.2.vaadin6/atmosphere-runtime-2.1.2.vaadin6.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/com/vaadin/vaadin-push/7.3.9/vaadin-push-7.3.9.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/com/vaadin/vaadin-themes/7.3.9/vaadin-themes-7.3.9.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/com/vaadin/vaadin-client-compiled/7.3.9/vaadin-client-compiled-7.3.9.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/javax/validation/validation-api/1.0.0.GA/validation-api-1.0.0.GA-sources.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/org/w3c/css/sac/1.3/sac-1.3.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/com/vaadin/external/json/json/0.0.20080701/json-0.0.20080701.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/com/vaadin/external/google/guava/16.0.1.vaadin1/guava-16.0.1.vaadin1.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/com/vaadin/external/streamhtmlparser/streamhtmlparser-jsilver/0.0.10.vaadin1/streamhtmlparser-jsilver-0.0.10.vaadin1.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/com/vaadin/external/flute/flute/1.3.0.gg2/flute-1.3.0.gg2.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/com/vaadin/vaadin-shared/7.3.9/vaadin-shared-7.3.9.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/com/vaadin/vaadin-client/7.3.9/vaadin-client-7.3.9.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/commons-pool/commons-pool/1.5.4/commons-pool-1.5.4.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/commons-dbcp/commons-dbcp/1.4/commons-dbcp-1.4.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/org/jsoup/jsoup/1.6.3/jsoup-1.6.3.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/com/vaadin/vaadin-server/7.3.9/vaadin-server-7.3.9.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/com/vaadin/vaadin-client-compiler-deps/1.1.0/vaadin-client-compiler-deps-1.1.0.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/com/ibm/icu/icu4j/50.1.1/icu4j-50.1.1.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/xml-apis/xml-apis/1.4.01/xml-apis-1.4.01.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/xerces/xercesImpl/2.11.0/xercesImpl-2.11.0.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/net/sourceforge/nekohtml/nekohtml/1.9.19/nekohtml-1.9.19.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/org/apache/httpcomponents/httpmime/4.3.1/httpmime-4.3.1.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/org/apache/httpcomponents/httpcore/4.3/httpcore-4.3.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/org/eclipse/jetty/orbit/org.objectweb.asm/3.1.0.v200803061910/org.objectweb.asm-3.1.0.v200803061910.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/org/eclipse/jetty/orbit/javax.annotation/1.1.0.v201108011116/javax.annotation-1.1.0.v201108011116.jar!/" />
+          <root url="jar://$USER_HOME$/.m2/repository/org/jboss/logging/jboss-logging/3.1.3.GA/jboss-logging-3.1.3.GA.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+        <jarDirectory url="file://$MODULE_DIR$/lib" recursive="false" />
+      </library>
+    </orderEntry>
+    <orderEntry type="module" module-name="grails-sampler-app-grailsPlugins" />
+  </component>
+</module>
+
