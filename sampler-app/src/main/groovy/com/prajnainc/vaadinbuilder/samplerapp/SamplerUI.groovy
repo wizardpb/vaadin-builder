@@ -64,7 +64,7 @@ class SamplerUI extends BuilderUI {
                             spacing: true, margin: new MarginInfo(true)
                         ) {
                             panel(caption: 'Add a Person') {
-                                // Use hroizontal layoust to create a two-column form
+                                // Use horizontal layouts to create a two-column form
                                 fieldGroup(id: 'personForm', dataSource: bind(source: model, sourceProperty: 'person')) {
                                     horizontalLayout() {
                                         verticalLayout(margin: new MarginInfo(true)) {
@@ -79,6 +79,9 @@ class SamplerUI extends BuilderUI {
                                         }
                                     }
                                     horizontalLayout(height: Sizeable.SIZE_UNDEFINED) {
+                                        // Here's the 'Save' button. This adds the current person to the table.
+                                        // Note the use of the forms name as a property on the builder to access the form
+                                        // itself
                                         button(id: 'saveButton', caption: 'Save', onClick: { evt ->
                                             builder.personForm.commit()
                                             display(model.person)
@@ -107,7 +110,7 @@ class SamplerUI extends BuilderUI {
                                 value: TEST_ITEMS[0]
                             )
                             // Create a text field and bind it to this combo box. Because of it's id, it's available on
-                            // teh builder as 'builder.selector'
+                            // the builder as 'builder.selector'
                             textField(id: 'display', caption: 'Selected Value:',
                                 dataSource: bind(source: builder.selector))
                         }
