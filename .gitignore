@@ -18,3 +18,5 @@
 build/
 builder/.idea
 builder/build/
+builder/gradleBuild/
+grails-sampler-app/target
